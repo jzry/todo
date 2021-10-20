@@ -11,7 +11,7 @@ function Navigation()
         <div className='navi'>
             <Navbar className="toDoBar"variant="dark" collapseOnSelect expand="lg" fixed="top">
                 <Container>
-                    <Navbar.Brand href='/'>ToDo</Navbar.Brand>
+                    <Navbar.Brand href='/'>todo</Navbar.Brand>
                     <Navbar.Toggle aria-controls="responsive-navbar-nav" />
                     <Navbar.Collapse id="responsive-navbar-nav">
                         <Nav className="me-auto">

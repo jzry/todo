@@ -13,7 +13,7 @@ function SignUp()
                 <input type="text" id="email" className="inFields" placeholder="Email" /><br/>
                 <input type="text" id="userName" className="inFields" placeholder="Username" /><br/>
                 <input type="password" id="password" className="inFields" placeholder="Password" /><br/>
-                <input type="submit" id="signUpButton"  className="formBtn" value = "Signing Up"/>
+                <input type="submit" id="signUpButton"  className="formBtn" value = "Sign Up"/>
                 <span id="signUpResult"></span><br />
                 <p>Already have an account? <Link to="/login">Sign In</Link></p>
             </Form>
