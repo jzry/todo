@@ -7,7 +7,7 @@ import SignUp from "../components/SignUp";
 function SignUpPage()
 {
     return(
-        <div className="Page">
+        <div className="page">
             <Navigation />
             <Card id="formCard">
                 <Card.Body>

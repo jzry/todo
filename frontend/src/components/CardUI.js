@@ -77,7 +77,7 @@ function CardUI()
     };
 
     return(
-        <div id="accessUIDiv" className="App">
+        <div id="accessUIDiv" className="app">
             <input type="text" id="searchText" className="inFields" placeholder="Card To Search For" 
                 ref={(c) => search = c}/><br/>
             <Button type="button" id="searchCardButton" className="buttonScheme"

@@ -1,5 +1,4 @@
 import React from 'react';
-import whiteBG from '../cool-background.png';
 
 const Front = () => 
 {

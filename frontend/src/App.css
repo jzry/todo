@@ -1,26 +1,6 @@
-.App 
+.app
 {
   text-align: center;
-}
-
-.App-header 
-{
-  position: relative;
-  width: 100vw;
-  height: 100vh;
-
-  background: linear-gradient(0.19deg, #BBD2C5 -1.76%, #536976 99.85%);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
-}
-
-.App-link 
-{
-  color: #61dafb;
 }
 
 .buttonScheme
@@ -40,18 +20,6 @@
   padding-right: 3em;
 }
 
-.dash
-{
-  background-color: #E1E1E7;
-  width: 100vw;
-  height: 100vh;
-}
-
-#dashBar
-{
-  color: #7F7E87;
-}
-
 .desc 
 {
   display: flex;
@@ -60,6 +28,28 @@
   font-size: 3vw;
   margin-top: 3em;
   width: 40vw;
+}
+
+.formBtn
+{
+  background-color: #7F7E87;
+  border-color: transparent;
+  border-radius: 20px;
+  color: white;
+}
+
+#formCard
+{
+  background-color: rgba(255, 255, 255, 0.85);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 40%;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 7em;
+  border-radius: 20px;
+  padding: 2em 3em 2em;
 }
 
 #landing
@@ -90,28 +80,6 @@
   text-align: center;
 }
 
-.formBtn
-{
-  background-color: #7F7E87;
-  border-color: transparent;
-  border-radius: 20px;
-  color: white;
-}
-
-#formCard
-{
-  background-color: rgba(255, 255, 255, 0.85);
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  width: 40%;
-  margin-left: auto;
-  margin-right: auto;
-  margin-top: 7em;
-  border-radius: 20px;
-  padding: 2em 3em 2em;
-}
-
 #loggedInDiv
 {
   margin-bottom: 1em;
@@ -139,7 +107,7 @@
   padding-bottom: 3px;
 }
 
-.Page
+.page
 {
   position:fixed;
   width: 100vw;
@@ -148,13 +116,13 @@
   background: linear-gradient(0.19deg, #BBD2C5 -1.76%, #536976 99.85%);
 }
 
-.pagesolid
+.pageSolid
 {
   position: relative;
   width: 100vw;
-  height: 200vh;
+  height: 100vh;
 
-  background-color: #B0B9B7;
+  background-color: #8f9c99;
 }
 
 #productText
@@ -178,7 +146,7 @@
   padding: 2em;
 }
 
-#productline
+#productLine
 {
  font-size: 6vw;
 }

@@ -7,7 +7,7 @@ import Product from '../components/Product';
 const HomePage = () => 
 {
     return(
-        <div id='home' className="Page">
+        <div id='home' className="page">
             <Navigation id="frontnav"/>
             <Front />
         </div>

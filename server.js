@@ -168,7 +168,7 @@ app.post('/api/searchcards', async (req, res, next) =>
     const { userId, search } = req.body;  
     var _search = search.toLowerCase().trim();  
     var _ret = [];  
-    for( var i=0; i<cardList.length; i++ )  
+    for( var i = 0; i < cardList.length; i++ )  
     {    
         var lowerFromList = cardList[i].toLocaleLowerCase();    
         if( lowerFromList.indexOf( _search ) >= 0 )    

@@ -40,7 +40,7 @@ function Login()
   };
 
     return(
-      <div id="loginDiv" className="App">
+      <div id="loginDiv" className="app">
         <Form id="loginForm" className="form" onSubmit={doLogin}>
           <span id="inner-title">Sign in to your account</span><br />
           <input type="text" id="loginName" className="inFields" placeholder="Username"
