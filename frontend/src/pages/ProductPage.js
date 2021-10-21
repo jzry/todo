@@ -6,8 +6,8 @@ import Product from '../components/Product';
 const ProductPage = () => 
 {
     return(
-        <div id='home' className="Page">
-            <Navigation id="landingnav"/>
+        <div id='home' className="page">
+            <Navigation />
             <Product />
         </div>
     );

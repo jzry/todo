@@ -5,7 +5,7 @@ import {Link} from 'react-router-dom';
 function SignUp()
 {
     return(
-          <div id="signUpDiv" className="App">
+          <div id="signUpDiv" className="app">
             <Form id="signUpForm" className="form">
                 <p id="inner-title">Sign up and create a new account</p><br />
                 <input type="text" id="firstName" className="inFields" placeholder="First Name" /><br/>

@@ -14,7 +14,7 @@ function LoggedInName()
     //};
     
     return(
-    <div id="loggedInDiv" className="App">
+    <div id="loggedInDiv" className="app">
         <span id="userName">Logged In As John Doe </span><br />
     </div>
     );
