@@ -1,12 +1,28 @@
+#addButton
+{
+  max-width: 46px;
+  position: absolute;
+  top: 8em;
+  right: 5em;
+}
+
 .app
 {
   text-align: center;
+}
+
+.btn-group
+{
+  align-items: center;
 }
 
 .buttonScheme
 {
   background-color: #708090;
   border-color: transparent;
+  color: white;
+  margin-left: 1%;
+  margin-right: 1%;
 }
 
 .canvasCards
@@ -15,9 +31,26 @@
   border-radius: 30px;
 }
 
-#cardCont{
+.cardContainer
+{
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+  align-items: flex-start;
+  gap: 10px;
   padding-left: 3em;
   padding-right: 3em;
+}
+
+.cardItem
+{
+  flex-grow: 3;
+}
+
+.checkScheme
+{
+  margin-right: 1em;
 }
 
 .desc 
@@ -30,9 +63,37 @@
   width: 40vw;
 }
 
+.editBtns
+{
+  width: 80%;
+  height: 45%;
+  margin: auto;
+
+}
+
+.editTask, .listGrid:hover
+{
+  background-color: white;
+  border-radius: 10px;
+}
+
+.filterBtns
+{
+  display: flex;
+  flex-direction: row;
+  margin-bottom: 1em;
+}
+
+.form
+{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
 .formBtn
 {
-  background-color: #7F7E87;
+  background-color: #708090;
   border-color: transparent;
   border-radius: 20px;
   color: white;
@@ -52,14 +113,6 @@
   padding: 2em 3em 2em;
 }
 
-#landing
-{
-  display: flex;
-  flex-direction: column;
-  justify-content: left;
-  position: relative;
-}
-
 #homeText
 {
   color: white;
@@ -75,21 +128,50 @@
 .inFields
 {
   border-color: transparent;
-  border-radius: 20px;
+  border-radius: 10px;
   background-color: #E1E1E7;
   text-align: center;
+  margin-left: 1%;
+  margin-right: 1%;
+}
+
+.inFields:focus
+{
+  background-color: rgb(243, 243, 243);
+}
+
+#landing
+{
+  display: flex;
+  flex-direction: column;
+  justify-content: left;
+  position: relative;
+}
+
+.listGrid
+{
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.listGrid:hover > .btn-group > .taskView
+{
+  display: inline-block;
+}
+
+.listTask
+{
+  background-color: transparent;
+  border-color: transparent;
+  border-bottom: #536976;
 }
 
 #loggedInDiv
 {
   margin-bottom: 1em;
-}
-
-.form
-{
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
 }
 
  .navi 
@@ -107,6 +189,16 @@
   padding-bottom: 3px;
 }
 
+.newTask
+{
+  width: 40%;
+}
+
+#newTaskForm
+{
+  margin-top: 1em;
+}
+
 .page
 {
   position:fixed;
@@ -122,7 +214,12 @@
   width: 100vw;
   height: 100vh;
 
-  background-color: #8f9c99;
+  background-color: #8BA2A1;
+}
+
+#productLine
+{
+ font-size: 6vw;
 }
 
 #productText
@@ -141,14 +238,31 @@
   font-size: 8vw;
 }
 
+.taskTitle
+{
+ margin-right: auto;
+}
+
+.taskCtrl
+{
+  border-color: transparent;
+  background-color: transparent;
+  color: black;
+}
+
+.taskView
+{
+  display: none;
+}
+
+.todo-label
+{
+  font-size: 1.25em;
+}
+
 .toDoBar
 {
   padding: 2em;
-}
-
-#productLine
-{
- font-size: 6vw;
 }
 
 #whiteBG

@@ -17,7 +17,7 @@ function UserNavi()
 
     return(
         <div className='navi'>
-            <Navbar id="dashBar" className="toDoBar" variant="light" collapseOnSelect expand="lg">
+            <Navbar id="dashBar" className="toDoBar" variant="dark" collapseOnSelect expand="lg">
                 <Container>
                     <Navbar.Brand href='/'>todo</Navbar.Brand>
                     <Navbar.Toggle aria-controls="responsive-navbar-nav" />

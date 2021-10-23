@@ -1,7 +1,6 @@
 import React from 'react';
 import Front from '../components/Front';
 import Navigation from '../components/Navigation';
-import Product from '../components/Product';
 
 
 const HomePage = () => 
