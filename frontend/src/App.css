@@ -131,6 +131,12 @@
   padding: 2em 3em 2em;
 }
 
+#helpLink
+{
+  text-align: right;
+  font-size: smaller;
+}
+
 #homeText
 {
   color: white;
@@ -138,7 +144,6 @@
   flex-direction: column;
   justify-content: left;
   position: absolute;
-  margin-top: 7em;
   margin-left: 4em;
 }
 
@@ -147,6 +152,7 @@
   border-color: transparent;
   border-radius: 10px;
   background-color: #E1E1E7;
+  font-size: larger;
   text-align: center;
   margin-left: 1%;
   margin-right: 1%;
@@ -196,11 +202,11 @@
   margin-bottom: 1em;
 }
 
- .navi 
- {
-   background-color: transparent;
-   margin-bottom: 1em;
- }
+.navi 
+{
+  background-color: transparent;
+  margin-bottom: 1em;
+}
 
 .navBtn 
 {
@@ -263,7 +269,7 @@
   display: flex;
   flex-direction: column;
   justify-content: left;
-  margin-top: 7em;
+  margin-top: 1em;
   margin-left: 4em;
 }
 
