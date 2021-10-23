@@ -9,7 +9,7 @@ function Navigation()
 {
     return(
         <div className='navi'>
-            <Navbar className="toDoBar"variant="dark" collapseOnSelect expand="lg" fixed="top">
+            <Navbar className="toDoBar static-top" variant="dark" collapseOnSelect expand="lg">
                 <Container>
                     <Navbar.Brand href='/'>todo</Navbar.Brand>
                     <Navbar.Toggle aria-controls="responsive-navbar-nav" />

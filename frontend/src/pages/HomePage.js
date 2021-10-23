@@ -6,9 +6,9 @@ import Navigation from '../components/Navigation';
 const HomePage = () => 
 {
     return(
-        <div id='home' className="page">
+        <div id='home' className="pageSolid">
             <Navigation id="frontnav"/>
-            <Front />
+            <Front id="landing"/>
         </div>
     );
 }

@@ -1,16 +1,14 @@
 import React from 'react';
 import Navigation from '../components/Navigation';
-import Product from '../components/Product';
+import Company from '../components/Company';
 
-
-const ProductPage = () => 
+function CompanyPage()
 {
     return(
         <div id='home' className="pageSolid">
             <Navigation />
-            <Product />
+            <Company />
         </div>
     );
 }
-
-export default ProductPage;
+export default CompanyPage;

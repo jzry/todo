@@ -4,16 +4,18 @@ import { Button, Container, ListGroup } from 'react-bootstrap';
 function usePrevious(value) 
 {
     const ref = useRef();
-    useEffect(() => {
+    useEffect(() => 
+    {
       ref.current = value;
     });
     return ref.current;
 };
 
-function Task(props)
+function EventTask(props)
 {
 
     const [newName, setNewName] = useState(props.name);
+    var newDate = useState(props.date);
     const [isEditing, setEditing] = useState(false);
     const editFieldRef = useRef(null);
     const editButtonRef = useRef(null);
@@ -24,11 +26,17 @@ function Task(props)
         setNewName(e.target.value);
     }
 
+    function handleDateChange(e)
+    {
+        newDate = e.target.value;
+    }
+
     function handleSubmit(e)
     {
         e.preventDefault();
-        props.editTask(props.id, newName);
+        props.editTask(props.id, newName, newDate);
         setNewName(newName);
+        newDate = "";
         setEditing(false);
     }
 
@@ -48,6 +56,16 @@ function Task(props)
                             type="text"
                             value={newName}
                             onChange={handleNameChange} 
+                            ref={editFieldRef}
+                        />
+
+                        <input 
+                            id={props.id} 
+                            name="date" 
+                            className="todo-date inFields" 
+                            type="date"
+                            value={newDate} 
+                            onChange={handleDateChange} 
                             ref={editFieldRef}
                         />
                     </div>
@@ -71,7 +89,7 @@ function Task(props)
     const viewTemplate = (
         <ListGroup.Item className="listTask">
             <Container className="listGrid">
-                <div className="taskTitle lg-3">
+                <div className="taskTitle listItem lg-3">
                     <input
                         id={props.id}
                         type="checkbox"
@@ -82,11 +100,17 @@ function Task(props)
                     <label className="todo-label" htmlFor={props.id}>
                         {props.name}
                     </label>
+
                 </div>
-                <div className="btn-group">
+                <div className="listItem md-3">
+                    <label className="dateLabel" htmlFor={props.id}>
+                        {props.date +" "}
+                    </label>
+                </div>
+                <div className="btn-group listItem md-3">
                     <Button 
                         type="button" 
-                        className="btn taskCtrl priorityTaskView sm-3 buttonScheme" 
+                        className="btn taskCtrl schedTaskView sm-3 buttonScheme" 
                         onClick={ () => setEditing(true) } 
                         ref={editButtonRef}
                     >
@@ -95,7 +119,7 @@ function Task(props)
 
                     <Button
                         type="button"
-                        className="btn taskCtrl priorityTaskView sm-3 buttonScheme"
+                        className="btn taskCtrl schedTaskView sm-3 buttonScheme"
                         onClick={ () => props.deleteTask(props.id) }
                     >
                         Delete <span className="visually-hidden">{props.name}</span>
@@ -107,12 +131,10 @@ function Task(props)
 
       useEffect(() => 
       {
-        if (!wasEditing && isEditing) 
-        {
+        if (!wasEditing && isEditing) {
           editFieldRef.current.focus();
         }
-        if (wasEditing && !isEditing) 
-        {
+        if (wasEditing && !isEditing) {
           editButtonRef.current.focus();
         }
       }, [wasEditing, isEditing]);
@@ -124,4 +146,4 @@ function Task(props)
     );
 };
 
-export default Task;
+export default EventTask;

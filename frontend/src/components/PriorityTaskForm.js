@@ -1,17 +1,12 @@
 import React, { useState }  from 'react';
-import { 
-    Button, 
-    Form 
-} from 'react-bootstrap';
+import { Button, Form } from 'react-bootstrap';
 
-function NewTaskForm(props){
+function PriorityTaskForm(props){
     
-    const [state, setState] = useState({
-        name: "",
-        date: "",
-    });
+    const [state, setState] = useState({ name: "" });
 
-    const handleChange = (e) =>{
+    const handleChange = (e) =>
+    {
         setState(
             {
                 ...state, 
@@ -20,12 +15,11 @@ function NewTaskForm(props){
         )
     }
 
-    function handleSubmit(e){
+    function handleSubmit(e)
+    {
         e.preventDefault();
-        console.log(state.date);
-        props.addTask(state.name, state.date);
+        props.addTask(state.name);
         state.name = "";
-        state.date = "";
     }
 
     return(
@@ -40,16 +34,6 @@ function NewTaskForm(props){
                 value={state.name}
                 onChange={handleChange}
             />
-
-            <input 
-                type="date"
-                id="new-todo-date"
-                className="inFields newTask"
-                name="date"
-                value={state.date}
-                onChange={handleChange}
-            />
-
             <Button type="submit" className="buttonScheme">
                 Add
             </Button>
@@ -57,4 +41,4 @@ function NewTaskForm(props){
     );
 };
 
-export default NewTaskForm;
+export default PriorityTaskForm;

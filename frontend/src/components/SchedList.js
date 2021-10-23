@@ -1,20 +1,21 @@
 import React, { useState } from 'react';
-import { ListGroup } from 'react-bootstrap';
+import { Card, ListGroup } from 'react-bootstrap';
 import { nanoid } from "nanoid";
 
-import NewTaskForm from './NewTaskForm.js';
-import Task from './Task.js'
-import FilterButtons from './FilterButtons.js';
+import SchedTaskForm from './SchedTaskForm';
+import EventTask from './EventTask'
+import FilterButtons from './FilterButtons';
 
-function ToDoList(props)
+function SchedList(props)
 {
-    const [filter, setFilter] = useState('All');
+    const [filter, setFilter] = useState('Today');
     const [tasks, setTasks] = useState(props.tasks);
 
-    var curr = new Date();
-    var today = curr.toISOString().substr(0,10);
+    const curr = new Date();
+    const today = curr.toISOString().substr(0, 10);
 
-    const FILTER_MAP = {
+    const FILTER_MAP = 
+    {
         All: () => true,
         Today: task => task.date === today,
         Upcoming: task => task.date > today,
@@ -25,9 +26,11 @@ function ToDoList(props)
 
     function toggleTaskCompleted(id) 
     {
-        const updatedTasks = tasks.map(task => {
+        const updatedTasks = tasks.map(task => 
+        {
             
-            if (id === task.id) {
+            if (id === task.id) 
+            {
                 return {...task, completed: !task.completed}
             }
             return task;
@@ -39,7 +42,7 @@ function ToDoList(props)
     const taskList = tasks
         .filter(FILTER_MAP[filter])
         .map(task => (
-            <Task 
+            <EventTask 
                 id = {task.id} 
                 name = {task.name} 
                 completed ={ task.completed } 
@@ -61,7 +64,8 @@ function ToDoList(props)
         />
     ));
 
-    function addTask(name, date) {
+    function addTask(name, date) 
+    {
         const newTask = 
         { 
             id: "todo-" + nanoid(), 
@@ -73,16 +77,21 @@ function ToDoList(props)
         setTasks([...tasks, newTask]);
     }
 
-    function editTask(id, newName, newDate) {
-        const editedTaskList = tasks.map(task => {
+    function editTask(id, newName, newDate) 
+    {
+        console.log(today);
+        const editedTaskList = tasks.map(task => 
+        {
         // if this task has the same ID as the edited task
           if (id === task.id) {
             //
-            if(!newName){
+            if(!newName)
+            {
                 newName = task.name;
             }
 
-            if(!newDate){
+            if(!newDate)
+            {
                 newDate = task.date;
             }
 
@@ -95,23 +104,28 @@ function ToDoList(props)
         setTasks(editedTaskList);
     }
 
-    function deleteTask(id) {
+    function deleteTask(id) 
+    {
         const remainingTasks = tasks.filter(task => id !== task.id);
         setTasks(remainingTasks);
     }
 
     return (
-        <div className="app toDoList stack-large">
-            <h1>To Do List</h1>
-                <ListGroup variant="flush">
-                    <div id="filterBtns">
-                        {filterList}
-                    </div>
-                    {taskList}
-                    <NewTaskForm addTask={addTask}/>
-                </ListGroup>
+        <div className="app toDoList">
+            <Card className="canvasCards cardItem">
+                <Card.Body>
+                    <h1>To Do List</h1>
+                    <ListGroup variant="flush">
+                        <div id="filterBtns">
+                            {filterList}
+                        </div>
+                        {taskList}
+                        <SchedTaskForm addTask={addTask}/>
+                    </ListGroup>
+                </Card.Body>
+            </Card>
         </div>
       );
 };
 
-export default ToDoList;
+export default SchedList;
