@@ -13,10 +13,12 @@ function usePrevious(value)
 
 function EventTask(props)
 {
-
+    // states are initial values
     const [newName, setNewName] = useState(props.name);
     var newDate = useState(props.date);
     const [isEditing, setEditing] = useState(false);
+
+    // references for editing fields
     const editFieldRef = useRef(null);
     const editButtonRef = useRef(null);
     const wasEditing = usePrevious(isEditing);
@@ -36,7 +38,9 @@ function EventTask(props)
         e.preventDefault();
         props.editTask(props.id, newName, newDate);
         setNewName(newName);
-        newDate = "";
+
+        // re-init. date and setting editing state to false
+        newDate = props.date;
         setEditing(false);
     }
 

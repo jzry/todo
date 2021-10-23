@@ -10,11 +10,13 @@ function usePrevious(value)
     return ref.current;
 };
 
+// Task for PRIORITY LIST
 function Task(props)
 {
 
     const [newName, setNewName] = useState(props.name);
     const [isEditing, setEditing] = useState(false);
+
     const editFieldRef = useRef(null);
     const editButtonRef = useRef(null);
     const wasEditing = usePrevious(isEditing);
@@ -28,6 +30,7 @@ function Task(props)
     {
         e.preventDefault();
         props.editTask(props.id, newName);
+
         setNewName(newName);
         setEditing(false);
     }
@@ -117,6 +120,7 @@ function Task(props)
         }
       }, [wasEditing, isEditing]);
 
+    // Renders on conditional of editing or viewing
     return(
         <div className="todo">
             {isEditing ? editingTemplate : viewTemplate}

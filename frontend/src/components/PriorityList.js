@@ -11,6 +11,7 @@ function PriorityList(props){
     const [tasks, setTasks] = useState(props.tasks);
     const [filter, setFilter] = useState('All');
 
+    // Filter names and conditions
     const FILTER_MAP = 
     {
         All: () => true,
@@ -20,6 +21,7 @@ function PriorityList(props){
     const FILTER_NAMES = Object.keys(FILTER_MAP);
 
 
+    // Toggle for filter/browser to unify state
     function toggleTaskCompleted(id) 
     {
         const updatedTasks = tasks.map(task => 
@@ -35,6 +37,7 @@ function PriorityList(props){
         setTasks(updatedTasks);
     }
 
+    // For rendering desired number of tasks based on task props
     const taskList = tasks
         .filter(FILTER_MAP[filter])
         .map(task => (
@@ -50,6 +53,7 @@ function PriorityList(props){
         )
     );
 
+    // For rendering desired number of filter buttons by name and condition
     const filterList = FILTER_NAMES.map(name => (
         <FilterButtons 
             key={name}

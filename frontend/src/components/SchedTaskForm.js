@@ -7,7 +7,7 @@ import
 
 function SchedTaskForm(props)
 {
-    
+    // Set blank states for name and date values
     const [state, setState] = useState(
         {
             name: "",
@@ -28,7 +28,7 @@ function SchedTaskForm(props)
     function handleSubmit(e)
     {
         e.preventDefault();
-        console.log(state.date);
+
         props.addTask(state.name, state.date);
         state.name = "";
         state.date = "";

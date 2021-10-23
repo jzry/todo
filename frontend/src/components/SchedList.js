@@ -14,6 +14,7 @@ function SchedList(props)
     const curr = new Date();
     const today = curr.toISOString().substr(0, 10);
 
+    // Filter names and conditions
     const FILTER_MAP = 
     {
         All: () => true,
@@ -39,6 +40,7 @@ function SchedList(props)
         setTasks(updatedTasks);
     }
 
+    // Allows rendering of different tasks with different names, dates, and completion marks
     const taskList = tasks
         .filter(FILTER_MAP[filter])
         .map(task => (
@@ -64,6 +66,7 @@ function SchedList(props)
         />
     ));
 
+    // Adds Tasks to date-based list
     function addTask(name, date) 
     {
         const newTask = 
@@ -77,6 +80,7 @@ function SchedList(props)
         setTasks([...tasks, newTask]);
     }
 
+    // Allows for change of name and date
     function editTask(id, newName, newDate) 
     {
         console.log(today);

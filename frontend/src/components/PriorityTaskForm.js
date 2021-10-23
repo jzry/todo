@@ -5,6 +5,7 @@ function PriorityTaskForm(props){
     
     const [state, setState] = useState({ name: "" });
 
+    // Maintains input states
     const handleChange = (e) =>
     {
         setState(
@@ -15,6 +16,7 @@ function PriorityTaskForm(props){
         )
     }
 
+    // Adds a Task and clears the state
     function handleSubmit(e)
     {
         e.preventDefault();
