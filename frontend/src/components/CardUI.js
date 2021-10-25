@@ -6,6 +6,19 @@ function CardUI()
     var card = '';
     var search = '';
 
+    const app_name = 'cop4331-test123'
+function buildPath(route)
+{
+    if (process.env.NODE_ENV === 'production') 
+    {
+        return 'https://' + app_name +  '.herokuapp.com/' + route;
+    }
+    else
+    {        
+        return 'http://localhost:5000/' + route;
+    }
+}
+
     const [message,setMessage] = useState('');
     const [searchResults,setResults] = useState('');
     const [cardList,setCardList] = useState('');
@@ -25,7 +38,7 @@ function CardUI()
 
         try        
         {            
-            const response = await fetch('http://localhost:5000/api/addcard',            
+            const response = await fetch(buildPath('api/addcard'),            
             {method:'POST',body:js,headers:{'Content-Type': 'application/json'}});
             var txt = await response.text();            
             var res = JSON.parse(txt);            
@@ -58,8 +71,7 @@ function CardUI()
         try        
         {            
             const response = await fetch(buildPath('api/searchcards'),            
-            {method:'POST',body:js,headers:{'Content-Type': 'application/json'}});
-
+              {method:'POST',body:js,headers:{'Content-Type': 'application/json'}});
             var txt = await response.text();            
             var res = JSON.parse(txt);            
             var _results = res.results;            
