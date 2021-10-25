@@ -3,15 +3,15 @@ import React from 'react';
 function LoggedInName()
 {
 
-   // var user = {}
+    // var user = {}
 
-    //const doLogout = event =>
-    //{
-        //event.preventDefault();
+    // const doLogout = event =>
+    // {
+        // event.preventDefault();
 
-        //alert('doLogout');
-        //window.location.href = "/";
-    //};
+        // alert('doLogout');
+        // window.location.href = "/";
+    // };
     
     return(
     <div id="loggedInDiv" className="app">

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import Button from 'react-bootstrap/Button'
+import { Button, Card } from 'react-bootstrap';
 
 function CardUI()
 {
@@ -25,9 +25,9 @@ function buildPath(route)
 
     var _ud = localStorage.getItem('user_data');    
     var ud = JSON.parse(_ud);    
-    var userId = ud.id;    
-    var firstName = ud.firstName;    
-    var lastName = ud.lastName;
+    var userId = 0; // ud.id;
+    var firstName = ""; // ud.firstName;    
+    var lastName = ""; // ud.lastName;
 
     const addCard = async event =>
     {
@@ -61,17 +61,22 @@ function buildPath(route)
     const searchCard = async event =>
     {
         event.preventDefault();
-        var obj = {userId:userId,search:search.value};        
+        var obj = 
+        {
+            userId:userId,
+            search:search.value
+        };
+
         var js = JSON.stringify(obj);        
         try        
         {            
             const response = await fetch(buildPath('api/searchcards'),            
-            {method:'POST',body:js,headers:{'Content-Type': 'application/json'}});            
+              {method:'POST',body:js,headers:{'Content-Type': 'application/json'}});
             var txt = await response.text();            
             var res = JSON.parse(txt);            
             var _results = res.results;            
             var resultText = '';            
-            for( var i=0; i<_results.length; i++ )            
+            for( var i = 0; i < _results.length; i++ )            
             {                
                 resultText += _results[i];                
                 if( i < _results.length - 1 )                
@@ -90,18 +95,26 @@ function buildPath(route)
     };
 
     return(
-        <div id="accessUIDiv" className="app">
-            <input type="text" id="searchText" className="inFields" placeholder="Card To Search For" 
-                ref={(c) => search = c}/><br/>
-            <Button type="button" id="searchCardButton" className="buttonScheme"
-                onClick={searchCard}> Search Card </Button><br />
-            <span id="cardSearchResult"> {searchResults} </span>
-            <p id="cardList">{cardList}</p>
-            <input type="text" id="cardText" className="inFields" placeholder="Card To Add" 
-                ref={(c) => card = c}/><br />
-            <Button type="button" id="addCardButton" className="buttonScheme"
-                onClick={addCard}> Add Card </Button><br />
-            <span id="cardAddResult"> {message} </span>
+        <div id="accessUIDiv" className="app cardSizing">
+            <Card className="app canvasCards cardItem">
+                <Card.Body className="cardContent1">
+                    <div id="searchBox">
+                        <input type="text" id="searchText" className="inFields" placeholder="Card To Search For" 
+                            ref={(c) => search = c}/><br/>
+                        <Button type="button" id="searchCardButton" className="buttonScheme"
+                            onClick={searchCard}> Search Card </Button><br />
+                        <span id="cardSearchResult"> {searchResults} </span>
+                        <p id="cardList">{cardList}</p>
+                    </div>
+                    <div id="addBox">
+                        <input type="text" id="cardText" className="inFields" placeholder="Card To Add" 
+                            ref={(c) => card = c}/><br />
+                        <Button type="button" id="addCardButton" className="buttonScheme"
+                            onClick={addCard}> Add Card </Button><br />
+                        <span id="cardAddResult">{message}</span>
+                    </div>
+                </Card.Body>
+            </Card>
         </div>
     );
 }

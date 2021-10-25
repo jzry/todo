@@ -7,7 +7,7 @@ import Login from '../components/Login';
 const LoginPage = () =>
 {
         return(
-            <div className="page">
+            <div className="pageSolid">
                 <Navigation />
                 <Card id="formCard">
                     <Card.Body>     

@@ -17,13 +17,13 @@ function UserNavi()
 
     return(
         <div className='navi'>
-            <Navbar id="dashBar" className="toDoBar" variant="light" collapseOnSelect expand="lg">
+            <Navbar id="dashBar" className="toDoBar" variant="dark" collapseOnSelect expand="lg">
                 <Container>
                     <Navbar.Brand href='/'>todo</Navbar.Brand>
                     <Navbar.Toggle aria-controls="responsive-navbar-nav" />
                     <Navbar.Collapse id="responsive-navbar-nav">
                         <Nav className="me-auto">
-                            <Nav.Link href='/canvas'>New &#43;</Nav.Link>
+                            <Nav.Link href='/canvas'>Canvas</Nav.Link>
                         </Nav>
                         <Nav>
                             <Button type="button" id="logoutButton" className="navBtn" onClick={doLogout}> Log Out </Button>
