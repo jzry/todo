@@ -2,10 +2,9 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const path = require('path');           
-const PORT = process.env.PORT || 5000; 
+const PORT = process.env.PORT || 5000;  
 const app = express();
 app.set('port', (process.env.PORT || 5000));
-
 
 app.use(cors());
 app.use(bodyParser.json());
@@ -29,24 +28,31 @@ app.listen(PORT, () =>
   console.log('Server listening on port ' + PORT);
 });
 
-require('dotenv').config();
-const url = process.env.MONGODB_URI;
-const MongoClient = require('mongodb').MongoClient;
-const client = new MongoClient(url);
-client.connect();
-
 ///////////////////////////////////////////////////
 // For Heroku deployment
+
 // Server static assets if in production
 if (process.env.NODE_ENV === 'production') 
 {
   // Set static folder
   app.use(express.static('frontend/build'));
+
   app.get('*', (req, res) => 
  {
     res.sendFile(path.resolve(__dirname, 'frontend', 'build', 'index.html'));
   });
 }
+
+
+require('dotenv').config();
+const url = process.env.MONGODB_URI;
+const mongoose = require("mongoose");
+mongoose.connect(url)
+.then(() => console.log("Mongo DB connected"))
+.catch(err => console.log(err));
+
+var api = require('./api.js');
+api.setApp( app, mongoose );
 
 var cardList =
 [
@@ -151,58 +157,3 @@ var cardList =
    'Babe Ruth'
  ];
 
- app.post('/api/addcard', async (req, res, next) =>
- {
-    // incoming: userId, color
-    // outgoing: error  
-    var error = '';
-    const { userId, card } = req.body;
-    // TEMP FOR LOCAL TESTING.
-    cardList.push( card );  
-    var ret = { error: error };
-    res.status(200).json(ret);
-});
-
-app.post('/api/login', async (req, res, next) => 
-{
-    // incoming: login, password
-    // outgoing: id, firstName, lastName, error
-    var error = '';
-    const { login, password } = req.body;
-    var id = -1;  
-    var fn = '';  
-    var ln = '';  
-    if( login.toLowerCase() == 'rickl' && password == 'COP4331' )
-    {
-        id = 1;    
-        fn = 'Rick';    
-        ln = 'Leinecker';  
-    }  
-    else  
-    {    
-        error = 'Invalid user name/password';
-    }  
-    var ret = { id:id, firstName:fn, lastName:ln, error:error};  
-    res.status(200).json(ret);
-});
-
-app.post('/api/searchcards', async (req, res, next) => 
-{
-    // incoming: userId, search  
-    // outgoing: results[], error  
-    var error = '';  
-    const { userId, search } = req.body;  
-    var _search = search.toLowerCase().trim();  
-    var _ret = [];  
-    for( var i = 0; i < cardList.length; i++ )  
-    {    
-        var lowerFromList = cardList[i].toLocaleLowerCase();    
-        if( lowerFromList.indexOf( _search ) >= 0 )    
-        {      
-            _ret.push( cardList[i] );    
-        }  
-    }  
-    var ret = {results:_ret, error:''};  
-    res.status(200).json(ret);
-});
- 
