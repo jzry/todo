@@ -5,25 +5,23 @@ import { VscAdd } from 'react-icons/vsc';
 
 function ButtonIcons(props)
 {
-
-        if(props.type === "Add")
-        {
-            return(
-                <VscAdd />
-            );
-        } 
-        else if(props.type === "Edit")
-        {
-            return(
-                <FiEdit />
-            );
-        } 
-        else if(props.type === "Delete")
-        {
-            return(
-                <AiOutlineDelete />
-            );
-        }
-
+    if(props.type === "Add")
+    {
+        return(
+            <VscAdd />
+        );
+    } 
+    else if(props.type === "Edit")
+    {
+        return(
+            <FiEdit />
+        );
+    } 
+    else if(props.type === "Delete")
+    {
+        return(
+            <AiOutlineDelete />
+        );
+    }
 }
 export default ButtonIcons;

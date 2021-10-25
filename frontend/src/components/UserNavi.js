@@ -16,22 +16,20 @@ function UserNavi()
     };
 
     return(
-        <div className='navi'>
-            <Navbar id="dashBar" className="toDoBar" variant="dark" collapseOnSelect expand="lg">
-                <Container>
-                    <Navbar.Brand href='/'>todo</Navbar.Brand>
-                    <Navbar.Toggle aria-controls="responsive-navbar-nav" />
-                    <Navbar.Collapse id="responsive-navbar-nav">
-                        <Nav className="me-auto">
-                            <Nav.Link href='/canvas'>Canvas</Nav.Link>
-                        </Nav>
-                        <Nav>
-                            <Button type="button" id="logoutButton" className="navBtn" onClick={doLogout}> Log Out </Button>
-                        </Nav>
-                    </Navbar.Collapse>
-                </Container>
-            </Navbar>
-        </div>
+        <Navbar id="dashBar" className="toDoBar navi" variant="dark" collapseOnSelect expand="lg">
+            <Container>
+                <Navbar.Brand href='/'>todo</Navbar.Brand>
+                <Navbar.Toggle aria-controls="responsive-navbar-nav" />
+                <Navbar.Collapse id="responsive-navbar-nav">
+                    <Nav className="me-auto">
+                        <Nav.Link href='/canvas'>Canvas</Nav.Link>
+                    </Nav>
+                    <Nav>
+                        <Button type="button" id="logoutButton" className="navBtn" onClick={doLogout}> Log Out </Button>
+                    </Nav>
+                </Navbar.Collapse>
+            </Container>
+        </Navbar>
     );
 }
 export default UserNavi;

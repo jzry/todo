@@ -16,6 +16,9 @@ const CanvasPage = () =>
     var later = "2021-12-17";
     var nextyear = "2022-4-15";
     
+    // Scheduling Tasks
+    // may need list id (in the case of multiples) 
+    // and user id to associate lists with users
     const sched = [
         { 
             id: "todo-0", 
@@ -55,6 +58,8 @@ const CanvasPage = () =>
         }
     ];
 
+    // Priority Tasks
+    // may also need list id,  user id 
     const tasks = [
         { 
             id: "priority-0", 
@@ -74,16 +79,16 @@ const CanvasPage = () =>
     ];
 
     return(
-        <div id="canvas" className="pageSolid">
+        <div id="canvas" className="pageSolid">
             <UserNavi />
-            <PageTitle />
+            <PageTitle />
             <LoggedInName />
-            <Container fluid className="cardContainer">
-                <CardUI />
-                <PriorityList tasks={tasks} />
-                <SchedList tasks={sched} />
+            <Container className="cardContainer">
+                <CardUI/>
+                <PriorityList tasks={tasks}/>
+                <SchedList tasks={sched}/>
             </Container>
-        </div>
+        </div>
     );
 }
 

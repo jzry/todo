@@ -17,6 +17,6 @@ function SignUpPage()
             </Card>
         </div>
     );
-};
+}
 
 export default SignUpPage;
