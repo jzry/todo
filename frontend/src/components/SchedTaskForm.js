@@ -1,9 +1,7 @@
 import React, { useState }  from 'react';
-import 
-{ 
-    Button, 
-    Form 
-} from 'react-bootstrap';
+import { Button, Form } from 'react-bootstrap';
+
+import ButtonIcons from './ButtonIcons';
 
 function SchedTaskForm(props)
 {
@@ -30,7 +28,7 @@ function SchedTaskForm(props)
     {
         e.preventDefault();
 
-        props.addTask(state.name, state.date);
+        props.addTask(state.name, state.date, state.time);
         state.name = "";
         state.date = "";
         state.time = "";
@@ -72,7 +70,7 @@ function SchedTaskForm(props)
                     </div>
                 </div>
                 <Button type="submit" className="buttonScheme schedButton">
-                    Add
+                    <ButtonIcons type="Add"/>
                 </Button>
             </div>
         </Form>

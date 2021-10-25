@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Button, Container, ListGroup } from 'react-bootstrap';
+import ButtonIcons from './ButtonIcons';
 
 function usePrevious(value) 
 {
@@ -93,7 +94,7 @@ function Task(props)
                         onClick={ () => setEditing(true) } 
                         ref={editButtonRef}
                     >
-                        Edit <span className="visually-hidden">{props.name}</span>
+                        <ButtonIcons type={"Edit"}/> <span className="visually-hidden">{props.name}</span>
                     </Button>
 
                     <Button
@@ -101,7 +102,7 @@ function Task(props)
                         className="btn taskCtrl priorityTaskView sm-3 buttonScheme"
                         onClick={ () => props.deleteTask(props.id) }
                     >
-                        Delete <span className="visually-hidden">{props.name}</span>
+                        <ButtonIcons type={"Delete"}/> <span className="visually-hidden">{props.name}</span>
                     </Button>
                 </div>
             </Container>

@@ -1,5 +1,6 @@
 import React, { useState }  from 'react';
 import { Button, Form } from 'react-bootstrap';
+import { VscAdd } from 'react-icons/vsc'
 
 function PriorityTaskForm(props){
     
@@ -37,7 +38,7 @@ function PriorityTaskForm(props){
                 onChange={handleChange}
             />
             <Button type="submit" className="buttonScheme">
-                Add
+                <VscAdd />
             </Button>
         </Form>
     );

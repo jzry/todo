@@ -1,5 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Button, Container, ListGroup } from 'react-bootstrap';
+import {FiEdit} from 'react-icons/fi';
+import {AiOutlineDelete} from 'react-icons/ai';
 
 function usePrevious(value) 
 {
@@ -118,7 +120,7 @@ function SchedTask(props)
                         id={props.id}
                         type="checkbox"
                         defaultChecked={props.completed}
-                        onChange={() => props.toggleTaskCompleted(props.id)}
+                        onClick={() => props.toggleTaskCompleted(props.id)}
                         className="checkScheme"
                     />
                     <label className="todo-label" htmlFor={props.id}>
@@ -138,7 +140,7 @@ function SchedTask(props)
                         onClick={ () => setEditing(true) } 
                         ref={editButtonRef}
                     >
-                        Edit <span className="visually-hidden">{props.name}</span>
+                        <FiEdit /> <span className="visually-hidden">{props.name}</span>
                     </Button>
 
                     <Button
@@ -146,7 +148,7 @@ function SchedTask(props)
                         className="btn taskCtrl schedTaskView sm-3 buttonScheme"
                         onClick={ () => props.deleteTask(props.id) }
                     >
-                        Delete <span className="visually-hidden">{props.name}</span>
+                       <AiOutlineDelete /> <span className="visually-hidden">{props.name}</span>
                     </Button>
                 </div>
             </Container>

@@ -57,15 +57,8 @@ function CardUI()
         var js = JSON.stringify(obj);        
         try        
         {            
-            const response = await fetch('http://localhost:5000/api/searchcards',            
-            {
-                method:'POST',
-                body:js,
-                headers:
-                {
-                    'Content-Type': 'application/json'
-                }
-            });
+            const response = await fetch(buildPath('api/searchcards'),            
+            {method:'POST',body:js,headers:{'Content-Type': 'application/json'}});
 
             var txt = await response.text();            
             var res = JSON.parse(txt);            

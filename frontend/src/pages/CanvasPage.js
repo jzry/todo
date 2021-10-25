@@ -6,8 +6,6 @@ import PageTitle from '../components/PageTitle';
 import LoggedInName from '../components/LoggedInName';
 import CardUI from '../components/CardUI';
 import SchedList from '../components/SchedList';
-
-import add from '../addButton.svg'
 import PriorityList from '../components/PriorityList';
 
 const CanvasPage = () =>
@@ -80,7 +78,6 @@ const CanvasPage = () =>
             <UserNavi />
             <PageTitle />
             <LoggedInName />
-            <img id="addButton" src={add} alt="addButton" />
             <Container fluid className="cardContainer">
                 <CardUI />
                 <PriorityList tasks={tasks} />

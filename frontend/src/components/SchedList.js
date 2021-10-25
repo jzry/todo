@@ -13,6 +13,7 @@ function SchedList(props)
 
     const curr = new Date();
     const today = curr.toISOString().substring(0, 10);
+    const defTime = "00:00";
 
     // Filter names and conditions
     const FILTER_MAP = 
@@ -76,7 +77,7 @@ function SchedList(props)
         }
         if(time === "")
         {
-            time = "00:00"
+            time = defTime;
         }
         const newTask = 
         { 
@@ -84,7 +85,7 @@ function SchedList(props)
             name: name, 
             completed: false, 
             date: date, 
-            time: time
+            time: (time === "" ? (time = "00:00") : time)
         };
 
         setTasks([...tasks, newTask]);
@@ -135,7 +136,7 @@ function SchedList(props)
                 <Card.Body className="cardContent">
                     <h1>To Do List</h1>
                     <ListGroup variant="flush" className="listAdjust">
-                        <div id="filterBtns">
+                        <div id="filterBtns" className="filterLimiter">
                             {filterList}
                         </div>
                         {taskList}

@@ -70,7 +70,26 @@
 
 .checkScheme
 {
-  margin-right: 1em;
+  -webkit-appearance: none;
+  background-color: #fafafa;
+  border: 3px solid #cacece;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.05), inset 0px -15px 10px -12px rgba(0,0,0,0.05);
+  padding: 9px;
+  border-radius:50px;
+  display: inline-block;
+  position: relative;
+  margin-right: 0.5em;
+}
+
+.checkScheme:active, .checkScheme:checked:active {
+	box-shadow: 0 1px 2px rgba(0,0,0,0.05), inset 0px 1px 3px rgba(0,0,0,0.1);
+}
+
+.checkScheme:checked {
+	background-color: #64706f;
+	border: 3px solid #adb8c0;
+	box-shadow: 0 1px 2px rgba(0,0,0,0.05), inset 0px -15px 10px -12px rgba(0,0,0,0.05), inset 15px 10px -12px rgba(255,255,255,0.1);
+	color: #99a1a7;
 }
 
 
@@ -128,11 +147,15 @@
   margin-top: 7px;
 }
 
+.filterLimiter{
+  white-space: nowrap;
+  padding-right: 0px;
+  -apple-padding-right: 10px;
+}
+
 .filterBtns
 {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: nowrap;
+  display: inline-block;
   justify-content: center;
   align-items: center;
   align-content: center;
@@ -295,21 +318,8 @@
 #newTaskForm, #newSchedTaskForm
 {
   margin-bottom: 0px;
-  margin-top: auto;
+  margin-top: 1%;
   bottom: 0px;
-}
-
-.schedButton
-{
-  margin-right: 10px;
-}
-
-.schedTaskForm
-{
-  display:flex;
-  flex-direction: row;
-  margin-left: auto;
-  margin-right: auto;
 }
 
 .page
@@ -357,6 +367,24 @@
   margin-left: 4em;
 }
 
+.schedButton
+{
+  margin-right: 10px;
+}
+
+.schedTaskForm
+{
+  display:flex;
+  flex-direction: row;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.schedTaskView
+{
+  display: none;
+}
+
 .splitFields
 {
   display: flex;
@@ -385,11 +413,6 @@
 .todo-label
 {
   display: flex;
-}
-
-.schedTaskView
-{
-  display: none;
 }
 
 .todo-label
