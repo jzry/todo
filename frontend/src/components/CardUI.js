@@ -1,12 +1,16 @@
 import React, { useState } from 'react';
 import { Button, Card } from 'react-bootstrap';
+import axios from 'axios';
 
 function CardUI()
 {
     var card = '';
     var search = '';
 
-    const app_name = 'cop4331-test123'
+    var storage = require('../tokenStorage.js');
+    const jwt = require("jsonwebtoken");
+
+    const app_name = 'cop4331-test123';
 function buildPath(route)
 {
     if (process.env.NODE_ENV === 'production') 
@@ -19,15 +23,19 @@ function buildPath(route)
     }
 }
 
+    var tok = storage.retrieveToken();
+    var obj = {userId:userId,search:search.value,jwtToken:tok};
+    var js = JSON.stringify(obj);
+
     const [message,setMessage] = useState('');
     const [searchResults,setResults] = useState('');
     const [cardList,setCardList] = useState('');
 
     var _ud = localStorage.getItem('user_data');    
     var ud = JSON.parse(_ud);    
-    var userId = 0; // ud.id;
-    var firstName = ""; // ud.firstName;    
-    var lastName = ""; // ud.lastName;
+    var userId = ud.userId;    
+    var firstName = ud.firstName;    
+    var lastName = ud.lastName;
 
     const addCard = async event =>
     {
@@ -38,7 +46,8 @@ function buildPath(route)
 
         try        
         {            
-            const response = await fetch(buildPath('api/addcard'),            
+            var bp = require('./Path.js');
+            const response = await fetch(bp.buildPath('api/addcard'),            
             {method:'POST',body:js,headers:{'Content-Type': 'application/json'}});
             var txt = await response.text();            
             var res = JSON.parse(txt);            
@@ -70,7 +79,8 @@ function buildPath(route)
         var js = JSON.stringify(obj);        
         try        
         {            
-            const response = await fetch(buildPath('api/searchcards'),            
+            var bp = require('./Path.js');
+            const response = await fetch(bp.buildPath('api/searchcards'), 
               {method:'POST',body:js,headers:{'Content-Type': 'application/json'}});
             var txt = await response.text();            
             var res = JSON.parse(txt);            
