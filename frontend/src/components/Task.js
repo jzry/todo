@@ -39,7 +39,7 @@ function Task(props)
     const editingTemplate = (
         
         <form className="form editTask" onSubmit={handleSubmit}>
-            <label className="todo-label" htmlFor={props.id}>
+            <label className="app" htmlFor={props.id}>
                 Edit Task:
             </label>
                 <div className="editLine listTask">
@@ -74,7 +74,7 @@ function Task(props)
     const viewTemplate = (
         <ListGroup.Item className="listTask">
             <Container className="listGrid">
-                <div className="taskTitle lg-3">
+                <div className="taskTitle listItem lg-3">
                     <input
                         id={props.id}
                         type="checkbox"

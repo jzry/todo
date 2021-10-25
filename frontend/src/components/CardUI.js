@@ -90,20 +90,24 @@ function CardUI()
     };
 
     return(
-        <div id="accessUIDiv" className="app">
-            <Card className="canvasCards cardItem">
-                <Card.Body>
-                    <input type="text" id="searchText" className="inFields" placeholder="Card To Search For" 
-                        ref={(c) => search = c}/><br/>
-                    <Button type="button" id="searchCardButton" className="buttonScheme"
-                        onClick={searchCard}> Search Card </Button><br />
-                    <span id="cardSearchResult"> {searchResults} </span>
-                    <p id="cardList">{cardList}</p>
-                    <input type="text" id="cardText" className="inFields" placeholder="Card To Add" 
-                        ref={(c) => card = c}/><br />
-                    <Button type="button" id="addCardButton" className="buttonScheme"
-                        onClick={addCard}> Add Card </Button><br />
-                    <span id="cardAddResult">{message}</span>
+        <div id="accessUIDiv" className="app cardSizing">
+            <Card className="app canvasCards cardItem">
+                <Card.Body className="cardContent1">
+                    <div id="searchBox">
+                        <input type="text" id="searchText" className="inFields" placeholder="Card To Search For" 
+                            ref={(c) => search = c}/><br/>
+                        <Button type="button" id="searchCardButton" className="buttonScheme"
+                            onClick={searchCard}> Search Card </Button><br />
+                        <span id="cardSearchResult"> {searchResults} </span>
+                        <p id="cardList">{cardList}</p>
+                    </div>
+                    <div id="addBox">
+                        <input type="text" id="cardText" className="inFields" placeholder="Card To Add" 
+                            ref={(c) => card = c}/><br />
+                        <Button type="button" id="addCardButton" className="buttonScheme"
+                            onClick={addCard}> Add Card </Button><br />
+                        <span id="cardAddResult">{message}</span>
+                    </div>
                 </Card.Body>
             </Card>
         </div>

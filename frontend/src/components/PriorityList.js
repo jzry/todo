@@ -106,19 +106,18 @@ function PriorityList(props){
     return(
         <div className="app">
             <Card className="canvasCards cardItem">
-                <Card.Body>
+                <Card.Body className="cardContent">
                     <h1>Priority</h1>
-                    <ListGroup variant="flush">
+                    <ListGroup variant="flush" className="listAdjust">
                         <div id="filterBtns priority">
                             {filterList}
                         </div>
                         {taskList}
-                        <PriorityTaskForm addTask={addTask}/>
                     </ListGroup>
+                    <PriorityTaskForm addTask={addTask}/>
                 </Card.Body>
             </Card>
         </div>
     );
-
 }
  export default PriorityList;

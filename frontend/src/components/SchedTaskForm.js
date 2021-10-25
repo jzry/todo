@@ -12,6 +12,7 @@ function SchedTaskForm(props)
         {
             name: "",
             date: "",
+            time: ""
         }
     );
 
@@ -32,33 +33,48 @@ function SchedTaskForm(props)
         props.addTask(state.name, state.date);
         state.name = "";
         state.date = "";
+        state.time = "";
     }
 
     return(
-        <Form id="newTaskForm" onSubmit={handleSubmit}>
-            <input
-                type="text"
-                id="new-todo-input"
-                className="inFields newTask"
-                name="name"
-                autoComplete="off"
-                placeholder="New Task"
-                value={state.name}
-                onChange={handleChange}
-            />
+        <Form id="newSchedTaskForm"  className="form" onSubmit={handleSubmit}>
+            <div className="schedTaskForm">
+                <div className="splitFields">
+                    <input
+                        type="text"
+                        id="taskName"
+                        className="inFields"
+                        name="name"
+                        autoComplete="off"
+                        placeholder="New Task"
+                        value={state.name}
+                        onChange={handleChange}
+                    />
 
-            <input 
-                type="date"
-                id="new-todo-date"
-                className="inFields newTask"
-                name="date"
-                value={state.date}
-                onChange={handleChange}
-            />
+                    <div id="dateTime">
+                        <input 
+                            type="date"
+                            id="taskDate"
+                            className="inFields"
+                            name="date"
+                            value={state.date}
+                            onChange={handleChange}
+                        />
 
-            <Button type="submit" className="buttonScheme">
-                Add
-            </Button>
+                        <input
+                            type="time"
+                            id="taskTime"
+                            className="inFields"
+                            name="time"
+                            value={state.time}
+                            onChange={handleChange}
+                        />
+                    </div>
+                </div>
+                <Button type="submit" className="buttonScheme schedButton">
+                    Add
+                </Button>
+            </div>
         </Form>
     );
 };

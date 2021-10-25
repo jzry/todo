@@ -13,27 +13,47 @@ import PriorityList from '../components/PriorityList';
 const CanvasPage = () =>
 {
     // temp time handling
-    var today = "2021-10-23"
-    var tomorr = "2021-10-24"
+    var today = "2021-10-23";
+    var tomorr = "2021-10-25";
+    var later = "2021-12-17";
+    var nextyear = "2022-4-15";
     
     const sched = [
         { 
             id: "todo-0", 
             name: "Eat", 
             completed: true, 
-            date: today 
+            date: today, 
+            time: "0:00" 
         },
         { 
             id: "todo-1", 
             name: "Sleep", 
             completed: false, 
-            date: today 
+            date: today, 
+            time: "0:00" 
         },
         { 
             id: "todo-2", 
             name: "Repeat", 
             completed: false, 
-            date: tomorr 
+            date: tomorr, 
+            time: "22:00"
+
+        },
+        {
+            id: "todo-3",
+            name: "Weekend Trip",
+            completed: false,
+            date: later, 
+            time: "6:45"
+        },
+        {
+            id: "todo-4",
+            name: "Appointment",
+            completed: false,
+            date: nextyear,
+            time: "16:15"
         }
     ];
 

@@ -3,7 +3,7 @@ import { Card, ListGroup } from 'react-bootstrap';
 import { nanoid } from "nanoid";
 
 import SchedTaskForm from './SchedTaskForm';
-import EventTask from './EventTask'
+import SchedTask from './SchedTask'
 import FilterButtons from './FilterButtons';
 
 function SchedList(props)
@@ -12,7 +12,7 @@ function SchedList(props)
     const [tasks, setTasks] = useState(props.tasks);
 
     const curr = new Date();
-    const today = curr.toISOString().substr(0, 10);
+    const today = curr.toISOString().substring(0, 10);
 
     // Filter names and conditions
     const FILTER_MAP = 
@@ -44,11 +44,12 @@ function SchedList(props)
     const taskList = tasks
         .filter(FILTER_MAP[filter])
         .map(task => (
-            <EventTask 
+            <SchedTask 
                 id = {task.id} 
                 name = {task.name} 
                 completed ={ task.completed } 
                 date = {task.date} 
+                time = {task.time}
                 key = {task.id} 
                 toggleTaskCompleted = {toggleTaskCompleted}
                 deleteTask = {deleteTask}
@@ -67,21 +68,30 @@ function SchedList(props)
     ));
 
     // Adds Tasks to date-based list
-    function addTask(name, date) 
+    function addTask(name, date, time) 
     {
+        if(date === "")
+        {
+            date = today;
+        }
+        if(time === "")
+        {
+            time = "00:00"
+        }
         const newTask = 
         { 
             id: "todo-" + nanoid(), 
             name: name, 
             completed: false, 
-            date: date 
+            date: date, 
+            time: time
         };
 
         setTasks([...tasks, newTask]);
     }
 
     // Allows for change of name and date
-    function editTask(id, newName, newDate) 
+    function editTask(id, newName, newDate, newTime) 
     {
         console.log(today);
         const editedTaskList = tasks.map(task => 
@@ -99,7 +109,12 @@ function SchedList(props)
                 newDate = task.date;
             }
 
-            return {...task, name: newName, date: newDate}
+            if(!newTime)
+            {
+                newTime = task.time;
+            }
+
+            return {...task, name: newName, date: newDate, time: newTime}
           }
 
           return task;
@@ -117,15 +132,15 @@ function SchedList(props)
     return (
         <div className="app toDoList">
             <Card className="canvasCards cardItem">
-                <Card.Body>
+                <Card.Body className="cardContent">
                     <h1>To Do List</h1>
-                    <ListGroup variant="flush">
+                    <ListGroup variant="flush" className="listAdjust">
                         <div id="filterBtns">
                             {filterList}
                         </div>
                         {taskList}
-                        <SchedTaskForm addTask={addTask}/>
                     </ListGroup>
+                    <SchedTaskForm addTask={addTask}/>
                 </Card.Body>
             </Card>
         </div>
