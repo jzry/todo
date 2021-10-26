@@ -5,6 +5,10 @@ import path from "path";
 import api from "./api.js";
 import {config as dotenvConfig} from "dotenv";
 import mongoose from "mongoose";
+import { dirname } from 'path';
+import { fileURLToPath } from 'url';
+
+const __dirname = dirname(fileURLToPath(import.meta.url));
 
 const PORT = process.env.PORT || 5000,
     app = express();
