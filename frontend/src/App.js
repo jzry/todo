@@ -8,7 +8,8 @@ import CanvasPage from './pages/CanvasPage';
 import ProductPage from './pages/ProductPage';
 import CompanyPage from './pages/CompanyPage';
 
-function App() {
+function App() 
+{
     return (
         <Router >
             <Switch>

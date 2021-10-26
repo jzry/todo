@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Container from 'react-bootstrap/Container'
 
 import UserNavi from '../components/UserNavi';
@@ -8,18 +8,20 @@ import CardUI from '../components/CardUI';
 import SchedList from '../components/SchedList';
 import PriorityList from '../components/PriorityList';
 
-const CanvasPage = () =>
+// After user login fetch lists based on user id and list number/order
+function CanvasPage(props)
 {
-    // temp time handling
+     // temp time handling
     var today = "2021-10-23";
-    var tomorr = "2021-10-25";
+    var tomorr = "2021-10-26";
     var later = "2021-12-17";
     var nextyear = "2022-4-15";
     
     // Scheduling Tasks
     // may need list id (in the case of multiples) 
     // and user id to associate lists with users
-    const sched = [
+    const sched = 
+    [
         { 
             id: "todo-0", 
             name: "Eat", 
@@ -32,14 +34,14 @@ const CanvasPage = () =>
             name: "Sleep", 
             completed: false, 
             date: today, 
-            time: "0:00" 
+            time: "21:00" 
         },
         { 
             id: "todo-2", 
             name: "Repeat", 
             completed: false, 
             date: tomorr, 
-            time: "22:00"
+            time: "00:00"
 
         },
         {
@@ -58,9 +60,9 @@ const CanvasPage = () =>
         }
     ];
 
-    // Priority Tasks
-    // may also need list id,  user id 
-    const tasks = [
+    const tasks =
+    [
+        
         { 
             id: "priority-0", 
             name: "Eat", 
@@ -76,13 +78,19 @@ const CanvasPage = () =>
             name: "Repeat", 
             completed: false
         }
-    ];
+    ]
+
+    
+    // Scheduling Tasks
+    // may need list id (in the case of multiples) 
+    // and user id to associate lists with users
+
 
     return(
         <div id="canvas" className="pageSolid">
             <UserNavi />
-            <PageTitle />
-            <LoggedInName />
+            <h1 id="title" className="app">Canvas</h1>
+            <LoggedInName name={(props.firstName + " "+ props.lastName)}/>
             <Container className="cardContainer">
                 <CardUI/>
                 <PriorityList tasks={tasks}/>

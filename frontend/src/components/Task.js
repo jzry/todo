@@ -75,7 +75,7 @@ function Task(props)
     const viewTemplate = (
         <ListGroup.Item className="listTask">
             <Container className="listGrid">
-                <div className="taskTitle listItem lg-3">
+                <div className="taskTitle listItem">
                     <input
                         id={props.id}
                         type="checkbox"
@@ -90,7 +90,7 @@ function Task(props)
                 <div className="btn-group">
                     <Button 
                         type="button" 
-                        className="btn taskCtrl priorityTaskView sm-3 buttonScheme" 
+                        className="btn taskCtrl priorityTaskView buttonScheme" 
                         onClick={ () => setEditing(true) } 
                         ref={editButtonRef}
                     >
@@ -99,7 +99,7 @@ function Task(props)
 
                     <Button
                         type="button"
-                        className="btn taskCtrl priorityTaskView sm-3 buttonScheme"
+                        className="btn taskCtrl priorityTaskView buttonScheme"
                         onClick={ () => props.deleteTask(props.id) }
                     >
                         <ButtonIcons type={"Delete"}/> <span className="visually-hidden">{props.name}</span>

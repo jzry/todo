@@ -11,17 +11,17 @@ function CardUI()
     const jwt = require("jsonwebtoken");
 
     const app_name = 'cop4331-test123';
-function buildPath(route)
-{
-    if (process.env.NODE_ENV === 'production') 
+    function buildPath(route)
     {
-        return 'https://' + app_name +  '.herokuapp.com/' + route;
+        if (process.env.NODE_ENV === 'production') 
+        {
+            return 'https://' + app_name +  '.herokuapp.com/' + route;
+        }
+        else
+        {        
+            return 'http://localhost:5000/' + route;
+        }
     }
-    else
-    {        
-        return 'http://localhost:5000/' + route;
-    }
-}
 
     var tok = storage.retrieveToken();
     var obj = {userId:userId,search:search.value,jwtToken:tok};

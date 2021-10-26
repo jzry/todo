@@ -1,22 +1,12 @@
 import React from 'react';
 
-function LoggedInName()
+function LoggedInName(props)
 {
-
-    // var user = {}
-
-    // const doLogout = event =>
-    // {
-        // event.preventDefault();
-
-        // alert('doLogout');
-        // window.location.href = "/";
-    // };
     
     return(
-    <div id="loggedInDiv" className="app">
-        <span id="userName">Logged In As John Doe </span><br />
-    </div>
+        <div id="loggedInDiv" className="app">
+            <span id="userName">Logged In As {props.name} </span><br />
+        </div>
     );
 };
 

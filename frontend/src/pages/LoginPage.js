@@ -4,19 +4,19 @@ import Navigation from '../components/Navigation';
 import PageTitle from '../components/PageTitle';
 import Login from '../components/Login';
 
-const LoginPage = () =>
+function LoginPage() 
 {
-        return(
-            <div className="pageSolid">
-                <Navigation />
-                <Card id="formCard">
-                    <Card.Body>     
-                        <PageTitle />
-                        <Login />
-                    </Card.Body>
-                </Card>
-            </div>
-        );
+    return (
+        <div className="pageSolid">
+            <Navigation />
+            <Card id="formCard">
+                <Card.Body>
+                    <PageTitle />
+                    <Login />
+                </Card.Body>
+            </Card>
+        </div>
+    );
 }
 
 export default LoginPage;

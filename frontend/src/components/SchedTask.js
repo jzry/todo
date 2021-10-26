@@ -115,7 +115,7 @@ function SchedTask(props)
     const viewTemplate = (
         <ListGroup.Item className="listTask">
             <Container className="listGrid">
-                <div className="taskTitle listItem lg-3">
+                <div className="taskTitle listItem">
                     <input
                         id={props.id}
                         type="checkbox"
@@ -128,28 +128,28 @@ function SchedTask(props)
                     </label>
 
                 </div>
-                <div className="listItem md-3">
+                <div className="listItem">
                     <label className="dateTimeLabel" htmlFor={props.id}>
                         {props.date + " at " + props.time}
                     </label>
                 </div>
-                <div className="btn-group listItem md-3">
-                    <Button 
+                <div className="btn-group listItem">
+                    <button 
                         type="button" 
-                        className="btn taskCtrl schedTaskView sm-3 buttonScheme" 
+                        className="btn taskCtrl schedTaskView buttonScheme" 
                         onClick={ () => setEditing(true) } 
                         ref={editButtonRef}
                     >
                         <FiEdit /> <span className="visually-hidden">{props.name}</span>
-                    </Button>
+                    </button>
 
-                    <Button
+                    <button
                         type="button"
-                        className="btn taskCtrl schedTaskView sm-3 buttonScheme"
+                        className="btn taskCtrl schedTaskView buttonScheme"
                         onClick={ () => props.deleteTask(props.id) }
                     >
                        <AiOutlineDelete /> <span className="visually-hidden">{props.name}</span>
-                    </Button>
+                    </button>
                 </div>
             </Container>
         </ListGroup.Item>

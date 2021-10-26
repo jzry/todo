@@ -37,12 +37,10 @@
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
-  justify-content: space-between;
+  justify-content:center;
   align-content: flex-start;
   align-items: stretch;
-  gap: 5px;
-  padding-left: 3em;
-  padding-right: 3em;
+  gap: 25px;
 }
 
 .cardContent
@@ -75,7 +73,7 @@
   border: 3px solid #cacece;
   box-shadow: 0 1px 2px rgba(0,0,0,0.05), inset 0px -15px 10px -12px rgba(0,0,0,0.05);
   padding: 9px;
-  border-radius:50px;
+  border-radius:60px;
   display: inline-block;
   position: relative;
   margin-right: 0.5em;
@@ -210,7 +208,7 @@
   flex-direction: column;
   justify-content: left;
   position: absolute;
-  margin-left: 4em;
+  margin-left: 6em;
 }
 
 .inFields
@@ -251,6 +249,8 @@
   flex-wrap: wrap;
   justify-content:space-between;
   align-items: center;
+  padding-left: 5px;
+  padding-right: 0px;
 
 }
 
@@ -263,6 +263,12 @@
 {
   display: inline-block;
   margin-left: 1%;
+
+}
+
+.listGrid:hover > .btn-group > .schedTaskView:hover
+{
+  color: white;
 
 }
 
