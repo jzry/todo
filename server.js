@@ -7,6 +7,9 @@ import {config as dotenvConfig} from "dotenv";
 import mongoose from "mongoose";
 import { dirname } from 'path';
 import { fileURLToPath } from 'url';
+import users from "./models/user.js"
+
+
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
@@ -52,27 +55,28 @@ app.listen(
 // For Heroku deployment
 
 // Server static assets if in production
-if (process.env.NODE_ENV === "production") {
+// /*if (process.env.NODE_ENV === "production") {
 
-    // Set static folder
-    app.use(express.static("frontend/build"));
+//     // Set static folder
+//     app.use(express.static("frontend/build"));
 
-    app.get(
-        "*",
-        (req, res) => {
+//     app.get(
+//         //"*",
+//         (req, res) => {
 
-            res.sendFile(path.resolve(
-                __dirname,
-                "frontend",
-                "build",
-                "index.html"
-            ));
+//             res.sendFile(path.resolve(
+//                 __dirname,
+//                 "frontend",
+//                 "build",
+//                 "index.html"
+//             ));
 
-        }
-    );
+//         }
+//     );
 
-}
-
+// }
+// */
+// connect to mongodb
 dotenvConfig();
 const url = process.env.MONGODB_URI;
 mongoose.connect(url).
@@ -83,4 +87,24 @@ api.setApp(
     app,
     mongoose
 );
+
+app.get('/add-user', (req, res) =>{
+    const user = new users({
+    UserId: '0',
+    FirstName: 'Joel',
+    LastName: 'Cruz',
+    Email: 'dbtest@testdb.com',
+    Login: 'dbmaster',
+    Password: 'Project2'
+    
+});
+user.save()
+.then((result) => {
+    res.send(result)
+})
+.catch((error) => {
+    console.log(err);
+});
+
+})
 
