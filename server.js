@@ -8,6 +8,8 @@ import mongoose from "mongoose";
 import { dirname } from 'path';
 import { fileURLToPath } from 'url';
 import users from "./models/user.js"
+import list from "./models/list.js"
+
 
 
 
