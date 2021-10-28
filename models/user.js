@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-const UserSchema = new mongoose.Schema({
+const UsersSchema = new mongoose.Schema({
     UserId: {
         type: Number
     },
@@ -12,6 +12,10 @@ const UserSchema = new mongoose.Schema({
         type: String,
         required: true
     },
+    Email: {
+        type: String,
+        required: true
+    },
     Login: {
         type: String,
         required: true
@@ -20,9 +24,11 @@ const UserSchema = new mongoose.Schema({
         type: String,
         required: true
     }
-});
+}, {timestamps: true});
+
+
 
 export default mongoose.model(
     "Users",
-    UserSchema
+    UsersSchema
 );
