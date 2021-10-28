@@ -3,17 +3,16 @@ import bodyParser from "body-parser";
 import cors from "cors";
 import path from "path";
 import api from "./api.js";
-import {config as dotenvConfig} from "dotenv";
+import { config as dotenvConfig } from "dotenv";
 import mongoose from "mongoose";
 import { dirname } from 'path';
 import { fileURLToPath } from 'url';
-import users from "./models/user.js"
-import list from "./models/list.js"
-
-
-
+import users from "./models/user.js";
+import list from "./models/list.js";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
+
+dotenvConfig();
 
 const PORT = process.env.PORT || 5000,
     app = express();
@@ -53,60 +52,83 @@ app.listen(
     }
 );
 
-// / ////////////////////////////////////////////////
-// For Heroku deployment
-
-// Server static assets if in production
-// /*if (process.env.NODE_ENV === "production") {
-
-//     // Set static folder
-//     app.use(express.static("frontend/build"));
-
-//     app.get(
-//         //"*",
-//         (req, res) => {
-
-//             res.sendFile(path.resolve(
-//                 __dirname,
-//                 "frontend",
-//                 "build",
-//                 "index.html"
-//             ));
-
-//         }
-//     );
-
-// }
-// */
-// connect to mongodb
-dotenvConfig();
 const url = process.env.MONGODB_URI;
-mongoose.connect(url).
-    then(() => console.log("Mongo DB connected")).
-    catch((err) => console.log(err));
+mongoose.connect(url)
+    .then(() => console.log("Mongo DB connected"))
+    .catch((e) => console.error(e));
 
 api.setApp(
     app,
     mongoose
 );
 
-app.get('/add-user', (req, res) =>{
-    const user = new users({
-    UserId: '0',
-    FirstName: 'Joel',
-    LastName: 'Cruz',
-    Email: 'dbtest@testdb.com',
-    Login: 'dbmaster',
-    Password: 'Project2'
-    
-});
-user.save()
-.then((result) => {
-    res.send(result)
-})
-.catch((error) => {
-    console.log(err);
+app.get(
+    "/api",
+    (req, res) => {
+        res.send("<h1>API Docs</h2>")
+    }
+);
+
+app.get(
+    "/api/add-user",
+    (req, res) => {
+        const user = new users({
+            UserId: '0',
+            FirstName: 'Joel',
+            LastName: 'Cruz',
+            Email: 'dbtest@testdb.com',
+            Login: 'dbmaster',
+            Password: 'Project2'
+        }
+    );
+
+    user.save()
+        .then((result) => {
+            res.send(result)
+        })
+        .catch((e) => {
+            console.error(e);
+        }
+    );
+
 });
 
-})
+app.get(
+    "/api/*",
+    (req, res) => {
+        res.send({ message: "404: Not Found" 
+    });
+});
 
+if (process.env.NODE_ENV === "production") {
+
+    // Set static folder
+    app.use(express.static("frontend/build"));
+
+    app.get(
+        "*",
+        (req, res) => {
+
+            res.sendFile(path.resolve(
+                __dirname,
+                "frontend",
+                "build",
+                "index.html"
+            ));
+
+        }
+    );
+}
+else {
+    app.get(
+        "*",
+        (req, res) => {
+
+            res.send(
+                `Application running in debug mode for API testing. 
+                The frontend is run separately and therefore not deployed in debug mode.`
+                );
+
+        }
+    );
+}
