@@ -4,7 +4,6 @@ import Container from 'react-bootstrap/Container'
 import UserNavi from '../components/UserNavi';
 import PageTitle from '../components/PageTitle';
 import LoggedInName from '../components/LoggedInName';
-import CardUI from '../components/CardUI';
 import SchedList from '../components/SchedList';
 import PriorityList from '../components/PriorityList';
 
@@ -92,7 +91,6 @@ function CanvasPage(props)
             <h1 id="title" className="app">Canvas</h1>
             <LoggedInName name={(props.firstName + " "+ props.lastName)}/>
             <Container className="cardContainer">
-                <CardUI/>
                 <PriorityList tasks={tasks}/>
                 <SchedList tasks={sched}/>
             </Container>

@@ -128,7 +128,6 @@ else {
                 `Application running in debug mode for API testing. 
                 The frontend is run separately and therefore not deployed in debug mode.`
                 );
-
         }
     );
 }
