@@ -15,6 +15,7 @@ function PriorityList(props){
     const FILTER_MAP = 
     {
         All: () => true,
+        Unfinished: task => task.completed === false,
         Completed: task => task.completed
     };
 
@@ -108,10 +109,10 @@ function PriorityList(props){
             <Card className="canvasCards cardItem">
                 <Card.Body className="cardContent">
                     <h1>Priority</h1>
+                    <div className="filterBtns priority">
+                        {filterList}
+                    </div>
                     <ListGroup variant="flush" className="listAdjust">
-                        <div id="filterBtns priority">
-                            {filterList}
-                        </div>
                         {taskList}
                     </ListGroup>
                     <PriorityTaskForm addTask={addTask}/>

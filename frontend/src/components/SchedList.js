@@ -13,14 +13,14 @@ function SchedList(props)
 
     const curr = new Date();
     const today = curr.toISOString().substring(0, 10);
-    const defTime = "00:00";
 
     // Filter names and conditions
     const FILTER_MAP = 
     {
         All: () => true,
-        Today: task => task.date === today,
-        Upcoming: task => task.date > today,
+        Unfinished: task => task.completed === false,
+        Today: task => task.date === today && task.completed === false,
+        Upcoming: task => task.date > today && task.completed === false,
         Completed: task => task.completed
     };
 
@@ -34,7 +34,9 @@ function SchedList(props)
             if (id === task.id) 
             {
                 return {...task, completed: !task.completed}
+                
             }
+            
             return task;
         });
 
@@ -44,13 +46,28 @@ function SchedList(props)
     // Allows rendering of different tasks with different names, dates, and completion marks
     const taskList = tasks
         .filter(FILTER_MAP[filter])
+        .sort((a, b) => {
+            if(a.date > b.date){
+                return 1;
+             }
+             if(a.date < b.date){
+                 return -1;
+             } else {
+                 if(a.time > b.time){
+                     return 1;
+                 } else if(a.time < b.time){
+                     return -1;
+                 } else {
+                     return 0;
+                 }
+             }
+        })
         .map(task => (
             <SchedTask 
                 id = {task.id} 
                 name = {task.name} 
                 completed ={ task.completed } 
-                date = {task.date} 
-                time = {task.time}
+                date = {task.date}
                 key = {task.id} 
                 toggleTaskCompleted = {toggleTaskCompleted}
                 deleteTask = {deleteTask}
@@ -68,31 +85,52 @@ function SchedList(props)
         />
     ));
 
+    function onTimeChange(time) {
+        var timeSplit = time.split(':'),
+          hours,
+          minutes,
+          meridian;
+        hours = parseInt(timeSplit[0]);
+        minutes = parseInt(timeSplit[1]);
+        if (hours > 12) {
+          meridian = 'PM';
+          hours -= 12;
+        } else if (hours < 12) {
+          meridian = 'AM';
+          if (hours === 0) {
+            hours = 12;
+          }
+        } else {
+          meridian = 'PM';
+        }
+        return meridian;
+    }
+
     // Adds Tasks to date-based list
-    function addTask(name, date, time) 
+    function addTask(name, date) 
     {
         if(date === "")
         {
             date = today;
-        }
-        if(time === "")
-        {
-            time = defTime;
+            console.log(today);
+
+        } else{
+            date = date.split('T')[0]+ " "+ date.split('T')[1] + " " + onTimeChange(date.split('T')[1]);
         }
         const newTask = 
         { 
             id: "todo-" + nanoid(), 
             name: name, 
             completed: false, 
-            date: date, 
-            time: (time === "" ? (time = "00:00") : time)
+            date: date
         };
+        console.log(date);
 
         setTasks([...tasks, newTask]);
     }
 
     // Allows for change of name and date
-    function editTask(id, newName, newDate, newTime) 
+    function editTask(id, newName, newDate) 
     {
         console.log(today);
         const editedTaskList = tasks.map(task => 
@@ -110,12 +148,7 @@ function SchedList(props)
                 newDate = task.date;
             }
 
-            if(!newTime)
-            {
-                newTime = task.time;
-            }
-
-            return {...task, name: newName, date: newDate, time: newTime}
+            return {...task, name: newName, date: newDate}
           }
 
           return task;
@@ -135,10 +168,10 @@ function SchedList(props)
             <Card className="canvasCards cardItem">
                 <Card.Body className="cardContent">
                     <h1>To Do List</h1>
-                    <ListGroup variant="flush" className="listAdjust">
-                        <div id="filterBtns" className="filterLimiter">
+                    <div id="filterBtns" className="filterLimiter">
                             {filterList}
-                        </div>
+                    </div>
+                    <ListGroup variant="flush" className="listAdjust">
                         {taskList}
                     </ListGroup>
                     <SchedTaskForm addTask={addTask}/>

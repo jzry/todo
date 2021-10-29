@@ -19,8 +19,7 @@ function SchedTask(props)
     const [state, setState] = useState(
         {
             name: props.name,
-            date: props.date,
-            time: props.time
+            date: props.date
         }
     );
 
@@ -44,12 +43,11 @@ function SchedTask(props)
     function handleSubmit(e)
     {
         e.preventDefault();
-        props.editTask(props.id, state.name, state.date, state.time);
+        props.editTask(props.id, state.name, state.date);
 
         // re-init. date and setting editing state to false
         state.name = props.name;
         state.date = props.date;
-        state.time = props.time;
         setEditing(false);
     }
 
@@ -77,19 +75,9 @@ function SchedTask(props)
                                     id={props.id} 
                                     name="date" 
                                     className="todo-date inFields" 
-                                    type="date"
+                                    type="datetime-local"
                                     value={state.date} 
                                     onChange={handleChange} 
-                                    ref={editFieldRef}
-                                />
-
-                                <input 
-                                    id={props.id}
-                                    name="time"
-                                    className="inFields"
-                                    type="time"
-                                    value={state.time}
-                                    onChange ={handleChange}
                                     ref={editFieldRef}
                                 />
                             </div>
@@ -130,7 +118,7 @@ function SchedTask(props)
                 </div>
                 <div className="listItem">
                     <label className="dateTimeLabel" htmlFor={props.id}>
-                        {props.date + " at " + props.time}
+                        {props.date}
                     </label>
                 </div>
                 <div className="btn-group listItem">

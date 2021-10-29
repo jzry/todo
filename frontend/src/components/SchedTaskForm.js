@@ -9,8 +9,7 @@ function SchedTaskForm(props)
     const [state, setState] = useState(
         {
             name: "",
-            date: "",
-            time: ""
+            date: ""
         }
     );
 
@@ -28,10 +27,9 @@ function SchedTaskForm(props)
     {
         e.preventDefault();
 
-        props.addTask(state.name, state.date, state.time);
+        props.addTask(state.name, state.date);
         state.name = "";
         state.date = "";
-        state.time = "";
     }
 
     return(
@@ -51,20 +49,11 @@ function SchedTaskForm(props)
 
                     <div id="dateTime">
                         <input 
-                            type="date"
+                            type="datetime-local"
                             id="taskDate"
                             className="inFields"
                             name="date"
                             value={state.date}
-                            onChange={handleChange}
-                        />
-
-                        <input
-                            type="time"
-                            id="taskTime"
-                            className="inFields"
-                            name="time"
-                            value={state.time}
                             onChange={handleChange}
                         />
                     </div>

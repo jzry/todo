@@ -2,97 +2,113 @@ import React, { useState } from 'react';
 import Container from 'react-bootstrap/Container'
 
 import UserNavi from '../components/UserNavi';
-import PageTitle from '../components/PageTitle';
 import LoggedInName from '../components/LoggedInName';
 import SchedList from '../components/SchedList';
 import PriorityList from '../components/PriorityList';
 
-// After user login fetch lists based on user id and list number/order
-function CanvasPage(props)
+function CanvasPage()
 {
-     // temp time handling
+    // var user = JSON.parse(window.localStorage.getItem('user_data'));
+
+    // temp task lists for testing/rendering ----- 
     var today = "2021-10-23";
     var tomorr = "2021-10-26";
     var later = "2021-12-17";
-    var nextyear = "2022-4-15";
-    
-    // Scheduling Tasks
-    // may need list id (in the case of multiples) 
-    // and user id to associate lists with users
-    const sched = 
-    [
-        { 
-            id: "todo-0", 
-            name: "Eat", 
-            completed: true, 
-            date: today, 
-            time: "0:00" 
-        },
-        { 
-            id: "todo-1", 
-            name: "Sleep", 
-            completed: false, 
-            date: today, 
-            time: "21:00" 
-        },
-        { 
-            id: "todo-2", 
-            name: "Repeat", 
-            completed: false, 
-            date: tomorr, 
-            time: "00:00"
+    var nextyear = "2022-04-15";
 
-        },
-        {
-            id: "todo-3",
-            name: "Weekend Trip",
-            completed: false,
-            date: later, 
-            time: "6:45"
-        },
-        {
-            id: "todo-4",
-            name: "Appointment",
-            completed: false,
-            date: nextyear,
-            time: "16:15"
+    const list2 = 
+    {   
+        name: "",
+        type: "SchedList",
+        id: "schedlist-1",
+        tasks:
+        [
+            { 
+                id: "todo-0", 
+                name: "Eat", 
+                completed: true, 
+                date: nextyear
+            },
+            { 
+                id: "todo-1", 
+                name: "Sleep", 
+                completed: false, 
+                date: today
+            },
+            { 
+                id: "todo-2", 
+                name: "Repeat", 
+                completed: false, 
+                date: tomorr
+
+            },
+            {
+                id: "todo-3",
+                name: "Weekend Trip",
+                completed: false,
+                date: later
+            },
+            {
+                id: "todo-4",
+                name: "Appointment",
+                completed: false,
+                date: nextyear
+            }
+        ]
+    };
+
+    const list1 =
+    {
+        name: "",
+        type: "PriorityList",
+        id: "priorlist-1",
+        tasks:
+            [
+            
+            { 
+                id: "priority-0", 
+                name: "Eat", 
+                completed: false
+            },
+            { 
+                id: "priority-1", 
+                name: "Sleep", 
+                completed: false
+            },
+            { 
+                id: "priority-2", 
+                name: "Repeat", 
+                completed: false
+            }
+        ]
+    };
+    // --------------------------------------------
+
+    // Array of priority and schedule list objects
+    const temp = [list1, list2];
+
+    // Array for rendering List Components
+    var cardArray = [];
+
+    function renderLists(lists){
+        for(let i = 0; i < lists.length; i++){
+            if(lists[i].type === 'PriorityList'){
+                cardArray.push(<PriorityList key={lists[i].id} name={lists[i].name} tasks={lists[i].tasks}/>);
+            } else {
+                cardArray.push(<SchedList key={lists[i].id} name={lists[i].name} tasks={lists[i].tasks}/>);
+            }
         }
-    ];
+        return cardArray;
+    }
 
-    const tasks =
-    [
-        
-        { 
-            id: "priority-0", 
-            name: "Eat", 
-            completed: false
-        },
-        { 
-            id: "priority-1", 
-            name: "Sleep", 
-            completed: false
-        },
-        { 
-            id: "priority-2", 
-            name: "Repeat", 
-            completed: false
-        }
-    ]
-
-    
-    // Scheduling Tasks
-    // may need list id (in the case of multiples) 
-    // and user id to associate lists with users
-
-
+    // LoggedInName name={user.firstName}
     return(
         <div id="canvas" className="pageSolid">
             <UserNavi />
             <h1 id="title" className="app">Canvas</h1>
-            <LoggedInName name={(props.firstName + " "+ props.lastName)}/>
+            <LoggedInName name={""}/> 
             <Container className="cardContainer">
-                <PriorityList tasks={tasks}/>
-                <SchedList tasks={sched}/>
+                {renderLists(temp)}
             </Container>
         </div>
     );
