@@ -164,10 +164,10 @@ function SchedList(props)
     }
 
     return (
-        <div className="app toDoList">
+        <div className="app">
             <Card className="canvasCards cardItem">
                 <Card.Body className="cardContent">
-                    <h1>To Do List</h1>
+                    <h1>{props.name}</h1>
                     <div id="filterBtns" className="filterLimiter">
                             {filterList}
                     </div>

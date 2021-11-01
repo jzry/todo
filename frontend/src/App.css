@@ -6,6 +6,15 @@
   right: 5em;
 }
 
+.addCard, .addCard:hover, .addCard:active:focus
+{
+  background-color: transparent;
+  border-color: transparent;
+  border-radius:100px;
+  font-size: 50px;
+  box-shadow: none;
+}
+
 .app
 {
   text-align: center;
@@ -48,6 +57,12 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+}
+
+.editName:hover > .listCtrl
+{
+  visibility: visible;
+  margin-left: 1%;
 }
 
 .cardContent1
@@ -185,12 +200,38 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
-  width: 40%;
-  margin-left: auto;
-  margin-right: auto;
   margin-top: 1em;
   border-radius: 20px;
   padding: 2em 3em 2em;
+}
+
+@media (max-width:700px)
+{
+  #formCard
+  {
+    padding: 0.1em;
+    max-width:70%;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+}
+
+@media (min-width:700px)
+{
+  #formCard
+  {
+    max-width:40%;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .addCard
+  {
+    position: fixed;
+    left: 200px;
+    top: 100px;
+  }
 }
 
 #helpLink
@@ -241,6 +282,11 @@
   border-radius: 20px;
   margin-bottom: auto;
 
+}
+
+.listCtrl
+{
+  visibility: hidden;
 }
 
 .listGrid
@@ -315,6 +361,29 @@
   margin-right: 5px;
   padding-top: 3px;
   padding-bottom: 3px;
+}
+
+.newListCard
+{
+  margin-right: auto;
+  margin-left: auto;
+  max-width: 60%;
+}
+
+#newListForm
+{
+  bottom: 0px;
+}
+
+#newRadios
+{
+  display: flex;
+  flex-direction: column;
+  align-content: center;
+  align-items: flex-start;
+  margin-left: 1em;
+  margin-right: 1em;
+  margin-bottom: 1em;
 }
 
 .newTask
@@ -438,10 +507,6 @@
 .todo-label
 {
   display: flex;
-}
-
-.todo-label
-{
   font-size: 1.25em;
 }
 

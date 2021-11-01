@@ -104,11 +104,14 @@ function PriorityList(props){
         setTasks(remainingTasks);
     }
 
+
     return(
         <div className="app">
             <Card className="canvasCards cardItem">
                 <Card.Body className="cardContent">
-                    <h1>Priority</h1>
+                    <div className="editName">
+                        <h1 className="listName">{props.name}</h1>                  
+                    </div>
                     <div className="filterBtns priority">
                         {filterList}
                     </div>
