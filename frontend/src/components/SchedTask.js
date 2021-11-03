@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from 'react';
 import { Button, Container, ListGroup } from 'react-bootstrap';
 import { FiEdit } from 'react-icons/fi';
 import { AiOutlineDelete } from 'react-icons/ai';
@@ -15,7 +15,6 @@ function usePrevious(value)
 
 function SchedTask(props)
 {
-    // states are initial values
     const [state, setState] = useState(
         {
             name: props.name,
@@ -29,6 +28,8 @@ function SchedTask(props)
     const editFieldRef = useRef(null);
     const editButtonRef = useRef(null);
     const wasEditing = usePrevious(isEditing);
+
+    const time = ((props.date).split(" ")[1]) + " " + ((props.date).split(" ")[2]);
 
     const handleChange = (e) =>
     {
@@ -46,11 +47,9 @@ function SchedTask(props)
         props.editTask(props.id, state.name, state.date);
 
         // re-init. date and setting editing state to false
-        state.name = props.name;
-        state.date = props.date;
+        setState({name: props.name, date: props.date});
         setEditing(false);
     }
-
 
     const editingTemplate = (
         <ListGroup.Item className="listTask">
@@ -104,21 +103,13 @@ function SchedTask(props)
         <ListGroup.Item className="listTask">
             <Container className="listGrid">
                 <div className="taskTitle listItem">
-                    <input
-                        id={props.id}
-                        type="checkbox"
-                        defaultChecked={props.completed}
-                        onClick={() => props.toggleTaskCompleted(props.id)}
-                        className="checkScheme"
-                    />
                     <label className="todo-label" htmlFor={props.id}>
                         {props.name}
                     </label>
-
                 </div>
                 <div className="listItem">
                     <label className="dateTimeLabel" htmlFor={props.id}>
-                        {props.date}
+                        {time}
                     </label>
                 </div>
                 <div className="btn-group listItem">

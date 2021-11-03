@@ -55,22 +55,26 @@ function Login()
     }
 
     return(
-      <div id="loginDiv" className="app">
-        <Form id="loginForm" className="form" onSubmit={doLogin}>
-          <span id="inner-title">Sign in to your account</span><br />
-          <input type="text" id="loginName" className="inFields" placeholder="Username"
-            ref={(c) => loginName = c} />
-          <div id="helpLink">
-            <Link to="/">Forgot password?</Link>
-          </div>
-          <input type="password" id="loginPassword" className="inFields" placeholder="Password"
-            ref={(c) => loginPassword = c} />
-          <input type="submit" id="loginButton" className="formBtn" value = "Continue"
-            onClick={doLogin} />
-          <span id="loginResult">{message}</span><br />
-          <p>Don't have an account? <Link to="/signup">Sign Up</Link></p>
-        </Form>
-     </div>
+        <div id="loginDiv" className="app">
+            <Form id="loginForm" className="form" onSubmit={doLogin}>
+                <span id="inner-title">Sign in to your account</span><br />
+
+                <input type="text" id="loginName" className="inFields" placeholder="Username"
+                ref={(c) => loginName = c} />
+
+                <div id="helpLink">
+                    <Link to="/">Forgot password?</Link>
+                </div>
+                <input type="password" id="loginPassword" className="inFields" placeholder="Password"
+                ref={(c) => loginPassword = c} /><br />
+
+                <input type="submit" id="login
+                Button" className="formBtn" value = "Continue"
+                    onClick={doLogin} />
+                <span id="loginResult">{message}</span><br />
+                <p>Don't have an account? <Link to="/signup">Sign Up</Link></p>
+            </Form>
+        </div>
     );
 };
 
