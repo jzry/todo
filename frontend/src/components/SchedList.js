@@ -36,22 +36,31 @@ function SchedList(props)
     }
 
 
+    // TIME HANDLING to get non GMT/UMT date
     const curr = new Date();
-    const today = curr.toISOString();
+    const month = (curr.getMonth()+1); // January = 0 add 1 to get January for date-time input editing
+    const day = curr.getDate();
+    // getHours and getMinutes return numbers, 09:09 would give 9 and 9
+    const hourscheck = curr.getHours(); 
+    const mincheck = curr.getMinutes(); 
 
-    // Filter names and conditions
+    const hour = (hourscheck < 10 ? ("0" + (hourscheck.toString())) : hourscheck.toString());
+    const minutes = (mincheck < 10 ? ("0" + (mincheck.toString())) : mincheck.toString());
+    const today = curr.getFullYear().toString() + "-" + 
+        (month < 10 ? ("0" + (month).toString()) : (month).toString()) + "-" +
+        (day < 10 ? ("0" + (day).toString()) : (day).toString());
+
     const FILTER_MAP = 
     {
         All: () => true,
-        Today: task => (task.date).substring(0, 10) === today.substring(0, 10),
-        Upcoming: task => task.date > today,
-        Past: task => task.date < today 
+        Today: task => (task.date).substring(0, 10) === today,
+        Upcoming: task => (task.date).substring(0, 10) > today,
+        Past: task => (task.date).substring(0, 10) < today
     };
 
     const FILTER_NAMES = Object.keys(FILTER_MAP);
 
 
-    // Allows rendering of different tasks with different names, dates, and completion marks
     const taskList = tasks
         .filter(FILTER_MAP[filter])
         .sort((a, b) => {
@@ -91,20 +100,31 @@ function SchedList(props)
         />
     ));
 
+    // todayList && soonList for 'All' schedule filter
     const todayList = tasks
         .filter(FILTER_MAP['Today'])
-        .sort((a, b) => {
-            if(a.date > b.date){
+        .sort((a, b) => 
+        {
+            if(a.date > b.date)
+            {
                 return 1;
             }
-            if(a.date < b.date){
+            if(a.date < b.date)
+            {
                 return -1;
-            } else {
-                if(a.time > b.time){
+            } 
+            else 
+            {
+                if(a.time > b.time)
+                {
                     return 1;
-                } else if(a.time < b.time){
+                } 
+                else if(a.time < b.time)
+                {
                     return -1;
-                } else {
+                } 
+                else 
+                {
                     return 0;
                 }
             }
@@ -123,18 +143,28 @@ function SchedList(props)
 
     const soonList = tasks
         .filter(FILTER_MAP['Upcoming'])
-        .sort((a, b) => {
-            if(a.date > b.date){
+        .sort((a, b) => 
+        {
+            if(a.date > b.date)
+            {
                 return 1;
             }
-            if(a.date < b.date){
+            if(a.date < b.date)
+            {
                 return -1;
-            } else {
-                if(a.time > b.time){
+            } 
+            else 
+            {
+                if(a.time > b.time)
+                {
                     return 1;
-                } else if(a.time < b.time){
+                } 
+                else if(a.time < b.time)
+                {
                     return -1;
-                } else {
+                } 
+                else 
+                {
                     return 0;
                 }
             }
@@ -155,46 +185,23 @@ function SchedList(props)
     ( 
         <div>
             <ListGroup.Item className="listTask">
-                <h4 className="schedDividers">Today</h4>
+                <h3 className="schedDividers">Today</h3>
             </ListGroup.Item>
             {todayList}
             <ListGroup.Item className="listTask">
-                <h4 className="schedDividers">Upcoming</h4>
+                <h3 className="schedDividers">Upcoming</h3>
             </ListGroup.Item>
             {soonList}
         </div>
     );
-
-    function onTimeChange(time) {
-        var timeSplit = time.split(':'),
-            hours,
-            minutes,
-            meridian;
-        hours = parseInt(timeSplit[0]);
-        minutes = parseInt(timeSplit[1]);
-        if (hours > 12) {
-          meridian = 'PM';
-          hours -= 12;
-        } else if (hours < 12) {
-          meridian = 'AM';
-          if (hours === 0) {
-            hours = 12;
-          }
-        } else {
-          meridian = 'PM';
-        }
-        return hours+":"+minutes+" "+meridian;
-    }
 
     // Adds Tasks to date-based list
     function addTask(name, date) 
     {
         if(date === "")
         {
-            date = today.split('T')[0]+ " "+ onTimeChange(today.split('T')[1]);
+            date = today+"T"+hour+":"+minutes;
 
-        } else{
-            date = date.split('T')[0]+ " "+ onTimeChange(date.split('T')[1]);
         }
         const newTask = 
         { 
@@ -212,7 +219,8 @@ function SchedList(props)
         const editedTaskList = tasks.map(task => 
         {
         // if this task has the same ID as the edited task
-          if (id === task.id) {
+          if (id === task.id) 
+          {
             //
             if(!newName)
             {
@@ -321,10 +329,12 @@ function SchedList(props)
 
     useEffect(() => 
     {
-      if (!wasEditing && isEditing) {
+      if (!wasEditing && isEditing) 
+      {
         editFieldRef.current.focus();
       }
-      if (wasEditing && !isEditing) {
+      if (wasEditing && !isEditing) 
+      {
         editButtonRef.current.focus();
       }
     }, [wasEditing, isEditing]);

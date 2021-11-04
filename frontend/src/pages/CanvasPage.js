@@ -23,10 +23,10 @@ function CanvasPage()
     // temp task lists for testing/rendering ----- 
     function tempData()
     {
-        var today = "2021-11-03 9:00 PM";
-        var tomorr = "2021-10-30 12:00 AM";
-        var later = "2021-12-17 3:00 PM";
-        var nextyear = "2022-04-15 1:10 PM";
+        var today = "2021-11-03T01:14";
+        var tomorr = "2021-11-04T17:47";
+        var later = "2021-12-04T12:30";
+        var nextyear = "2022-04-15T21:10";
 
         const list2 = 
         {   

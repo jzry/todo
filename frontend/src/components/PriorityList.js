@@ -17,7 +17,8 @@ function usePrevious(value)
     return ref.current;
 };
 
-function PriorityList(props){
+function PriorityList(props)
+{
 
     const [tasks, setTasks] = useState(props.tasks);
     const [filter, setFilter] = useState('All');
@@ -208,10 +209,12 @@ function PriorityList(props){
 
     useEffect(() => 
     {
-      if (!wasEditing && isEditing) {
+      if (!wasEditing && isEditing) 
+      {
         editFieldRef.current.focus();
       }
-      if (wasEditing && !isEditing) {
+      if (wasEditing && !isEditing) 
+      {
         editButtonRef.current.focus();
       }
     }, [wasEditing, isEditing]);

@@ -29,7 +29,7 @@ function SchedTask(props)
     const editButtonRef = useRef(null);
     const wasEditing = usePrevious(isEditing);
 
-    const time = ((props.date).split(" ")[1]) + " " + ((props.date).split(" ")[2]);
+    const time = (onTimeChange((props.date).split("T")[1]));
 
     const handleChange = (e) =>
     {
@@ -49,6 +49,41 @@ function SchedTask(props)
         // re-init. date and setting editing state to false
         setState({name: props.name, date: props.date});
         setEditing(false);
+    }
+
+    function onTimeChange(time) 
+    {
+        var timeSplit = time.split(':'),
+            hours,
+            minutes,
+            meridian;
+        hours = parseInt(timeSplit[0]);
+        minutes = parseInt(timeSplit[1]);
+
+        if (hours > 12) 
+        {
+            meridian = 'PM';
+            hours -= 12;
+        } 
+        else if (hours < 12) 
+        {
+            meridian = 'AM';
+            if (hours === 0) 
+            {
+                hours = 12;
+            }
+        } 
+        else 
+        {
+            meridian = 'PM';
+        }
+
+        if(minutes < 10)
+        {
+            minutes = "0"+minutes;
+        }
+
+        return hours+":"+minutes+" "+meridian;
     }
 
     const editingTemplate = (
@@ -119,7 +154,7 @@ function SchedTask(props)
                         onClick={ () => setEditing(true) } 
                         ref={editButtonRef}
                     >
-                        <FiEdit /> <span className="visually-hidden">{props.name}</span>
+                        <FiEdit />
                     </button>
 
                     <button
@@ -127,7 +162,7 @@ function SchedTask(props)
                         className="btn taskCtrl schedTaskView buttonScheme"
                         onClick={ () => props.deleteTask(props.id) }
                     >
-                       <AiOutlineDelete /> <span className="visually-hidden">{props.name}</span>
+                       <AiOutlineDelete />
                     </button>
                 </div>
             </Container>
@@ -136,10 +171,12 @@ function SchedTask(props)
 
       useEffect(() => 
       {
-        if (!wasEditing && isEditing) {
+        if (!wasEditing && isEditing) 
+        {
           editFieldRef.current.focus();
         }
-        if (wasEditing && !isEditing) {
+        if (wasEditing && !isEditing) 
+        {
           editButtonRef.current.focus();
         }
       }, [wasEditing, isEditing]);
