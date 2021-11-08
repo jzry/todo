@@ -8,6 +8,7 @@ import SignUpPage from './pages/SignUpPage';
 import CanvasPage from './pages/CanvasPage';
 import ProductPage from './pages/ProductPage';
 import CompanyPage from './pages/CompanyPage';
+import Pricing from './pages/Pricing';
 
 function App() 
 {
@@ -26,11 +27,15 @@ function App()
                 <Route path="/product">
                     <ProductPage />
                 </Route>
-                <Route path="/canvas" exact>
-                    <CanvasPage />
-                </Route>
                 <Route path="/company" exact>
                     <CompanyPage />
+                </Route>
+                <Route path="/pricing" exact>
+                    <Pricing />
+                </Route>
+
+                <Route path="/canvas" exact>
+                    <CanvasPage />
                 </Route>
                 <Redirect to="/" />
             </Switch>

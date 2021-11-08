@@ -1,3 +1,15 @@
+:root
+{
+  --backgroundColor: #8BA2A1;
+  --buttonColor: #708090;
+  --ariaSelected: #89a89e;
+  --checkSelect: #64706f;
+  --almostBlack: #000000cb;
+  --layeringWhite: #ffffff7e;
+  --semiWhite: rgba(255, 255, 255, 0.25);
+  --descSize: 3vw;
+}
+
 #addButton
 {
   align-self: flex-start;
@@ -16,7 +28,7 @@
   font-size: 50px;
   box-shadow: none;
   line-height: 0px;
-  outline: #536976;
+  position: relative;
 }
 
 .app
@@ -31,7 +43,7 @@
 
 .buttonScheme
 {
-  background-color: #708090;
+  background-color: var(--buttonColor);
   border-color: transparent;
   color: white;
   margin-left: 1%;
@@ -42,15 +54,16 @@
 {
   display: flex;
   flex-direction: row;
-  justify-content: center;
+  justify-content: space-around;
   align-items: center;
+  align-content: center;
 }
 
 .canvasCards
 {
-  background-color: rgba(255, 255, 255, 0.7);
+  background-color: rgba(255, 255, 255, 0.8);
   border-radius: 30px;
-  height: 100%;
+  max-height: 75vh;
 }
 
 .cardContainer
@@ -70,12 +83,13 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  overflow: hidden;
 }
 
-.editName:hover > .listCtrl
+.cardContent:hover > .delListView:hover
 {
-  visibility: visible;
-  margin-left: 1%;
+  background-color: var(--layeringWhite);
+  border-radius: 15px;
 }
 
 .cardContent1
@@ -90,11 +104,6 @@
   align-items: stretch;
 }
 
-.cardItem
-{
-  flex-grow: 3;
-}
-
 .checkScheme
 {
   -webkit-appearance: none;
@@ -102,7 +111,7 @@
   border: 3px solid #cacece;
   box-shadow: 0 1px 2px rgba(0,0,0,0.05), inset 0px -15px 10px -12px rgba(0,0,0,0.05);
   padding: 9px;
-  border-radius:60px;
+  border-radius:10px;
   display: inline-block;
   position: relative;
   margin-right: 0.5em;
@@ -115,7 +124,7 @@
 
 .checkScheme:checked 
 {
-	background-color: #64706f;
+	background-color: var(--checkSelect);
 	border: 3px solid #ffffff;
 	box-shadow: 0 1px 2px rgba(0,0,0,0.05), inset 0px -15px 10px -12px rgba(0,0,0,0.05), inset 15px 10px -12px rgba(255,255,255,0.1);
 	color: #99a1a7;
@@ -133,7 +142,7 @@
 .delListView
 {
   background-color: transparent;
-  color: black;
+  color: var(--almostBlack);
   position: absolute;
   right: 5px;
 }
@@ -143,7 +152,7 @@
   display: flex;
   flex-direction: column;
   justify-content: left;
-  font-size: 3vw;
+  font-size: var(--descSize);
   margin-top: 3em;
   width: 40vw;
 }
@@ -173,7 +182,7 @@
 
 .editTask, .listGrid:hover
 {
-  background-color: rgba(255, 255, 255, 0.479);
+  background-color: rgba(255, 255, 255, 0.7);
   border-radius: 10px;
 }
 
@@ -221,7 +230,7 @@
 
 .formBtn
 {
-  background-color: #708090;
+  background-color: var(--buttonColor);
   border-color: transparent;
   border-radius: 20px;
   color: white;
@@ -229,7 +238,7 @@
 
 #formCard
 {
-  background-color: rgba(255, 255, 255, 0.85);
+  background-color: rgba(255, 255, 255, 0.8);
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -248,14 +257,6 @@
     margin-right: auto;
   }
 
-  .addCard
-  {
-    align-self: flex-start;
-    position: relative;
-    right: 50px;
-    top: 20px;
-  }
-
 }
 
 @media (min-width:700px)
@@ -267,12 +268,6 @@
     margin-right: auto;
   }
 
-  .addCard
-  {
-    align-self: flex-start;
-    position: relative;
-    right:150px;
-  }
 }
 
 #helpLink
@@ -292,12 +287,18 @@
   margin-left: 6em;
 }
 
+.icons
+{
+  font-size: x-large;
+  font-weight: 500;
+}
+
 .inFields
 {
   display: flex;
   border-color: transparent;
   border-radius: 10px;
-  background-color: rgb(255, 255, 255);
+  background-color: rgb(255, 255, 255, 0.8);
   font-size: 20px;
   text-align: center;
   margin-left: 1%;
@@ -320,9 +321,18 @@
 
 .listAdjust
 {
-  background-color: rgba(255, 255, 255, 0.363);
+  background-color: var(--semiWhite);
   border-radius: 20px;
   margin-bottom: auto;
+  overflow-y: scroll;
+}
+
+.listCtrl
+{
+  background-color: var(--semiWhite);
+  border-radius: 20px;
+  color: white;
+  margin-top: 1%;
 
 }
 
@@ -335,7 +345,6 @@
   align-items: center;
   padding-left: 5px;
   padding-right: 0px;
-
 }
 
 .listGrid:hover
@@ -344,7 +353,7 @@
 }
 
 .listGrid:hover > .btn-group > .schedTaskView, 
-h1:hover > .listCtrl, 
+div:hover > .listCtrl, 
 .cardContent:hover > .delListView
 {
   display: inline-block;
@@ -353,8 +362,7 @@ h1:hover > .listCtrl,
 }
 
 .listGrid:hover > .btn-group > .schedTaskView:hover, 
-h1:hover > .listCtrl,
-.cardContent:hover > .delListView
+h1:hover > .listCtrl
 {
   color: white;
 
@@ -381,11 +389,7 @@ h1:hover > .listCtrl,
 {
   background-color: transparent;
   border-color: transparent;
-}
-
-#loggedInDiv
-{
-  margin-bottom: 1em;
+  padding: 0.25rem 0.75rem;
 }
 
 .navi 
@@ -396,7 +400,7 @@ h1:hover > .listCtrl,
 
 .navBtn 
 {
-  background-color: rgba(255, 255, 255, 0.25);
+  background-color: var(--semiWhite);
   border-color: transparent;
   margin-left: 5px;
   margin-right: 5px;
@@ -460,7 +464,7 @@ h1:hover > .listCtrl,
   min-width: 100vw;
   min-height: 100vh;
 
-  background-color: #8BA2A1;
+  background-color: var(--backgroundColor);
 }
 
 .priority
@@ -499,7 +503,8 @@ h1:hover > .listCtrl,
 .schedDividers
 {
   text-align: left;
-  text-decoration: underline;
+  font-weight: 600;
+  background-color: transparent;
 }
 
 .schedTaskForm
@@ -535,6 +540,7 @@ h1:hover > .listCtrl,
 .taskTitle
 {
  margin-right: auto;
+ line-height: 2;
 }
 
 .taskCtrl
@@ -546,7 +552,7 @@ h1:hover > .listCtrl,
 
 .taskCtrl:hover 
 {
-  background-color: #708090;
+  background-color: var(--buttonColor);
   border-color: transparent;
 }
 
@@ -555,6 +561,7 @@ h1:hover > .listCtrl,
   color: white;
   position: relative;
   left: -40px;
+  font-weight: 600;
 }
 
 .todo-label
@@ -571,10 +578,11 @@ h1:hover > .listCtrl,
 .toggle-btn[aria-pressed="true"] 
 {
   text-decoration: underline;
-  background-color: #89a89e;
+  background-color: var(--ariaSelected);
 }
 
-#userName 
+#userWelcome 
 {
+  font-size: 30px;
   color: white;
 }

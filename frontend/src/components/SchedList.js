@@ -38,7 +38,7 @@ function SchedList(props)
 
     // TIME HANDLING to get non GMT/UMT date
     const curr = new Date();
-    const month = (curr.getMonth()+1); // January = 0 add 1 to get January for date-time input editing
+    const month = (curr.getMonth()+1); // January = 0 //
     const day = curr.getDate();
     // getHours and getMinutes return numbers, 09:09 would give 9 and 9
     const hourscheck = curr.getHours(); 
@@ -63,18 +63,28 @@ function SchedList(props)
 
     const taskList = tasks
         .filter(FILTER_MAP[filter])
-        .sort((a, b) => {
-            if(a.date > b.date){
+        .sort((a, b) => 
+        {
+            if(a.date > b.date)
+            {
                 return 1;
              }
-             if(a.date < b.date){
+             if(a.date < b.date)
+             {
                  return -1;
-             } else {
-                 if(a.time > b.time){
+             } 
+             else 
+             {
+                 if(a.time > b.time)
+                 {
                      return 1;
-                 } else if(a.time < b.time){
+                 } 
+                 else if(a.time < b.time)
+                 {
                      return -1;
-                 } else {
+                 } 
+                 else 
+                 {
                      return 0;
                  }
              }
@@ -209,7 +219,6 @@ function SchedList(props)
             name: name,
             date: date
         };
-
         setTasks([...tasks, newTask]);
     }
 
@@ -231,10 +240,8 @@ function SchedList(props)
             {
                 newDate = task.date;
             }
-
             return {...task, name: newName, date: newDate}
           }
-
           return task;
         });
 
@@ -257,7 +264,7 @@ function SchedList(props)
     }
 
     const editingTemplate = (
-        <Card className="canvasCards cardItem">
+        <Card className="canvasCards">
             <Card.Body className="cardContent">
                 <form className="form editTask" onSubmit={handleSubmit}>
                     <div className="editFields splitFields">
@@ -278,7 +285,8 @@ function SchedList(props)
                             >
                                 Cancel
                             </Button>
-                            <Button type="submit" className="buttonScheme schedButton">
+                            <Button type="submit" className="buttonScheme 
+                                schedButton">
                                 Save
                             </Button>
                         </div>
@@ -296,35 +304,37 @@ function SchedList(props)
     );
 
     const viewTemplate = (
-        <Card className="canvasCards cardItem">
-            <Card.Body className="cardContent">
-                <h1>
-                    {props.name}          
+        <div>
+            <Card className="canvasCards">
+                <Card.Body className="cardContent">
+                    <h1>
+                        {props.name}
+                    </h1> 
                     <button 
                         type="button" 
-                        className="btn listCtrl buttonScheme" 
-                        onClick={ () => setEditing(true) } 
-                        ref={editButtonRef}
+                        className="btn delListView" 
+                        onClick={() => props.deleteList(props.id)}
                     >
-                        <ButtonIcons type="Edit"/> <span className="visually-hidden">{name}</span>
+                        <ButtonIcons type="Delete"/>
                     </button>
-                </h1> 
-                <button 
-                    type="button" 
-                    className="btn delListView" 
-                    onClick={() => props.deleteList(props.id)}
-                >
-                    <ButtonIcons type="Delete"/>
-                </button>
-                <div id="filterBtns" className="filterLimiter">
-                    {filterList}
-                </div>
-                <ListGroup variant="flush" className="listAdjust">
-                    {(filter === 'All')? allDisplay: taskList}
-                </ListGroup>
-                <SchedTaskForm addTask={addTask}/>
-            </Card.Body>
-        </Card>
+                    <div id="filterBtns" className="filterLimiter">
+                        {filterList}
+                    </div>
+                    <ListGroup variant="flush" className="listAdjust">
+                        {(filter === 'All')? allDisplay: taskList}
+                    </ListGroup>
+                    <SchedTaskForm addTask={addTask}/>
+                </Card.Body>
+            </Card>
+            <button 
+                type="button" 
+                className="btn listCtrl" 
+                onClick={ () => setEditing(true) } 
+                ref={editButtonRef}
+            >
+                Edit
+            </button>
+        </div>
     );
 
     useEffect(() => 

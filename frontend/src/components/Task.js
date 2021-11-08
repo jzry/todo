@@ -94,7 +94,7 @@ function Task(props)
                         onClick={ () => setEditing(true) } 
                         ref={editButtonRef}
                     >
-                        <ButtonIcons type={"Edit"}/> <span className="visually-hidden">{props.name}</span>
+                        <ButtonIcons type={"Edit"}/>
                     </Button>
 
                     <Button
@@ -102,7 +102,7 @@ function Task(props)
                         className="btn taskCtrl priorityTaskView buttonScheme"
                         onClick={ () => props.deleteTask(props.id) }
                     >
-                        <ButtonIcons type={"Delete"}/> <span className="visually-hidden">{props.name}</span>
+                        <ButtonIcons type={"Delete"}/>
                     </Button>
                 </div>
             </Container>

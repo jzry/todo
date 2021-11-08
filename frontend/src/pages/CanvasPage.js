@@ -10,27 +10,29 @@ import NewListForm from '../components/NewListForm';
 import SchedList from '../components/SchedList';
 import PriorityList from '../components/PriorityList';
 
+// Force Update Page when called
 function useForceUpdate()
 {
-    const [value, setValue] = useState(0); // integer state
-    return () => setValue(value => value + 1); // update the state to force render
+    const [value, setValue] = useState(0);
+    return () => setValue(value => value + 1); 
 }
 
 function CanvasPage()
 {
     const forceUpdate = useForceUpdate();
 
-    // temp task lists for testing/rendering ----- 
+    // temp task lists for testing/rendering (list templates)----- 
     function tempData()
     {
-        var today = "2021-11-03T01:14";
+        const curr = new Date();
+        var today = curr.toISOString();
         var tomorr = "2021-11-04T17:47";
         var later = "2021-12-04T12:30";
         var nextyear = "2022-04-15T21:10";
 
         const list2 = 
         {   
-            name: "Schedule",
+            name: "Schedule Name",
             type: "Schedule",
             id: "slist-1",
             tasks:
@@ -66,12 +68,11 @@ function CanvasPage()
 
         const list1 =
         {
-            name: "Priority",
+            name: "Priority Name",
             type: "Priority",
             id: "plist-1",
             tasks:
-                [
-                
+            [
                 { 
                     id: "priority-0", 
                     name: "Eat", 
@@ -141,6 +142,9 @@ function CanvasPage()
     {
         var str;
         var listCard;
+
+        console.log(type);
+        
         if(type === "Priority")
         {
             str = "plist-"+ nanoid();
@@ -180,7 +184,6 @@ function CanvasPage()
                 {
                     name = updatedList[i].name;
                 }
-
                 updatedList[i].name = name;
             }
         }
@@ -195,7 +198,8 @@ function CanvasPage()
 
         for(let i = 0; i < state.length; i++)
         {
-            if(state[i].id === id){  
+            if(state[i].id === id)
+            {  
                 index = i;
                 break;
             }
@@ -215,12 +219,12 @@ function CanvasPage()
         <div id="canvas" className="pageSolid app">
             <UserNavi />
             <div className="canvasBlock">
-                <Button className="addCard" onClick={() => setShowForm(!showForm)}><CgAdd /></Button>
-                <h1 id="title1" className="app">
-                    Canvas 
-                </h1>
+                <LoggedInName name={"Name"}/>
+                <Button className="addCard" onClick={() => setShowForm(!showForm)}>
+                    <CgAdd />
+                </Button>
             </div>
-            <LoggedInName name={""}/>
+
             <Container className="cardContainer" >
                 {showForm ? <NewListForm addList={addList}/> : null}
                 {renderLists(state)}

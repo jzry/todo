@@ -20,7 +20,7 @@ function Navigation()
                         <Nav className="me-auto">
                             <Nav.Link href='/product'>Product</Nav.Link>
                             <Nav.Link href='/company'>Company</Nav.Link>
-                            <Nav.Link href='/'>Pricing</Nav.Link>
+                            <Nav.Link href='/pricing'>Pricing</Nav.Link>
                         </Nav>
                         <Nav>
                             <Button href="/login" className="navBtn">Sign In</Button>

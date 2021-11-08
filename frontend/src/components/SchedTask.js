@@ -1,7 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Button, Container, ListGroup } from 'react-bootstrap';
-import { FiEdit } from 'react-icons/fi';
-import { AiOutlineDelete } from 'react-icons/ai';
+import ButtonIcons from './ButtonIcons';
 
 function usePrevious(value) 
 {
@@ -148,22 +147,21 @@ function SchedTask(props)
                     </label>
                 </div>
                 <div className="btn-group listItem">
-                    <button 
+                    <Button 
                         type="button" 
                         className="btn taskCtrl schedTaskView buttonScheme" 
                         onClick={ () => setEditing(true) } 
                         ref={editButtonRef}
                     >
-                        <FiEdit />
-                    </button>
-
-                    <button
+                        <ButtonIcons type={"Edit"}/>
+                    </Button>
+                    <Button
                         type="button"
                         className="btn taskCtrl schedTaskView buttonScheme"
                         onClick={ () => props.deleteTask(props.id) }
                     >
-                       <AiOutlineDelete />
-                    </button>
+                       <ButtonIcons type={"Delete"}/>
+                    </Button>
                 </div>
             </Container>
         </ListGroup.Item>
