@@ -18,7 +18,7 @@ function SchedTaskForm(props)
         setState(
             {
                 ...state, 
-                [e.target.name]: e.target.value,
+                [e.target.name]: e.target.value
             }
         )
     }
@@ -26,7 +26,6 @@ function SchedTaskForm(props)
     function handleSubmit(e)
     {
         e.preventDefault();
-
         props.addTask(state.name, state.date);
         state.name = "";
         state.date = "";

@@ -1,15 +1,38 @@
-import React, { useState } from 'react';
-import { Card, ListGroup } from 'react-bootstrap';
+import React, { useEffect, useRef, useState } from 'react';
+import { Button, Card, ListGroup } from 'react-bootstrap';
 import { nanoid } from 'nanoid';
 
 import Task from './Task';
 import FilterButtons from './FilterButtons';
 import PriorityTaskForm from './PriorityTaskForm';
+import ButtonIcons from './ButtonIcons';
 
-function PriorityList(props){
+function usePrevious(value) 
+{
+    const ref = useRef();
+    useEffect(() => 
+    {
+      ref.current = value;
+    });
+    return ref.current;
+};
+
+function PriorityList(props)
+{
 
     const [tasks, setTasks] = useState(props.tasks);
     const [filter, setFilter] = useState('All');
+
+    const [name, setName] = useState(props.name);
+    const [isEditing, setEditing] = useState(false);
+    const editFieldRef = useRef(null);
+    const editButtonRef = useRef(null);
+    const wasEditing = usePrevious(isEditing);
+
+    const handleChange = (e) =>
+    {
+        setName(e.target.value);
+    }
 
     // Filter names and conditions
     const FILTER_MAP = 
@@ -104,14 +127,68 @@ function PriorityList(props){
         setTasks(remainingTasks);
     }
 
+    function handleSubmit(e)
+    {
+        e.preventDefault();
+        props.editList(props.id, name);
+        setName(name);
+        // re-init. date and setting editing state to false
+        setEditing(false);
+    }
 
-    return(
-        <div className="app">
-            <Card className="canvasCards cardItem">
-                <Card.Body className="cardContent">
-                    <div className="editName">
-                        <h1 className="listName">{props.name}</h1>                  
+    const editingTemplate = (
+        <Card className="canvasCards">
+            <Card.Body className="cardContent">
+                <form className="form editTask" onSubmit={handleSubmit}>
+                    <div className="editFields splitFields">
+                        <input 
+                            id={props.id} 
+                            name="name" 
+                            className="todo-text inFields" 
+                            type="text"
+                            value={name}
+                            onChange={handleChange} 
+                            ref={editFieldRef}
+                        />
+                        <div className="editBtns editRow">
+                            <Button 
+                                type="button" 
+                                className="buttonScheme schedButton" 
+                                onClick={() => setEditing(false)}
+                            >
+                                Cancel
+                            </Button>
+                            <Button type="submit" className="buttonScheme schedButton">
+                                Save
+                            </Button>
+                        </div>
                     </div>
+                </form>
+                <div className="filterBtns priority">
+                    {filterList}
+                </div>
+                <ListGroup variant="flush" className="listAdjust">
+                    {taskList}
+                </ListGroup>
+                <PriorityTaskForm addTask={addTask}/>
+            </Card.Body>
+        </Card>
+    );
+
+    const viewTemplate = (
+        <div>
+            <Card className="canvasCards">
+                <Card.Body className="cardContent">
+                    <h1 className="listName">
+                        {props.name}
+                    </h1>
+                    <button 
+                        type="button" 
+                        className="btn delListView" 
+                        onClick={() => props.deleteList(props.id)}
+                    >
+                        <ButtonIcons type="Delete"/>
+                    </button>
                     <div className="filterBtns priority">
                         {filterList}
                     </div>
@@ -121,6 +198,32 @@ function PriorityList(props){
                     <PriorityTaskForm addTask={addTask}/>
                 </Card.Body>
             </Card>
+            <button 
+                type="button" 
+                className="btn listCtrl" 
+                onClick={ () => setEditing(true) } 
+                ref={editButtonRef}
+            >
+                Edit <span className="visually-hidden">{name}</span>
+            </button>
+        </div>
+    );
+
+    useEffect(() => 
+    {
+      if (!wasEditing && isEditing) 
+      {
+        editFieldRef.current.focus();
+      }
+      if (wasEditing && !isEditing) 
+      {
+        editButtonRef.current.focus();
+      }
+    }, [wasEditing, isEditing]);
+
+    return(
+        <div className="app">
+            { isEditing ? editingTemplate : viewTemplate }
         </div>
     );
 }

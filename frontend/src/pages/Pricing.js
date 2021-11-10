@@ -1,14 +1,14 @@
 import React from 'react';
 import Navigation from '../components/Navigation';
-import Product from '../components/Product';
+import PricingInfo from '../components/PricingInfo';
 
 
-const ProductPage = () => 
+const Pricing = () => 
 (
     <div id='home' className="pageSolid">
         <Navigation />
-        <Product />
+        <PricingInfo />
     </div>
 )
 
-export default ProductPage;
+export default Pricing;

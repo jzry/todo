@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import  { Button, Container } from 'react-bootstrap'
+import  { Button, Container } from 'react-bootstrap';
 import { CgAdd } from 'react-icons/cg';
 
 import { nanoid } from 'nanoid';
@@ -10,93 +10,57 @@ import NewListForm from '../components/NewListForm';
 import SchedList from '../components/SchedList';
 import PriorityList from '../components/PriorityList';
 
+// Force Update Page when called
+function useForceUpdate()
+{
+    const [value, setValue] = useState(0);
+    return () => setValue(value => value + 1); 
+}
+
 function CanvasPage()
 {
-    // var user = JSON.parse(window.localStorage.getItem('user_data'));
+    const forceUpdate = useForceUpdate();
 
-    // temp task lists for testing/rendering ----- 
-    function tempData(){
-        var today = "2021-10-23";
-        var tomorr = "2021-10-30";
-        var later = "2021-12-17";
-        var nextyear = "2022-04-15";
-
-        const list3 = {
-            name: "Vacation",
-            type: "Schedule",
-            id: "slist-2",
-            tasks:
-            [
-                { 
-                    id: "todo-99", 
-                    name: "Eat", 
-                    completed: true, 
-                    date: nextyear
-                },
-                { 
-                    id: "todo-100", 
-                    name: "Sleep", 
-                    completed: false, 
-                    date: today
-                },
-                { 
-                    id: "todo-101", 
-                    name: "Pack", 
-                    completed: false, 
-                    date: tomorr
-
-                },
-                {
-                    id: "todo-102",
-                    name: "Weekend Trip",
-                    completed: false,
-                    date: later
-                },
-                {
-                    id: "todo-103",
-                    name: "Return Flight",
-                    completed: false,
-                    date: nextyear
-                }
-            ]
-        }
+    // temp task lists for testing/rendering (list templates)----- 
+    function tempData()
+    {
+        const curr = new Date();
+        var today = curr.toISOString();
+        var tomorr = "2021-11-04T17:47";
+        var later = "2021-12-04T12:30";
+        var nextyear = "2022-04-15T21:10";
 
         const list2 = 
         {   
-            name: "Schedule",
+            name: "Schedule Name",
             type: "Schedule",
             id: "slist-1",
             tasks:
             [
                 { 
                     id: "todo-0", 
-                    name: "Eat", 
-                    completed: true, 
+                    name: "Eat",
                     date: nextyear
                 },
                 { 
                     id: "todo-1", 
-                    name: "Sleep", 
-                    completed: false, 
+                    name: "Sleep",
                     date: today
                 },
                 { 
                     id: "todo-2", 
                     name: "Repeat", 
-                    completed: false, 
                     date: tomorr
 
                 },
                 {
                     id: "todo-3",
                     name: "Finish calls",
-                    completed: false,
                     date: later
                 },
                 {
                     id: "todo-4",
                     name: "Appointment",
-                    completed: false,
                     date: nextyear
                 }
             ]
@@ -104,12 +68,11 @@ function CanvasPage()
 
         const list1 =
         {
-            name: "Priority",
+            name: "Priority Name",
             type: "Priority",
             id: "plist-1",
             tasks:
-                [
-                
+            [
                 { 
                     id: "priority-0", 
                     name: "Eat", 
@@ -128,90 +91,143 @@ function CanvasPage()
             ]
         };
 
-        const temp = [list1, list2, list3];
+        const temp = [list1, list2];
         return temp;
     }
     // --------------------------------------------
 
 
     const [showForm, setShowForm] = useState(false);
+    const [state, setState] = useState(tempData());
     
     // Array of listComponents (Schedule and Priority)
     var cardArray = [];
 
     // Called with the init. of state and setState to pull lists
-    function renderLists(lists){
-        for(let i = 0; i < lists.length; i++)
+   function renderLists(state)
+   {
+        for(let i = 0; i < state.length; i++)
         {
-            if(lists[i].type === 'Priority')
+            if(state[i].type === 'Priority')
             {
                 cardArray.push(
                     <PriorityList 
-                        key={lists[i].id} 
-                        id={lists[i].id}
-                        name={lists[i].name} 
-                        tasks={lists[i].tasks}
-                    />);
+                        key={state[i].id}
+                        id={state[i].id}
+                        name={state[i].name}
+                        editList={editList}
+                        tasks={state[i].tasks}
+                        deleteList={deleteList}
+                    />
+                );
             } 
             else 
             {
                 cardArray.push(
                     <SchedList 
-                        key={lists[i].id} 
-                        id={lists[i].id}
-                        name={lists[i].name} 
-                        tasks={lists[i].tasks}
-                    />);
+                        key={state[i].id} 
+                        id={state[i].id}
+                        name={state[i].name}
+                        editList={editList}
+                        tasks={state[i].tasks}
+                        deleteList={deleteList}
+                    />
+                );
             }
         }
         return cardArray;
-    }
-
-    const [state, setState] = useState(renderLists(tempData()));
+    };
 
     function addList(name, type)
     {
         var str;
         var listCard;
+
+        console.log(type);
+        
         if(type === "Priority")
         {
             str = "plist-"+ nanoid();
-            listCard = (
-                <PriorityList 
-                    key={str} 
-                    id={str}
-                    type={type}
-                    name={name}
-                    tasks={[]}
-                />
-            );
+            listCard = 
+            {
+                key: str,
+                id: str,
+                type: type,
+                name: name,
+                tasks: []
+            }
         }
         else
         {
             str = "slist-" + nanoid();
-            listCard = (
-                <SchedList 
-                    key={str} 
-                    id={str}
-                    type={type}
-                    name={name}
-                    tasks={[]}
-                />
-            );
+            listCard = 
+            {
+                key: str,
+                id: str,
+                type: type,
+                name: name,
+                tasks: []
+            }
         }
         return setState([...state, listCard]);
+    }
+
+    function editList(id, name)
+    {
+        var updatedList = state;
+
+        for(let i = 0; i < updatedList.length; i++)
+        {
+            if(updatedList[i].id === id)
+            {
+                if(!name)
+                {
+                    name = updatedList[i].name;
+                }
+                updatedList[i].name = name;
+            }
+        }
+        setState(updatedList);
+        forceUpdate();
+    }
+
+    function deleteList(id)
+    {
+        var remainingLists = state;
+        var index;
+
+        for(let i = 0; i < state.length; i++)
+        {
+            if(state[i].id === id)
+            {  
+                index = i;
+                break;
+            }
+        }
+
+        if(index > -1)
+        {
+            remainingLists.splice(index, 1);
+        }
+
+        setState(remainingLists);
+        forceUpdate();
     }
 
     // LoggedInName name={user.firstName}
     return(
         <div id="canvas" className="pageSolid app">
             <UserNavi />
-            <h1 id="title" className="app">Canvas</h1>
-            <LoggedInName name={""}/>
-            <Button className="addCard" onClick={() => setShowForm(!showForm)}><CgAdd /></Button>
-            <Container className="cardContainer">
+            <div className="canvasBlock">
+                <LoggedInName name={"Name"}/>
+                <Button className="addCard" onClick={() => setShowForm(!showForm)}>
+                    <CgAdd />
+                </Button>
+            </div>
+
+            <Container className="cardContainer" >
                 {showForm ? <NewListForm addList={addList}/> : null}
-                {state}
+                {renderLists(state)}
             </Container>
         </div>
     );

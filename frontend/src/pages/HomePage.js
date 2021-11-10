@@ -1,16 +1,13 @@
 import React from 'react';
-import Front from '../components/Front';
+import Home from '../components/Home';
 import Navigation from '../components/Navigation';
 
-
 const HomePage = () => 
-{
-    return(
-        <div id='home' className="pageSolid">
-            <Navigation id="frontnav"/>
-            <Front id="landing"/>
-        </div>
-    );
-}
+(
+    <div id='home' className="pageSolid">
+        <Navigation id="frontnav"/>
+        <Home id="landing"/>
+    </div>
+)
 
 export default HomePage;

@@ -8,19 +8,19 @@ function ButtonIcons(props)
     if(props.type === "Add")
     {
         return(
-            <VscAdd />
+            <VscAdd className="icons" />
         );
     } 
     else if(props.type === "Edit")
     {
         return(
-            <FiEdit />
+            <FiEdit className="icons" />
         );
     } 
     else if(props.type === "Delete")
     {
         return(
-            <AiOutlineDelete />
+            <AiOutlineDelete className="icons" />
         );
     }
 }

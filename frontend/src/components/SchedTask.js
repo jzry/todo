@@ -1,7 +1,6 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from 'react';
 import { Button, Container, ListGroup } from 'react-bootstrap';
-import { FiEdit } from 'react-icons/fi';
-import { AiOutlineDelete } from 'react-icons/ai';
+import ButtonIcons from './ButtonIcons';
 
 function usePrevious(value) 
 {
@@ -15,7 +14,6 @@ function usePrevious(value)
 
 function SchedTask(props)
 {
-    // states are initial values
     const [state, setState] = useState(
         {
             name: props.name,
@@ -29,6 +27,8 @@ function SchedTask(props)
     const editFieldRef = useRef(null);
     const editButtonRef = useRef(null);
     const wasEditing = usePrevious(isEditing);
+
+    const time = (onTimeChange((props.date).split("T")[1]));
 
     const handleChange = (e) =>
     {
@@ -46,11 +46,44 @@ function SchedTask(props)
         props.editTask(props.id, state.name, state.date);
 
         // re-init. date and setting editing state to false
-        state.name = props.name;
-        state.date = props.date;
+        setState({name: props.name, date: props.date});
         setEditing(false);
     }
 
+    function onTimeChange(time) 
+    {
+        var timeSplit = time.split(':'),
+            hours,
+            minutes,
+            meridian;
+        hours = parseInt(timeSplit[0]);
+        minutes = parseInt(timeSplit[1]);
+
+        if (hours > 12) 
+        {
+            meridian = 'PM';
+            hours -= 12;
+        } 
+        else if (hours < 12) 
+        {
+            meridian = 'AM';
+            if (hours === 0) 
+            {
+                hours = 12;
+            }
+        } 
+        else 
+        {
+            meridian = 'PM';
+        }
+
+        if(minutes < 10)
+        {
+            minutes = "0"+minutes;
+        }
+
+        return hours+":"+minutes+" "+meridian;
+    }
 
     const editingTemplate = (
         <ListGroup.Item className="listTask">
@@ -104,40 +137,31 @@ function SchedTask(props)
         <ListGroup.Item className="listTask">
             <Container className="listGrid">
                 <div className="taskTitle listItem">
-                    <input
-                        id={props.id}
-                        type="checkbox"
-                        defaultChecked={props.completed}
-                        onClick={() => props.toggleTaskCompleted(props.id)}
-                        className="checkScheme"
-                    />
                     <label className="todo-label" htmlFor={props.id}>
                         {props.name}
                     </label>
-
                 </div>
                 <div className="listItem">
                     <label className="dateTimeLabel" htmlFor={props.id}>
-                        {props.date}
+                        {time}
                     </label>
                 </div>
                 <div className="btn-group listItem">
-                    <button 
+                    <Button 
                         type="button" 
                         className="btn taskCtrl schedTaskView buttonScheme" 
                         onClick={ () => setEditing(true) } 
                         ref={editButtonRef}
                     >
-                        <FiEdit /> <span className="visually-hidden">{props.name}</span>
-                    </button>
-
-                    <button
+                        <ButtonIcons type={"Edit"}/>
+                    </Button>
+                    <Button
                         type="button"
                         className="btn taskCtrl schedTaskView buttonScheme"
                         onClick={ () => props.deleteTask(props.id) }
                     >
-                       <AiOutlineDelete /> <span className="visually-hidden">{props.name}</span>
-                    </button>
+                       <ButtonIcons type={"Delete"}/>
+                    </Button>
                 </div>
             </Container>
         </ListGroup.Item>
@@ -145,10 +169,12 @@ function SchedTask(props)
 
       useEffect(() => 
       {
-        if (!wasEditing && isEditing) {
+        if (!wasEditing && isEditing) 
+        {
           editFieldRef.current.focus();
         }
-        if (wasEditing && !isEditing) {
+        if (wasEditing && !isEditing) 
+        {
           editButtonRef.current.focus();
         }
       }, [wasEditing, isEditing]);

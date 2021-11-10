@@ -1,14 +1,16 @@
 import express from "express";
+import mongoose from "mongoose";
 import bodyParser from "body-parser";
 import cors from "cors";
 import path from "path";
-import api from "./api.js";
-import { config as dotenvConfig } from "dotenv";
-import mongoose from "mongoose";
-import { dirname } from 'path';
-import { fileURLToPath } from 'url';
+
 import users from "./models/user.js";
 import list from "./models/list.js";
+import api from "./api.js";
+
+import { config as dotenvConfig } from "dotenv";
+import { dirname } from 'path';
+import { fileURLToPath } from 'url';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
