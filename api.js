@@ -1,5 +1,6 @@
 import User from "./models/user.js";
 import token from "./createJWT.js";
+import list from "./models/list.js";
 
 function setApp (app, client) {
 
@@ -19,7 +20,7 @@ function setApp (app, client) {
                   const results = await db.collection('Users').findOne({
                       $and: [{Password: password},
                       {$or: [{Email: login}, {Login: login}]}]}
-                  )
+                  );
                  
                   var id = -1;  
                   var fn = '';  
@@ -131,21 +132,54 @@ function setApp (app, client) {
 
     // Create API.
     app.post(
-        "/api/create",
+        "/api/createNote",
         async (req, res, next) => {
             // test api for create
+
+            // validate request
+            if(!req.body)
+            {
+                res.status(400).send({message: "Note cannnot be empty!"});
+            }
+
+            // new Note
+            const note = new Listsdb({
+                Title: req.body.title,
+                Body: req.body.note
+            })
+
+            // save note in the database
+            .save(note)
+            .then(data => {
+                res.send(data)
+            })
+            .catch(err => {
+                res.status(500).send({
+                    message:err.message || "Some error occured."
+                });
+            });
             const result = await client.db("Tododb").collection("lists").insertOne(newnote);
 
             console.log('New note created with the following id: ${result.insertId}');
 
         }
-    );
+    ); 
 
     // Read API.
-    app.post(
+    app.get(
+
         "/api/read",
         async (req, res, next) => {
             // test api for read
+
+
+            list.find()
+            .then(list => {
+                res.send(list)
+            })
+            .catch(err => {
+                res.status(500).send({message: err.message || "Error finding note"})
+            })
 
 
         }
@@ -168,5 +202,7 @@ function setApp (app, client) {
     );
     
 }
+
+
 
 export default {setApp};
