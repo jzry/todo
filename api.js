@@ -7,10 +7,8 @@ function setApp (app, client) {
         "/api/login",
         async (req, res, next) => {
 
-            /*
-             * Incoming: login, password
-             * outgoing: id, firstName, lastName, error
-             */
+            // Incoming: login, password
+            // outgoing: id, firstName, lastName, error
 
             const error = "",
 
@@ -131,6 +129,7 @@ function setApp (app, client) {
           
               });          
 
+    // Create API.
     app.post(
         "/api/create",
         async (req, res, next) => {
@@ -142,20 +141,25 @@ function setApp (app, client) {
         }
     );
 
+    // Read API.
     app.post(
         "/api/read",
         async (req, res, next) => {
             // test api for read
+
+
         }
     );
 
+    // Update API.
     app.post(
         "/api/update",
         async(req, res, next) => {
             // test api for update
         }
     );
-    
+
+    // Delete API.
     app.post(
         "/api/delete",
         async (req, res, next) => {
