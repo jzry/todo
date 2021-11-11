@@ -186,10 +186,31 @@ function setApp (app, client) {
     );
 
     // Update API.
-    app.post(
-        "/api/update",
+    app.put(
+        "/api/updateNote",
         async(req, res, next) => {
             // test api for update
+
+            if(!req.body)
+            {
+                return res
+                .status(400)
+                .send({message: "Note to update can not be empty"})
+            }
+
+            const id = req.params.id;
+            Tododb.findbyIdAndUpdate(id, req.body, {useFindAndModify : false})
+            .then(data => {
+                if(!data){
+                    res.status(404).send({message: 'Cannot update Note with ${id}. Maybe note does not exist.'})
+                } else {
+                    res.send(data)
+                }
+            })
+            .catch(err => {
+                res.status(500).send({message: "Error updating note"})
+            })
+
         }
     );
 
@@ -198,11 +219,27 @@ function setApp (app, client) {
         "/api/delete",
         async (req, res, next) => {
             // test api for delete
+
+            const noteId = req.params.id;
+
+            tododb.findByIdAndDelete(id)
+            .then(data => {
+                if(!data){
+                    res.status(404).send({message: 'Cant delete note with id ${id}. maybe id is wrong or note does not exist'})
+                } else {
+                    res.send({
+                        message: "Note was deleted successfully."
+                    })
+                }
+            })
+            .catch(err =>{
+                res.status(500).send({
+                    message: "could not delete Note with id =" + noteId
+               })
+            });
         }
     );
     
 }
-
-
 
 export default {setApp};
