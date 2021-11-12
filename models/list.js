@@ -1,6 +1,10 @@
 import mongoose from "mongoose";
 
 const ListsSchema = new mongoose.Schema({
+    noteId: {
+        type: Number
+    },
+
     Title: {
         type: String,
         required: true
