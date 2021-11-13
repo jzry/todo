@@ -1,7 +1,7 @@
 :root
 {
-  --backgroundColor: #8BA2A1;
-  --buttonColor: #708090;
+  --backgroundColor: #9aa791;
+  --buttonColor: #517470;
   --ariaSelected: #89a89e;
   --checkSelect: #64706f;
   --almostBlack: #000000cb;
@@ -54,9 +54,8 @@
 {
   display: flex;
   flex-direction: row;
-  justify-content: space-around;
-  align-items: center;
-  align-content: center;
+  justify-content: flex-start;
+  margin-left: 30vw;
 }
 
 .canvasCards
@@ -406,19 +405,6 @@ h1:hover > .listCtrl
   margin-right: 5px;
   padding-top: 3px;
   padding-bottom: 3px;
-}
-
-.newListCard
-{
-  margin-right: auto;
-  margin-left: auto;
-  max-width: 60%;
-}
-
-#newListForm
-{
-  margin-top: auto;
-  margin-bottom: auto;
 }
 
 #newRadios
