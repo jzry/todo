@@ -91,7 +91,7 @@ function PriorityList(props)
     {
         const newTask = 
         { 
-            id: "priority-" + nanoid(), 
+            id: `priority-${nanoid()}`, 
             name: name, 
 
         };
@@ -154,7 +154,10 @@ function PriorityList(props)
                             <Button 
                                 type="button" 
                                 className="buttonScheme schedButton" 
-                                onClick={() => setEditing(false)}
+                                onClick=
+                                {
+                                    () => setEditing(false)
+                                }
                             >
                                 Cancel
                             </Button>
@@ -185,7 +188,10 @@ function PriorityList(props)
                     <button 
                         type="button" 
                         className="btn delListView" 
-                        onClick={() => props.deleteList(props.id)}
+                        onClick=
+                        {
+                            () => props.deleteList(props.id)
+                        }
                     >
                         <ButtonIcons type="Delete"/>
                     </button>
@@ -201,7 +207,10 @@ function PriorityList(props)
             <button 
                 type="button" 
                 className="btn listCtrl" 
-                onClick={ () => setEditing(true) } 
+                onClick=
+                { 
+                    () => setEditing(true) 
+                } 
                 ref={editButtonRef}
             >
                 Edit <span className="visually-hidden">{name}</span>

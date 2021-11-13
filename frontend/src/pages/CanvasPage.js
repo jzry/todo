@@ -25,10 +25,10 @@ function CanvasPage()
     function tempData()
     {
         const curr = new Date();
-        var today = curr.toISOString();
-        var tomorr = "2021-11-04T17:47";
-        var later = "2021-12-04T12:30";
-        var nextyear = "2022-04-15T21:10";
+        let today = curr.toISOString();
+        let tomorr = "2021-11-04T17:47";
+        let later = "2021-12-04T12:30";
+        let nextyear = "2022-04-15T21:10";
 
         const list2 = 
         {   
@@ -101,7 +101,7 @@ function CanvasPage()
     const [state, setState] = useState(tempData());
     
     // Array of listComponents (Schedule and Priority)
-    var cardArray = [];
+    let cardArray = [];
 
     // Called with the init. of state and setState to pull lists
    function renderLists(state)
@@ -140,14 +140,14 @@ function CanvasPage()
 
     function addList(name, type)
     {
-        var str;
-        var listCard;
+        let str;
+        let listCard;
 
         console.log(type);
         
         if(type === "Priority")
         {
-            str = "plist-"+ nanoid();
+            str = `plist-${nanoid()}`;
             listCard = 
             {
                 key: str,
@@ -159,7 +159,7 @@ function CanvasPage()
         }
         else
         {
-            str = "slist-" + nanoid();
+            str = `slist-${nanoid()}`;
             listCard = 
             {
                 key: str,
@@ -174,7 +174,7 @@ function CanvasPage()
 
     function editList(id, name)
     {
-        var updatedList = state;
+        let updatedList = state;
 
         for(let i = 0; i < updatedList.length; i++)
         {
@@ -193,8 +193,8 @@ function CanvasPage()
 
     function deleteList(id)
     {
-        var remainingLists = state;
-        var index;
+        let remainingLists = state;
+        let index;
 
         for(let i = 0; i < state.length; i++)
         {

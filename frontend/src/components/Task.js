@@ -60,7 +60,10 @@ function Task(props)
                         <Button 
                             type="button" 
                             className="buttonScheme todo-cancel" 
-                            onClick={() => setEditing(false)}
+                            onClick=
+                            {
+                                () => setEditing(false)
+                            }
                         >
                             Cancel
                         </Button>
@@ -80,7 +83,10 @@ function Task(props)
                         id={props.id}
                         type="checkbox"
                         defaultChecked={props.completed}
-                        onChange={() => props.toggleTaskCompleted(props.id)}
+                        onChange=
+                        {
+                            () => props.toggleTaskCompleted(props.id)
+                        }
                         className="checkScheme"
                     />
                     <label className="todo-label" htmlFor={props.id}>
@@ -91,7 +97,10 @@ function Task(props)
                     <Button 
                         type="button" 
                         className="btn taskCtrl priorityTaskView buttonScheme" 
-                        onClick={ () => setEditing(true) } 
+                        onClick=
+                        {
+                            () => setEditing(true) 
+                        } 
                         ref={editButtonRef}
                     >
                         <ButtonIcons type={"Edit"}/>
@@ -100,7 +109,10 @@ function Task(props)
                     <Button
                         type="button"
                         className="btn taskCtrl priorityTaskView buttonScheme"
-                        onClick={ () => props.deleteTask(props.id) }
+                        onClick=
+                        {
+                            () => props.deleteTask(props.id)
+                        }
                     >
                         <ButtonIcons type={"Delete"}/>
                     </Button>

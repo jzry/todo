@@ -4,7 +4,9 @@ import { nanoid } from 'nanoid';
 
 import ButtonIcons from './ButtonIcons';
 import SchedTaskForm from './SchedTaskForm';
-import SchedTask from './SchedTask'
+
+import SchedTask from './SchedTask';
+import Task from './Task';
 import FilterButtons from './FilterButtons';
 
 function usePrevious(value) 
@@ -22,7 +24,6 @@ function SchedList(props)
     const [filter, setFilter] = useState('All');
     const [tasks, setTasks] = useState(props.tasks);
 
-
     const [name, setName] = useState(props.name);
     const [isEditing, setEditing] = useState(false);
 
@@ -35,20 +36,20 @@ function SchedList(props)
         setName(e.target.value);
     }
 
-
     // TIME HANDLING to get non GMT/UMT date
     const curr = new Date();
-    const month = (curr.getMonth()+1); // January = 0 //
-    const day = curr.getDate();
-    // getHours and getMinutes return numbers, 09:09 would give 9 and 9
+    const monthcheck = (curr.getMonth()+1); // January = 0, make it 1 for ISO
+    const daycheck = curr.getDate();
     const hourscheck = curr.getHours(); 
     const mincheck = curr.getMinutes(); 
 
-    const hour = (hourscheck < 10 ? ("0" + (hourscheck.toString())) : hourscheck.toString());
-    const minutes = (mincheck < 10 ? ("0" + (mincheck.toString())) : mincheck.toString());
-    const today = curr.getFullYear().toString() + "-" + 
-        (month < 10 ? ("0" + (month).toString()) : (month).toString()) + "-" +
-        (day < 10 ? ("0" + (day).toString()) : (day).toString());
+    // Adding the 0 for values 1-9 YYYY-0M-0D 0H:0M
+    const month = (monthcheck < 10 ? `0${monthcheck}` : `${monthcheck}`);
+    const day = (daycheck < 10 ? `0${daycheck}` : `${daycheck}`)
+    const hour = (hourscheck < 10 ? `0${hourscheck}` : `${hourscheck}`);
+    const minutes = (mincheck < 10 ? `0${mincheck}` : `${mincheck}`);
+
+    const today =`${curr.getFullYear()}-${month}-${day}`;
 
     const FILTER_MAP = 
     {
@@ -210,12 +211,12 @@ function SchedList(props)
     {
         if(date === "")
         {
-            date = today+"T"+hour+":"+minutes;
+            date = `${today}T${hour}:${minutes}`;
 
         }
         const newTask = 
         { 
-            id: "todo-" + nanoid(), 
+            id: `todo-${nanoid()}`, 
             name: name,
             date: date
         };
@@ -281,7 +282,10 @@ function SchedList(props)
                             <Button 
                                 type="button" 
                                 className="buttonScheme schedButton" 
-                                onClick={() => setEditing(false)}
+                                onClick=
+                                {
+                                    () => setEditing(false)
+                                }
                             >
                                 Cancel
                             </Button>
@@ -296,7 +300,9 @@ function SchedList(props)
                     {filterList}
                 </div>
                 <ListGroup variant="flush" className="listAdjust">
-                    {(filter === 'All')? allDisplay: taskList}
+                    {
+                        (filter === 'All') ? allDisplay : taskList
+                    }
                 </ListGroup>
                 <SchedTaskForm addTask={addTask}/>
             </Card.Body>
@@ -313,7 +319,10 @@ function SchedList(props)
                     <button 
                         type="button" 
                         className="btn delListView" 
-                        onClick={() => props.deleteList(props.id)}
+                        onClick=
+                        {
+                            () => props.deleteList(props.id)
+                        }
                     >
                         <ButtonIcons type="Delete"/>
                     </button>
@@ -321,7 +330,9 @@ function SchedList(props)
                         {filterList}
                     </div>
                     <ListGroup variant="flush" className="listAdjust">
-                        {(filter === 'All')? allDisplay: taskList}
+                        {
+                            (filter === 'All') ? allDisplay : taskList
+                        }
                     </ListGroup>
                     <SchedTaskForm addTask={addTask}/>
                 </Card.Body>
@@ -329,7 +340,10 @@ function SchedList(props)
             <button 
                 type="button" 
                 className="btn listCtrl" 
-                onClick={ () => setEditing(true) } 
+                onClick=
+                { 
+                    () => setEditing(true) 
+                } 
                 ref={editButtonRef}
             >
                 Edit

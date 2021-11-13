@@ -52,7 +52,7 @@ function SchedTask(props)
 
     function onTimeChange(time) 
     {
-        var timeSplit = time.split(':'),
+        let timeSplit = time.split(':'),
             hours,
             minutes,
             meridian;
@@ -79,10 +79,10 @@ function SchedTask(props)
 
         if(minutes < 10)
         {
-            minutes = "0"+minutes;
+            minutes = `0${minutes}`;
         }
 
-        return hours+":"+minutes+" "+meridian;
+        return `${hours}:${minutes} ${meridian}`;
     }
 
     const editingTemplate = (
@@ -120,7 +120,10 @@ function SchedTask(props)
                             <Button 
                                 type="button" 
                                 className="buttonScheme schedButton" 
-                                onClick={() => setEditing(false)}
+                                onClick=
+                                {
+                                    () => setEditing(false)
+                                }
                             >
                                 Cancel
                             </Button>
@@ -150,7 +153,10 @@ function SchedTask(props)
                     <Button 
                         type="button" 
                         className="btn taskCtrl schedTaskView buttonScheme" 
-                        onClick={ () => setEditing(true) } 
+                        onClick=
+                        { 
+                            () => setEditing(true) 
+                        } 
                         ref={editButtonRef}
                     >
                         <ButtonIcons type={"Edit"}/>
@@ -158,7 +164,10 @@ function SchedTask(props)
                     <Button
                         type="button"
                         className="btn taskCtrl schedTaskView buttonScheme"
-                        onClick={ () => props.deleteTask(props.id) }
+                        onClick=
+                        { 
+                            () => props.deleteTask(props.id) 
+                        }
                     >
                        <ButtonIcons type={"Delete"}/>
                     </Button>
