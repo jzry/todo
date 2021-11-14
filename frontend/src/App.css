@@ -1,8 +1,9 @@
 :root
 {
   --backgroundColor: #9aa791;
-  --buttonColor: #517470;
-  --ariaSelected: #89a89e;
+  --buttonColor: #89a89e;;
+  --ariaSelected: #517470;
+  --buttonHover: #9eac94;
   --checkSelect: #64706f;
   --almostBlack: #000000cb;
   --layeringWhite: #ffffff7e;
@@ -48,6 +49,10 @@
   color: white;
   margin-left: 1%;
   margin-right: 1%;
+}
+.buttonScheme:hover {
+  background-color: #ACBAA1;
+  border-color: transparent;
 }
 
 .canvasBlock
@@ -307,6 +312,7 @@
 .inFields:focus
 {
   background-color: rgb(243, 243, 243);
+  border-color: red;
 }
 
 #landing

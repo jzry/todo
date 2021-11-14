@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import Form from 'react-bootstrap/Form';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
@@ -10,9 +10,13 @@ function Login()
     var loginName;
     var loginPassword;
     const [message,setMessage] = useState('');
+    const usernameMess = useRef(null);
+    const userpassMess = useRef(null);
+
     const doLogin = async event => 
     {
         event.preventDefault();
+
         var obj = {login:loginName.value,password:loginPassword.value};
         var js = JSON.stringify(obj);
         var config = 
@@ -60,18 +64,17 @@ function Login()
                 <span id="inner-title">Sign in to your account</span><br />
 
                 <input type="text" id="loginName" className="inFields" placeholder="Username"
-                ref={(c) => loginName = c} />
-
+                    ref={(c) => loginName = c} />
+                <span ref={usernameMess} style={{display: "none", color: "red"}}></span>
                 <div id="helpLink">
                     <Link to="/">Forgot password?</Link>
                 </div>
-                <input type="password" id="loginPassword" className="inFields" placeholder="Password"
-                ref={(c) => loginPassword = c} /><br />
-
-                <input type="submit" id="login
-                Button" className="formBtn" value = "Continue"
+                <input type="password" id="loginPassword" className="inFields" 
+                    placeholder="Password" ref={(c) => loginPassword = c} /><br />
+                <span ref={userpassMess} style={{display: "none", color: "red"}}></span>
+                <input type="submit" id="loginButton" className="buttonScheme formBtn" value = "Continue"
                     onClick={doLogin} />
-                <span id="loginResult">{message}</span><br />
+                <span id="loginResult" style={{color: "red"}}>{message}</span><br />
                 <p>Don't have an account? <Link to="/signup">Sign Up</Link></p>
             </Form>
         </div>

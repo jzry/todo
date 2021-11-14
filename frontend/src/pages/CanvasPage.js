@@ -8,79 +8,23 @@ import SchedList from '../components/SchedList';
 
 function CanvasPage()
 {
-    // temp task lists for testing/rendering (list templates)----- 
-    function tempData()
-    {
-        const curr = new Date();
-        let today = curr.toISOString();
-        let tomorr = "2021-11-04T17:47";
-        let later = "2021-12-04T12:30";
-        let nextyear = "2022-04-15T21:10";
+    // Priority Task Format:
+    // type:"Priority", id:"todo-#", name: "task", completed: T/F
+    // Schedule:
+    // type:"Schedule", id:"todo-#", name: "task", date: ISO datetime
 
-        const list =
-            [
-                { 
-                    type: "Priority",
-                    id: "priority-0", 
-                    name: "Eat", 
-                    completed: false
-                },
-                { 
-                    type: "Priority",
-                    id: "priority-1", 
-                    name: "Sleep", 
-                    completed: false
-                },
-                { 
-                    type: "Priority",
-                    id: "priority-2", 
-                    name: "Repeat", 
-                    completed: false
-                },
-                { 
-                    type: "Schedule",
-                    id: "todo-0", 
-                    name: "Eat",
-                    date: nextyear
-                },
-                { 
-                    type: "Schedule",
-                    id: "todo-1", 
-                    name: "Sleep",
-                    date: today
-                },
-                { 
-                    type: "Schedule",
-                    id: "todo-2", 
-                    name: "Repeat", 
-                    date: tomorr
-
-                },
-                {
-                    type: "Schedule",
-                    id: "todo-3",
-                    name: "Finish calls",
-                    date: later
-                },
-                {
-                    type: "Schedule",
-                    id: "todo-4",
-                    name: "Appointment",
-                    date: nextyear
-                }
-            ];
-
-        return list;
-    }
-    // --------------------------------------------
+    // Array of all user tasks
+    const list = [];
+    
+    // state.lists = [[],[]]
     const [state, setState] = useState(
         {
             user: "",
             userId: "",
-            lists:splitLists(tempData())
+            lists:splitLists(list)
         });
 
-    // Called with the init. of state and setState to pull lists
+    // Called with the init. of state and setState to pull + split lists by type
    function splitLists(userLists)
    {
        let plist = [];

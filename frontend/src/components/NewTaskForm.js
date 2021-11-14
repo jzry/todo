@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { Button, Form } from 'react-bootstrap';
 import ButtonIcons from './ButtonIcons';
 
@@ -10,6 +10,11 @@ function NewTaskForm(props)
             date: ""
         }
     );
+
+    const show = useRef(null);
+    const focus = useRef(null);
+
+    let err = "*Your task needs a name"
 
     const handleChange = (e) =>
     {
@@ -24,6 +29,17 @@ function NewTaskForm(props)
     function handleSubmit(e)
     {
         e.preventDefault();
+
+        if(state.name === "")
+        {
+            show.current.style.display = "inline-block";
+            focus.current.focus();
+            return;
+        } 
+        else 
+        {
+            show.current.style.display = "none";
+        }
 
         if(props.type === "Priority")
         {
@@ -52,11 +68,13 @@ function NewTaskForm(props)
                             placeholder="New Task"
                             value={state.name}
                             onChange={handleChange}
+                            ref={focus}
                         />
                         <Button type="submit" className="buttonScheme">
                             <ButtonIcons type="Add"/>
                         </Button>
-                    </div> : 
+                    </div> 
+                    : 
                     <div id="newSchedTaskForm"  className="form" onSubmit={handleSubmit}>
                         <div className="schedTaskForm">
                             <div className="splitFields">
@@ -69,6 +87,7 @@ function NewTaskForm(props)
                                     placeholder="New Task"
                                     value={state.name}
                                     onChange={handleChange}
+                                    ref={focus}
                                 />
             
                                 <div id="dateTime">
@@ -88,6 +107,7 @@ function NewTaskForm(props)
                         </div>
                     </div>
             }
+            <span ref={show} className="errorMsg" style={{display: "none", color: "red"}}>{err}</span>
         </Form>
     );
 }

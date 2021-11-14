@@ -235,15 +235,13 @@ function SchedList(props)
         <div>
             <Card className="canvasCards">
                 <Card.Body className="cardContent">
-                    <h1>
-                        {props.name}
-                    </h1> 
                     <div id="filterBtns" className="filterLimiter">
                         {filterList}
                     </div>
                     <ListGroup variant="flush" className="listAdjust">
                         {
-                            (filter === 'All') ? allDisplay : taskList
+                            (taskList).length < 1 ? 
+                                <p><br/>Add a new task below</p> : ((filter === 'All') ? allDisplay : taskList)
                         }
                     </ListGroup>
                     <NewTaskForm type="Schedule" addTask={addTask}/>

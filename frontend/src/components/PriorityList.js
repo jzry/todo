@@ -110,14 +110,11 @@ function PriorityList(props)
         <div>
             <Card className="canvasCards">
                 <Card.Body className="cardContent">
-                    <h1 className="listName">
-                        {props.name}
-                    </h1>
                     <div className="filterBtns priority">
                         {filterList}
                     </div>
                     <ListGroup variant="flush" className="listAdjust">
-                        {taskList}
+                        {taskList.length < 1 ? <p><br/>Add a new task below</p> : taskList}
                     </ListGroup>
                     <NewTaskForm type="Priority" addTask={addTask}/>
                 </Card.Body>
