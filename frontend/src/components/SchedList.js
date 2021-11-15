@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { Card, ListGroup } from 'react-bootstrap';
 
+import axios from 'axios';
 import { nanoid } from 'nanoid';
 
 import SchedTask from './SchedTask';
@@ -11,6 +12,10 @@ function SchedList(props)
 {
     const [filter, setFilter] = useState('All');
     const [tasks, setTasks] = useState(props.tasks);
+    const [message,setMessage] = useState('');
+    var bp = require('./Path.js');
+
+    const addRes = useRef(null);
 
     // TIME HANDLING to get non GMT/UMT date
     const curr = new Date();
@@ -196,6 +201,38 @@ function SchedList(props)
             name: name,
             date: date
         };
+
+        var obj = {type: newTask.type,userId: "",id:newTask.id,name:newTask.name, date:newTask.date};
+        var js = JSON.stringify(obj);
+        var config = 
+        {
+            method: 'post',
+            url: bp.buildPath('api/createNote'),
+            headers: 
+            {
+                'Content-Type': 'application/json'
+            },
+            data: js
+        };
+        axios(config)
+            .then(function (response) 
+            {
+                var res = response.data;
+                if (res.error) 
+                {
+                    setMessage('Error adding task');
+                    addRes.current.style.display = "inline-block";
+                }
+                else 
+                {
+                    setTasks([...tasks, newTask]);
+                }
+            })
+            .catch(function (error) 
+            {
+                console.log(error);
+            });
+
         setTasks([...tasks, newTask]);
     }
 
@@ -222,12 +259,75 @@ function SchedList(props)
           return task;
         });
 
+        var obj = {userId: "",id:id,name:newName, date:newDate};
+        var js = JSON.stringify(obj);
+        var config = 
+        {
+            method: 'post',
+            url: bp.buildPath('api/updateNote'),
+            headers: 
+            {
+                'Content-Type': 'application/json'
+            },
+            data: js
+        };
+        axios(config)
+            .then(function (response) 
+            {
+                var res = response.data;
+                if (res.error) 
+                {
+                    setMessage('Error editing task');
+                    addRes.current.style.display = "inline-block";
+                }
+                else 
+                {
+                    setTasks(editedTaskList);
+                }
+            })
+            .catch(function (error) 
+            {
+                console.log(error);
+            });
+
         setTasks(editedTaskList);
     }
 
     function deleteTask(id) 
     {
         const remainingTasks = tasks.filter(task => id !== task.id);
+
+        var obj = {userId: "",id:id};
+        var js = JSON.stringify(obj);
+        var config = 
+        {
+            method: 'post',
+            url: bp.buildPath('api/deleteNote'),
+            headers: 
+            {
+                'Content-Type': 'application/json'
+            },
+            data: js
+        };
+        axios(config)
+            .then(function (response) 
+            {
+                var res = response.data;
+                if (res.error) 
+                {
+                    setMessage('Error deleting task');
+                    addRes.current.style.display = "inline-block";
+                }
+                else 
+                {
+                    setTasks(remainingTasks);
+                }
+            })
+            .catch(function (error) 
+            {
+                console.log(error);
+            });
+
         setTasks(remainingTasks);
     }
 
@@ -245,6 +345,7 @@ function SchedList(props)
                         }
                     </ListGroup>
                     <NewTaskForm type="Schedule" addTask={addTask}/>
+                    <span id="taskResult" ref={addRes} style={{display: "none", color: "red"}}>{message}</span>
                 </Card.Body>
             </Card>
         </div>

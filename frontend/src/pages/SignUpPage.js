@@ -1,5 +1,4 @@
 import React from 'react';
-import Navigation from "../components/Navigation";
 import Card from 'react-bootstrap/Card';
 import PageTitle from '../components/PageTitle';
 import SignUp from "../components/SignUp";
@@ -7,8 +6,7 @@ import SignUp from "../components/SignUp";
 function SignUpPage()
 {
     return(
-        <div className="pageSolid">
-            <Navigation />
+        <div>
             <Card id="formCard">
                 <Card.Body>
                     <PageTitle />

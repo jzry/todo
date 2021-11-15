@@ -9,37 +9,45 @@ import CanvasPage from './pages/CanvasPage';
 import ProductPage from './pages/ProductPage';
 import CompanyPage from './pages/CompanyPage';
 import Pricing from './pages/Pricing';
+import ForgotPage from './pages/ForgotPage';
+import Navigation from './components/Navigation';
 
 function App() 
 {
     return (
-        <Router >
-            <Switch>
-                <Route path='/' exact>
-                    <HomePage />
-                </Route>
-                <Route path="/login" exact>
-                    <LoginPage />
-                </Route>
-                <Route path="/signup" exact>
-                    <SignUpPage />
-                </Route>
-                <Route path="/product">
-                    <ProductPage />
-                </Route>
-                <Route path="/company" exact>
-                    <CompanyPage />
-                </Route>
-                <Route path="/pricing" exact>
-                    <Pricing />
-                </Route>
+        <div className="pageSolid">
+            <Navigation />
+            <Router >
+                <Switch>
+                    <Route path='/' exact>
+                        <HomePage />
+                    </Route>
+                    <Route path="/login" exact>
+                        <LoginPage />
+                    </Route>
+                    <Route path="/signup" exact>
+                        <SignUpPage />
+                    </Route>
+                    <Route path="/forgot" exact>
+                        <ForgotPage />
+                    </Route>
+                    <Route path="/product">
+                        <ProductPage />
+                    </Route>
+                    <Route path="/company" exact>
+                        <CompanyPage />
+                    </Route>
+                    <Route path="/pricing" exact>
+                        <Pricing />
+                    </Route>
 
-                <Route path="/canvas" exact>
-                    <CanvasPage />
-                </Route>
-                <Redirect to="/" />
-            </Switch>
-        </Router>
+                    <Route path="/canvas" exact>
+                        <CanvasPage />
+                    </Route>
+                    <Redirect to="/" />
+                </Switch>
+            </Router>
+        </div>
     );
 }
 

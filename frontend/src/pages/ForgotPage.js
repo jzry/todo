@@ -1,20 +1,19 @@
 import React from 'react';
 import Card from 'react-bootstrap/Card';
-import PageTitle from '../components/PageTitle';
-import Login from '../components/Login';
 
-function LoginPage() 
+import ForgotForm from '../components/ForgotForm';
+
+function ForgotPage() 
 {
     return (
         <div>
             <Card id="formCard">
                 <Card.Body>
-                    <PageTitle />
-                    <Login />
+                    <ForgotForm />
                 </Card.Body>
             </Card>
         </div>
     );
 }
 
-export default LoginPage;
+export default ForgotPage;

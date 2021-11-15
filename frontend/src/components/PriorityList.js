@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { Card, ListGroup } from 'react-bootstrap';
 
+import axios from 'axios';
 import { nanoid } from 'nanoid';
 
 import Task from './Task';
@@ -12,6 +13,9 @@ function PriorityList(props)
 
     const [tasks, setTasks] = useState(props.tasks);
     const [filter, setFilter] = useState('All');
+    const [message,setMessage] = useState('');
+    var bp = require('./Path.js');
+    const addRes = useRef(null);
 
     // Filter names and conditions
     const FILTER_MAP = 
@@ -70,10 +74,40 @@ function PriorityList(props)
         const newTask = 
         { 
             type: "Priority",
-            id: `priority-${nanoid()}`, 
+            id: `todo-${nanoid()}`, 
             name: name, 
 
         };
+        var obj = {type: newTask.type,userId: "",id:newTask.id,name:newTask.name};
+        var js = JSON.stringify(obj);
+        var config = 
+        {
+            method: 'post',
+            url: bp.buildPath('api/createNote'),
+            headers: 
+            {
+                'Content-Type': 'application/json'
+            },
+            data: js
+        };
+        axios(config)
+            .then(function (response) 
+            {
+                var res = response.data;
+                if (res.error) 
+                {
+                    setMessage('Error adding list');
+                    addRes.current.style.display = "inline-block";
+                }
+                else 
+                {
+                    setTasks([...tasks, newTask]);
+                }
+            })
+            .catch(function (error) 
+            {
+                console.log(error);
+            });
 
         setTasks([...tasks, newTask]);
     }
@@ -97,12 +131,75 @@ function PriorityList(props)
           return task;
         });
 
+        var obj = {userId: "",id:id,name:newName};
+        var js = JSON.stringify(obj);
+        var config = 
+        {
+            method: 'post',
+            url: bp.buildPath('api/updateNote'),
+            headers: 
+            {
+                'Content-Type': 'application/json'
+            },
+            data: js
+        };
+        axios(config)
+            .then(function (response) 
+            {
+                var res = response.data;
+                if (res.error) 
+                {
+                    setMessage('Error editing task');
+                    addRes.current.style.display = "inline-block";
+                }
+                else 
+                {
+                    setTasks(editedTaskList);
+                }
+            })
+            .catch(function (error) 
+            {
+                console.log(error);
+            });
+
         setTasks(editedTaskList);
     }
 
     function deleteTask(id) 
     {
         const remainingTasks = tasks.filter(task => id !== task.id);
+
+        var obj = {userId: "",id:id};
+        var js = JSON.stringify(obj);
+        var config = 
+        {
+            method: 'post',
+            url: bp.buildPath('api/deleteNote'),
+            headers: 
+            {
+                'Content-Type': 'application/json'
+            },
+            data: js
+        };
+        axios(config)
+            .then(function (response) 
+            {
+                var res = response.data;
+                if (res.error) 
+                {
+                    setMessage('Error deleting task');
+                    addRes.current.style.display = "inline-block";
+                }
+                else 
+                {
+                    setTasks(remainingTasks);
+                }
+            })
+            .catch(function (error) 
+            {
+                console.log(error);
+            });
+
         setTasks(remainingTasks);
     }
 
@@ -117,6 +214,7 @@ function PriorityList(props)
                         {taskList.length < 1 ? <p><br/>Add a new task below</p> : taskList}
                     </ListGroup>
                     <NewTaskForm type="Priority" addTask={addTask}/>
+                    <span id="taskResult" ref={addRes} style={{display: "none", color: "red"}}>{message}</span>
                 </Card.Body>
             </Card>
         </div>

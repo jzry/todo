@@ -1,12 +1,10 @@
 import React from 'react';
-import Navigation from '../components/Navigation';
 import Product from '../components/Product';
 
 
 const ProductPage = () => 
 (
-    <div id='home' className="pageSolid">
-        <Navigation />
+    <div id='home'>
         <Product />
     </div>
 )
