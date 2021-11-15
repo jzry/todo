@@ -2,7 +2,10 @@ import express from "express";
 import bodyParser from "body-parser";
 import cors from "cors";
 import path from "path";
-import api from "./api.js";
+
+import mongoose from "mongoose";
+import users from "./api/users.js"
+import notes from "./api/notes.js"
 
 import { config as dotenvConfig } from "dotenv";
 import { dirname } from 'path';
@@ -50,10 +53,12 @@ app.listen(
     }
 );
 
-api.setApp(
-    app,
-    process.env.MONGODB_URI
-);
+mongoose.connect(process.env.MONGODB_URI)
+    .then(() => console.log("Mongo DB connected"))
+    .catch((e) => console.error(e));
+
+users(app);
+notes(app);
 
 app.get(
     "/api",
