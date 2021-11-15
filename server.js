@@ -1,12 +1,11 @@
 import express from "express";
-import mongoose from "mongoose";
 import bodyParser from "body-parser";
 import cors from "cors";
 import path from "path";
 
-import users from "./models/user.js";
-import list from "./models/list.js";
-import api from "./api.js";
+import mongoose from "mongoose";
+import users from "./api/users.js"
+import notes from "./api/notes.js"
 
 import { config as dotenvConfig } from "dotenv";
 import { dirname } from 'path';
@@ -25,7 +24,7 @@ app.set(
 );
 
 app.use(cors());
-app.use(bodyParser.json());
+app.use(bodyParser.json()); // deprecated
 
 app.use((req, res, next) => {
 
@@ -54,15 +53,12 @@ app.listen(
     }
 );
 
-const url = process.env.MONGODB_URI;
-mongoose.connect(url)
+mongoose.connect(process.env.MONGODB_URI)
     .then(() => console.log("Mongo DB connected"))
     .catch((e) => console.error(e));
 
-api.setApp(
-    app,
-    mongoose
-);
+users(app);
+notes(app);
 
 app.get(
     "/api",
@@ -72,34 +68,20 @@ app.get(
 );
 
 app.get(
-    "/api/add-user",
-    (req, res) => {
-        const user = new users({
-            UserId: '0',
-            FirstName: 'Joel',
-            LastName: 'Cruz',
-            Email: 'dbtest@testdb.com',
-            Login: 'dbmaster',
-            Password: 'Project2'
-        }
-    );
-
-    user.save()
-        .then((result) => {
-            res.send(result)
-        })
-        .catch((e) => {
-            console.error(e);
-        }
-    );
-
-});
-
-app.get(
     "/api/*",
     (req, res) => {
-        res.send({ message: "404: Not Found" 
+        res.send({
+            message: "404: Not Found"
+        });
     });
+
+
+app.post("/api/*", async (req, res) => {
+    res.send({ message: "404: Not Found" });
+});
+
+app.put("/api/*", async (req, res) => {
+    res.send({ message: "404: Not Found" });
 });
 
 if (process.env.NODE_ENV === "production") {
@@ -129,7 +111,7 @@ else {
             res.send(
                 `Application running in debug mode for API testing. 
                 The frontend is run separately and therefore not deployed in debug mode.`
-                );
+            );
         }
     );
 }
