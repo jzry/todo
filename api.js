@@ -76,7 +76,6 @@ function setApp(app, mongoUri) {
                 };
             } else {
                 try {
-                    const token = require("./createJWT.js");
                     ret = token.createToken(fn, ln, un, id);
                 } catch (e) {
                     ret = {

@@ -2,9 +2,6 @@ import express from "express";
 import bodyParser from "body-parser";
 import cors from "cors";
 import path from "path";
-
-import users from "./models/user.js";
-import list from "./models/list.js";
 import api from "./api.js";
 
 import { config as dotenvConfig } from "dotenv";
