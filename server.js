@@ -65,13 +65,6 @@ app.get(
 );
 
 app.get(
-    "/api",
-    (req, res) => {
-        res.send("asdf")
-    }
-);
-
-app.get(
     "/api/*",
     (req, res) => {
         res.send({
