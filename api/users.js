@@ -1,5 +1,4 @@
 import user from "./models/user.js";
-import token from "./createJWT.js";
 import jwt from "jsonwebtoken";
 
 async function register(req, res) {
@@ -40,6 +39,9 @@ async function register(req, res) {
 // Returns ID, firstName, lastName, error.
 async function login(req, res) {
 
+    if (!process.env.LOGIN_KEY)
+        return console.error("LOGIN_KEY not defined in the ENV");
+
     const {
         login,
         password
@@ -63,29 +65,33 @@ async function login(req, res) {
     });
 
     if (results) {
-        verStatus = results.AuthStatus;
+        const verStatus = results.AuthStatus;
 
         if (verStatus == 0) {
             return res.status(400).json({
                 error: "Account not verified."
             });
-        } else {
-            try {
-                ret = token.createToken(
-                        results.FirstName,
-                        results.LastName,
-                        results.Login, 
-                        results._id
-                    );
-        
-                return res.status(200).json(ret);
+        }
 
-            } catch (e) {
-                
-                return res.status(400).json({
-                    error: e.message
-                });
-            }
+        try {
+            const ret = jwt.sign({
+                    first_name: results.FirstName,
+                    last_name: results.LastName,
+                    login: results.Login, 
+                    _id: results._id
+                },
+                process.env.LOGIN_KEY, {
+                    expiresIn: '20h'
+                }
+            );
+    
+            return res.status(200).json(ret);
+
+        } catch (e) {
+            
+            return res.status(400).json({
+                error: e.message
+            });
         }
     }
 
@@ -97,6 +103,8 @@ async function login(req, res) {
 // Forgot Password API receives email.
 // Sends email verification via SMTP sendgrid.
 async function forgot(req, res) {
+    if (!process.env.RESET_PASSWORD_KEY)
+        return console.error("RESET_PASSWORD_KEY not defined in the ENV");
 
     const { email } = req.body;
 
