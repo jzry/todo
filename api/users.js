@@ -195,5 +195,5 @@ export default function (app) {
     app.post(`${prefix}/register`, register);
     app.post(`${prefix}/login`, login);
     app.post(`${prefix}/forgotpassword`, forgot);
-    app.get(`${prefix}/resetpassword`, reset);
+    app.post(`${prefix}/resetpassword`, reset);
 }
