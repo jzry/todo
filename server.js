@@ -1,5 +1,4 @@
 import express from "express";
-import bodyParser from "body-parser";
 import cors from "cors";
 import path from "path";
 
@@ -18,13 +17,10 @@ dotenvConfig();
 const PORT = process.env.PORT || 5000,
     app = express();
 
-app.set(
-    "port",
-    process.env.PORT || 5000
-);
+app.set("port", PORT);
 
 app.use(cors());
-app.use(bodyParser.json()); // deprecated
+app.use(express.json());
 
 app.use((req, res, next) => {
 
