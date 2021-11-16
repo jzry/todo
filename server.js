@@ -62,8 +62,16 @@ notes(app);
 
 app.get(
     "/api",
-    (req, res) => {
+    (req, res, next) => {
         res.send("<h1>API Docs</h2>")
+        next()
+    }
+);
+
+app.get(
+    "/api",
+    (req, res) => {
+        res.send("asdf")
     }
 );
 
