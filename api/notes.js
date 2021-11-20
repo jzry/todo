@@ -155,10 +155,9 @@ async function del (req, res, next) {
         });
 }
 
-export default function (app) {
-    const prefix = "/api/notes";
-    app.post(`${prefix}/create`, create);
-    app.get(`${prefix}/read`, read);
-    app.post(`${prefix}/update`, update);
-    app.post(`${prefix}/delete`, del);
+export default {
+    create: create,
+    read: read,
+    update: update,
+    delete: del
 }
