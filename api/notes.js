@@ -37,14 +37,23 @@ const create = async (req, res, next) => {
 // Read API.
 const read = async (req, res, next) => {
 
-    const search = req.body?.search;
+    let search = req.body?.search;
     
     if (!search)
-        return res.status(400).send({error: "Invalid search"});
+        search = "";
 
-    list.find({Title: { $regex: search.toLowerCase()}})
+    list.find({Title: { $regex: `(?i)${search}`}})
         .then(list => {
-            res.send(list)
+            let out = []
+            for (const note of list) {
+                out.push({
+                    title: note.Title,
+                    note: note.Body,
+                    created: note.createdAt,
+                    updated: note.updatedAt
+                });
+            }
+            res.send(out);
         })
         .catch(err => {
             res.status(500).send({
@@ -55,20 +64,29 @@ const read = async (req, res, next) => {
 
 // Update API receives the ID, UID, title, body of the note.
 const update = async (req, res, next) => {
-    // Check if JSON payload request has content.
-    const id = req.body?.id;
 
-    if (!req.body) {
+    // Check if JSON payload request has content.
+    if (!req.body)
         return res
             .status(400)
             .send({
                 message: "Can not submit an empty note."
             });
+
+    const id = req.body.id;
+    const title = req.body.title;
+    const note = req.body.note;
+
+    const requiredFields = ["id", "title", "note"];
+
+    for (const field of requiredFields) {
+        if (!(field in req.body))
+            return res.status(400).send({
+                error: `${field} is required`
+            });
     }
 
-    list.findOneAndUpdate(id, req.body, {
-            useFindAndModify: true
-        })
+    list.findOneAndUpdate(id, {Title: title, Body: note})
         .then(data => {
             if (!data) {
                 // Data does not exist.
@@ -76,7 +94,7 @@ const update = async (req, res, next) => {
                     message: `Note with ID: ${id} can not be updated.`
                 })
             } else {
-                res.send(data)
+                res.send("note update success")
             }
         })
         .catch(err => {
