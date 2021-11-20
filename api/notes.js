@@ -47,6 +47,7 @@ const read = async (req, res, next) => {
             let out = []
             for (const note of list) {
                 out.push({
+                    id: note._id,
                     title: note.Title,
                     note: note.Body,
                     created: note.createdAt,
@@ -93,9 +94,12 @@ const update = async (req, res, next) => {
                 res.status(404).send({
                     message: `Note with ID: ${id} can not be updated.`
                 })
-            } else {
-                res.send("note update success")
+                return;
             }
+
+            res.send({
+                message: "note update success"
+            });
         })
         .catch(err => {
             res.status(500).send({
@@ -108,25 +112,29 @@ const update = async (req, res, next) => {
 // Deletes note from the specific user from the database.
 const del = async (req, res, next) => {
 
-    const noteId = req.params.id;
+    const noteId = req.body?.id;
+
+    if (!noteId)
+        return res.status(400).send({
+            error: "id required"
+        });
 
     list.findOneAndDelete(noteId)
         .then(data => {
             if (!data) {
                 res.status(404).send({
-                    message: `Note with ID ${id} does not exist.`
+                    error: `Note with ID ${id} does not exist.`
                 })
-            } else {
-                res.send({
-                    message: "Note was deleted successfully."
-                })
+                return;
             }
-        })
 
-        // There is an error trying to delete one of the notes.
-        .catch(err => {
+            res.send({
+                message: "Note was deleted successfully."
+            });
+        })
+        .catch(err => { // There is an error trying to delete one of the notes.
             res.status(500).send({
-                message: `Note ${noteId} could not be deleted.`
+                error: `Note ${noteId} could not be deleted.`
             })
         });
 }
