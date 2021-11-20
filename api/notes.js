@@ -13,36 +13,48 @@ const create = async (req, res, next) => {
             message: "Note cannnot be empty!"
         });
     }
-
+     
     // Create a new to do task with a title and a body.
     const note = new list({
         Title: req.body.title,
         Body: req.body.note
-    })
+    });
 
     // Save note in the database.
-    const result = note.save()
+    await note.save()
         .then(data => {
-            res.send(data)
+            res.send({
+                id: data.id
+            });
         })
         .catch(err => {
             res.status(500).send({
                 message: err.message || "Some error occured."
             });
         });
-
-
-    // const result = await list.insertOne(note);
-
-    // Check if this shows up in browser as HTML.
-    console.log(`"${result.insertId}" added`);
 }
 
 // Read API.
 const read = async (req, res, next) => {
-    list.find()
+
+    let search = req.body?.search;
+    
+    if (!search)
+        search = "";
+
+    list.find({Title: { $regex: `(?i)${search}`}})
         .then(list => {
-            res.send(list)
+            let out = []
+            for (const note of list) {
+                out.push({
+                    id: note._id,
+                    title: note.Title,
+                    note: note.Body,
+                    created: note.createdAt,
+                    updated: note.updatedAt
+                });
+            }
+            res.send(out);
         })
         .catch(err => {
             res.status(500).send({
@@ -53,30 +65,41 @@ const read = async (req, res, next) => {
 
 // Update API receives the ID, UID, title, body of the note.
 const update = async (req, res, next) => {
+
     // Check if JSON payload request has content.
-    if (!req.body) {
+    if (!req.body)
         return res
             .status(400)
             .send({
                 message: "Can not submit an empty note."
             });
+
+    const id = req.body.id;
+    const title = req.body.title;
+    const note = req.body.note;
+
+    const requiredFields = ["id", "title", "note"];
+
+    for (const field of requiredFields) {
+        if (!(field in req.body))
+            return res.status(400).send({
+                error: `${field} is required`
+            });
     }
 
-    // Contains the request for the note ID.
-    const id = req.params.id;
-
-    list.findOneAndUpdate(id, req.body, {
-            useFindAndModify: false
-        })
+    list.findOneAndUpdate(id, {Title: title, Body: note})
         .then(data => {
             if (!data) {
                 // Data does not exist.
                 res.status(404).send({
                     message: `Note with ID: ${id} can not be updated.`
                 })
-            } else {
-                res.send(data)
+                return;
             }
+
+            res.send({
+                message: "note update success"
+            });
         })
         .catch(err => {
             res.status(500).send({
@@ -89,25 +112,29 @@ const update = async (req, res, next) => {
 // Deletes note from the specific user from the database.
 const del = async (req, res, next) => {
 
-    const noteId = req.params.id;
+    const noteId = req.body?.id;
+
+    if (!noteId)
+        return res.status(400).send({
+            error: "id required"
+        });
 
     list.findOneAndDelete(noteId)
         .then(data => {
             if (!data) {
                 res.status(404).send({
-                    message: `Note with ID ${id} does not exist.`
+                    error: `Note with ID ${id} does not exist.`
                 })
-            } else {
-                res.send({
-                    message: "Note was deleted successfully."
-                })
+                return;
             }
-        })
 
-        // There is an error trying to delete one of the notes.
-        .catch(err => {
+            res.send({
+                message: "Note was deleted successfully."
+            });
+        })
+        .catch(err => { // There is an error trying to delete one of the notes.
             res.status(500).send({
-                message: `Note ${noteId} could not be deleted.`
+                error: `Note ${noteId} could not be deleted.`
             })
         });
 }

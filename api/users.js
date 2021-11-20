@@ -11,11 +11,10 @@ async function register(req, res) {
     const requiredFields = ["id", "first_name", "last_name", "email", "login", "password"];
 
     for (const field of requiredFields) {
-        if (field in req.body)
-            continue;
-        return res.status(400).send({
-            error: `${field} is required`
-        });
+        if (!(field in req.body))
+            return res.status(400).send({
+                error: `${field} is required`
+            });
     }
 
     (new user({
