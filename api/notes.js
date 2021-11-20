@@ -98,25 +98,26 @@ async function update(req, res, next) {
             .send({
                 error: "Can not submit a note with an empty title"
             });
-        
-
+    
     list.findOneAndUpdate({_id: id}, {Title: title, Body: note})
         .then(data => {
             if (!data) {
                 // Data does not exist.
                 res.status(404).send({
                     error: `Note with ID: ${id} can not be updated.`
-                })
+                });
                 return;
             }
-
-            console.log(data);
 
             res.send({
                 message: "note update success"
             });
         })
         .catch(err => {
+            if (err.path === "_id")
+                return res.status(500).send({
+                    error: `Cannot find note with id '${id}'`
+                });
             res.status(500).send({
                 error: err.message || "Error updating note"
             });
