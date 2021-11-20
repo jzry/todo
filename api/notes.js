@@ -37,7 +37,7 @@ const create = async (req, res, next) => {
 // Read API.
 const read = async (req, res, next) => {
 
-    let search = req.body?.search;
+    let search = req.param?.search;
     
     if (!search)
         search = "";
@@ -143,6 +143,6 @@ export default function (app) {
     const prefix = "/api/notes";
     app.post(`${prefix}/create`, create);
     app.get(`${prefix}/read`, read);
-    app.put(`${prefix}/update`, update);
+    app.post(`${prefix}/update`, update);
     app.post(`${prefix}/delete`, del);
 }
