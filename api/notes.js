@@ -13,34 +13,36 @@ const create = async (req, res, next) => {
             message: "Note cannnot be empty!"
         });
     }
-
+     
     // Create a new to do task with a title and a body.
     const note = new list({
         Title: req.body.title,
         Body: req.body.note
-    })
+    });
 
     // Save note in the database.
-    const result = note.save()
+    await note.save()
         .then(data => {
-            res.send(data)
+            res.send({
+                id: data.id
+            });
         })
         .catch(err => {
             res.status(500).send({
                 message: err.message || "Some error occured."
             });
         });
-
-
-    // const result = await list.insertOne(note);
-
-    // Check if this shows up in browser as HTML.
-    console.log(`"${result.insertId}" added`);
 }
 
 // Read API.
 const read = async (req, res, next) => {
-    list.find()
+
+    const search = req.body?.search;
+    
+    if (!search)
+        return res.status(400).send({error: "Invalid search"});
+
+    list.find({Title: { $regex: search.toLowerCase()}})
         .then(list => {
             res.send(list)
         })
@@ -54,6 +56,8 @@ const read = async (req, res, next) => {
 // Update API receives the ID, UID, title, body of the note.
 const update = async (req, res, next) => {
     // Check if JSON payload request has content.
+    const id = req.body?.id;
+
     if (!req.body) {
         return res
             .status(400)
@@ -62,11 +66,8 @@ const update = async (req, res, next) => {
             });
     }
 
-    // Contains the request for the note ID.
-    const id = req.params.id;
-
     list.findOneAndUpdate(id, req.body, {
-            useFindAndModify: false
+            useFindAndModify: true
         })
         .then(data => {
             if (!data) {
