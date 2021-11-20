@@ -97,6 +97,8 @@ const update = async (req, res, next) => {
                 return;
             }
 
+            console.log(data);
+
             res.send({
                 message: "note update success"
             });
