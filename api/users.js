@@ -1,5 +1,6 @@
 import userModel from "./models/user.js";
 import jwt from "jsonwebtoken";
+import sendEmail from "./email.js";
 
 function _validateEmail(email) {
     const rexp = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/;
@@ -155,7 +156,7 @@ async function forgot(req, res) {
             error: `invalid email`
         });
 
-    const emailSentMsg = "The recovery email has been sent to the provided email";
+    const emailSentMsg = "The account recovery link has been sent to the provided email";
 
     userModel.findOne({ Email: email }, (err, user) => {
 
@@ -166,7 +167,7 @@ async function forgot(req, res) {
 
         if (err || !user) {
             // send an email stating account not found following a link to create a new account
-            // sendAccountNotFound()
+            // _sendAccountNotFound()
             return res.status(200).json({
                 message: emailSentMsg
             });
@@ -180,17 +181,24 @@ async function forgot(req, res) {
         );
 
         // TODO: do this as HTML template with username.
-        let message = `Hello, this is a password reset request for your Todo account!
-            If you did not request this, please ignore.
-            Reset your password here: https://cop4331-test123.herokuapp.com/`;
+        let message = `Hello ${user.FirstName} ${user.LastName},<br>
+            You have made a request to reset your todo account password.<br>
+            If you did not make this request, you can safely ignore this email.<br><br>
+            To reset the password, click here:
+            <a href="https://cop4331-test123.herokuapp.com/resetpassword?q=${jwtoken}">Reset your password here</a><br>
+            You can also the following link on your web browser:<br>
+            https://cop4331-test123.herokuapp.com/resetpassword?q=${jwtoken}`;
         
-        message += jwtoken;
-        console.log(message);
         // Send email.
         // const checking = sendEmail.sendEmail(email, "Todo: Password Reset Request", message);
+        sendEmail({
+            address: email,
+            subject: "todo Account Password Reset",
+            html: message 
+        }).catch(e => {console.error(e.message)});
 
         // Modifies an existing document or documents in a collection.
-        user.updateOne({ _id: user._id }, {
+        userModel.updateOne({ _id: user._id }, {
             $set: {
                 resetPassword: jwtoken
             }
@@ -223,19 +231,17 @@ async function reset(req, res) {
 
         // Return the correct user.
         userModel.findOne({ resetPassword: reset_link }, (err, user) => {
-            if (err || !user) {
-                // User isn't found or there is an error.
+            if (err || !user)
                 return res.status(400).json({
                     error: "Invalid token."
                 });
-            } else {
-                user.updateOne(
-                    { _id: user._id }, 
-                    { $set: { Password: new_password }
-                });
 
-                return res.status(200).json({  error: "" });
-            }
+            userModel.updateOne(
+                { _id: user._id }, 
+                { $set: { Password: new_password }
+            });
+
+            return res.status(200).json({  error: "" });
         })
     });
 
