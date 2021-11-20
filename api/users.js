@@ -196,11 +196,9 @@ async function reset(req, res) {
     return res.status(401).json({ error: "Authentication error." });
 }
 
-export default function (app) {
-    const prefix = "/api/users";
-
-    app.post(`${prefix}/register`, register);
-    app.post(`${prefix}/login`, login);
-    app.post(`${prefix}/forgotpassword`, forgot);
-    app.post(`${prefix}/resetpassword`, reset);
+export default {
+    register: register,
+    login: login,
+    forgot: forgot,
+    reset: reset
 }
