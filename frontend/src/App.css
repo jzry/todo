@@ -1,7 +1,7 @@
 :root
 {
   --backgroundColor: #9aa791;
-  --buttonColor: #89a89e;;
+  --buttonColor: #89a89e;
   --ariaSelected: #517470;
   --buttonHover: #9eac94;
   --checkSelect: #64706f;
@@ -9,6 +9,10 @@
   --layeringWhite: #ffffff7e;
   --semiWhite: rgba(255, 255, 255, 0.25);
   --descSize: 3vw;
+}
+
+:focus-visible{
+  outline: #89a89e auto 0.5px;
 }
 
 #addButton
@@ -50,6 +54,7 @@
   margin-left: 1%;
   margin-right: 1%;
 }
+
 .buttonScheme:hover {
   background-color: #ACBAA1;
   border-color: transparent;
@@ -271,14 +276,13 @@
     margin-left: auto;
     margin-right: auto;
   }
-
 }
 
 #helpLink
 {
   text-align: right;
   font-size: smaller;
-  margin-top: 2%;
+  margin-top: 1%;
 }
 
 #homeText
@@ -300,14 +304,17 @@
 .inFields
 {
   display: flex;
-  border-color: transparent;
+  border-color: rgb(255, 255, 255);
+  border-style: solid;
   border-radius: 10px;
-  background-color: rgb(255, 255, 255, 0.8);
+  border-width: 1px;
+  background-color: rgb(255, 255, 255, 0.4);
   font-size: 20px;
-  text-align: center;
   margin-left: 1%;
   margin-right: 1%;
+  padding-left: 5%;
 }
+
 
 .inFields:focus
 {
@@ -397,20 +404,39 @@ h1:hover > .listCtrl
   padding: 0.25rem 0.75rem;
 }
 
+#loginForm .inFields
+{
+  margin-bottom: 0.4em;
+}
+
 .navi 
 {
   background-color: transparent;
   margin-bottom: 0.25%;
 }
 
+.navbar-dark .navbar-nav .nav-link:focus, .navbar-dark .navbar-nav .nav-link:hover 
+{
+  color: white;
+}
+
 .navBtn 
 {
-  background-color: var(--semiWhite);
-  border-color: transparent;
+  background-color: transparent;
+  border-color: white;
   margin-left: 5px;
   margin-right: 5px;
   padding-top: 3px;
   padding-bottom: 3px;
+}
+.navBtn:hover{
+  background-color: var(--buttonColor);
+  border-color: #435f4c;
+}
+
+#navTitle
+{
+  margin-bottom: 0;
 }
 
 #newRadios
@@ -512,6 +538,11 @@ h1:hover > .listCtrl
   display: none;
 }
 
+#signUpForm .inFields
+{
+  margin-top: 0.4em;
+}
+
 .splitFields
 {
   display: flex;
@@ -523,6 +554,14 @@ h1:hover > .listCtrl
   width: auto;
 }
 
+#successBlock
+{
+  display: none;
+  color: green;
+  background-color: white;
+  border-left: thick solid green;
+  margin-bottom: 15px;
+}
 
 .tagline
 {
@@ -564,7 +603,9 @@ h1:hover > .listCtrl
 
 .toDoBar
 {
-  padding: 0.5em;
+  padding: 0;
+  background-color: rgba(255, 255, 255, 0.062);
+  margin-bottom: 2em;
 }
 
 .toggle-btn[aria-pressed="true"] 

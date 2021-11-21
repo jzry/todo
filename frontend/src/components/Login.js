@@ -108,8 +108,8 @@ function Login(props)
 
     return(
         <div id="loginDiv" className="app">
-            <Form id="loginForm" className="form" onSubmit={handleSubmit}>
-                <span id="inner-title">Sign in to your account</span><br />
+            <span id="inner-title">Sign in to your account</span><br /><br />
+            <Form id="loginForm" className="form iconBox" onSubmit={handleSubmit}>
                 <input type="text" id="loginName" className="inFields" name="loginName" placeholder="Username"
                     value={state.loginName} ref={un} onChange={handleChange}/>
                 <span ref={usernameMess} style={{display: "none", color: "red"}}>{message}</span>

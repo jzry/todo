@@ -11,32 +11,42 @@ import CompanyPage from './pages/CompanyPage';
 import Pricing from './pages/Pricing';
 import ForgotPage from './pages/ForgotPage';
 import Navigation from './components/Navigation';
+import ResetPassPage from './pages/ResetPassPage';
 
 function App() 
 {
-    const [user, setUser] = useState({
-        id: null,
-        firstName: "",
-        lastName: "",
-    });
+    const [user, setUser] = useState(
+        {
+            id: null,
+            firstName: "",
+            lastName: ""
+        }
+    );
 
-    //true == active user (logged in)
+    // true == active user (logged in)
     const [state, setState] = useState(user.id ? true : false);
 
-    function onLogin(active){
+    // Set user vars to access the Canvas page
+    function onLogin(active)
+    {
         setState(active);
 
         let check = JSON.parse(localStorage.getItem('user_data'));
 
-        setUser({
-            id: check.id,
-            firstName: check.firstName, 
-            lastName: check.lastName
-        });
-        return <Redirect to="/canvas" />
+        setUser(
+            {
+                id: check.id,
+                firstName: check.firstName, 
+                lastName: check.lastName
+            }
+        );
+
+        return <Redirect to="/canvas"/>
     }
 
-    function onLogout(active){
+    // clear all fields on logout
+    function onLogout(active)
+    {
         setState(active);
         setUser(
             {        
@@ -64,6 +74,9 @@ function App()
                     </Route>
                     <Route path="/forgot" exact>
                         <ForgotPage />
+                    </Route>
+                    <Route path="/resetpw">
+                        <ResetPassPage />
                     </Route>
                     <Route path="/product">
                         <ProductPage />

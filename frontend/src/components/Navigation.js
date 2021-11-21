@@ -4,8 +4,6 @@ import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 
-import PageTitle from './PageTitle';
-
 function Navigation(props)
 {
     const doLogout = event =>
@@ -22,7 +20,7 @@ function Navigation(props)
             <Navbar className="toDoBar static-top" variant="dark" collapseOnSelect expand="lg">
                 <Container>
                     <Navbar.Brand href='/'>
-                        <PageTitle />
+                        <h4 id="navTitle">flourish</h4>
                     </Navbar.Brand>
                     <Navbar.Toggle aria-controls="responsive-navbar-nav" />
                     <Navbar.Collapse id="responsive-navbar-nav">   

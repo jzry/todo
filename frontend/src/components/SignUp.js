@@ -11,22 +11,24 @@ function SignUp()
     var bp = require('./Path.js');
     const [state, setState] = useState(
         {
-            fn: "",
-            ln: "",
+            first_name: "",
+            last_name: "",
             email: "",
-            un: "",
-            pw: "",
-            cpw: ""
+            login: "",
+            password: "",
+            cpassword: ""
         }
     );
     const [message,setMessage] = useState('');
     const signUpResult = useRef(null);
-    const fnMess = useRef(null);
-    const lnMess = useRef(null);
+    const first_nameMess = useRef(null);
+    const last_nameMess = useRef(null);
     const emailMess = useRef(null);
-    const unMess = useRef(null);
-    const pwMess = useRef(null);
-    const cpwMess = useRef(null);
+    const loginMess = useRef(null);
+    const passwordMess = useRef(null);
+    const cpasswordMess = useRef(null);
+    const signup = useRef(null);
+    const confirm = useRef(null);
 
     const handleChange = (e) =>
     {
@@ -42,87 +44,87 @@ function SignUp()
     {
         e.preventDefault();
 
-        if(state.fn === "")
+        if(state.first_name === "")
         {
-            lnMess.current.style.display = "none";
+            last_nameMess.current.style.display = "none";
             emailMess.current.style.display = "none";
-            unMess.current.style.display = "none";
-            pwMess.current.style.display = "none";
-            cpwMess.current.style.display = "none";
+            loginMess.current.style.display = "none";
+            passwordMess.current.style.display = "none";
+            cpasswordMess.current.style.display = "none";
 
             setMessage('Please provide your first name.');
-            fnMess.current.style.display = "inline-block";
+            first_nameMess.current.style.display = "inline-block";
             return;
 
         } 
-        else if(state.ln === "")
+        else if(state.last_name === "")
         {
-            fnMess.current.style.display = "none";
+            first_nameMess.current.style.display = "none";
             emailMess.current.style.display = "none";
-            unMess.current.style.display = "none";
-            pwMess.current.style.display = "none";
-            cpwMess.current.style.display = "none";
+            loginMess.current.style.display = "none";
+            passwordMess.current.style.display = "none";
+            cpasswordMess.current.style.display = "none";
 
             setMessage('Please provide your last name.');
-            lnMess.current.style.display = "inline-block";
+            last_nameMess.current.style.display = "inline-block";
             return;
         }
         else if(state.email === "")
         {
-            fnMess.current.style.display = "none";
-            lnMess.current.style.display = "none";
-            unMess.current.style.display = "none";
-            pwMess.current.style.display = "none";
-            cpwMess.current.style.display = "none";
+            first_nameMess.current.style.display = "none";
+            last_nameMess.current.style.display = "none";
+            loginMess.current.style.display = "none";
+            passwordMess.current.style.display = "none";
+            cpasswordMess.current.style.display = "none";
 
             setMessage('Please provide an email.');
             emailMess.current.style.display = "inline-block";
             return;
         }
-        else if(state.un === "")
+        else if(state.login === "")
         {
-            fnMess.current.style.display = "none";
-            lnMess.current.style.display = "none";
+            first_nameMess.current.style.display = "none";
+            last_nameMess.current.style.display = "none";
             emailMess.current.style.display = "none";
-            pwMess.current.style.display = "none";
-            cpwMess.current.style.display = "none";
+            passwordMess.current.style.display = "none";
+            cpasswordMess.current.style.display = "none";
 
             setMessage('Please provide a username.');
-            unMess.current.style.display = "inline-block";
+            loginMess.current.style.display = "inline-block";
             return;
         }
-        else if(state.pw === "")
+        else if(state.password === "" || (state.password).length < 7)
         {
-            fnMess.current.style.display = "none";
-            lnMess.current.style.display = "none";
+            first_nameMess.current.style.display = "none";
+            last_nameMess.current.style.display = "none";
             emailMess.current.style.display = "none";
-            unMess.current.style.display = "none";
-            cpwMess.current.style.display = "none";
+            loginMess.current.style.display = "none";
+            cpasswordMess.current.style.display = "none";
 
             setMessage('Please provide a password.');
-            pwMess.current.style.display = "inline-block";
+            passwordMess.current.style.display = "inline-block";
             return;
         }
-        else if(state.cpw === "" || state.cpw !== state.pw)
+        else if(state.cpassword === "" || state.cpassword !== state.password)
         {
-            fnMess.current.style.display = "none";
-            lnMess.current.style.display = "none";
+            first_nameMess.current.style.display = "none";
+            last_nameMess.current.style.display = "none";
             emailMess.current.style.display = "none";
-            unMess.current.style.display = "none";
-            pwMess.current.style.display = "none";
+            loginMess.current.style.display = "none";
+            passwordMess.current.style.display = "none";
 
             setMessage('Passwords do not match.');
-            cpwMess.current.style.display = "inline-block";
+            cpasswordMess.current.style.display = "inline-block";
             return;
         }
         else 
         {
-            fnMess.current.style.display = "none";
-            lnMess.current.style.display = "none";
+            first_nameMess.current.style.display = "none";
+            last_nameMess.current.style.display = "none";
             emailMess.current.style.display = "none";
-            unMess.current.style.display = "none";
-            pwMess.current.style.display = "none";
-            cpwMess.current.style.display = "none";
+            loginMess.current.style.display = "none";
+            passwordMess.current.style.display = "none";
+            cpasswordMess.current.style.display = "none";
             doSignUp(e);
         }
 
@@ -130,7 +132,7 @@ function SignUp()
 
     const doSignUp = async event => 
     {
-        var obj = {first: state.fn,last: state.ln, email: state.email, username: state.un, password: state.pw};
+        var obj = {first: state.first_name,last: state.last_name, email: state.email, username: state.login, password: state.password};
         var js = JSON.stringify(obj);
         var config = 
         {
@@ -153,6 +155,10 @@ function SignUp()
                 }
                 else 
                 {
+                    signup.current.style.display = "none";
+                    setMessage('Check your email for a message to confirm your account.');
+                    confirm.current.style.display = "block";
+
 
                 }
             })
@@ -163,24 +169,27 @@ function SignUp()
     }
     return(
         <div id="signUpDiv" className="app">
-            <Form id="signUpForm" className="form" onSubmit={handleSubmit}>
-                <p id="inner-title">Sign up and create a new account</p>
-                <input type="text" id="firstName" name="fn" className="inFields" placeholder="First Name" value={state.fn} onChange={handleChange}/>
-                <span ref={fnMess} style={{display: "none", color: "red"}}>{message}</span><br/>
-                <input type="text" id="lastName" name="ln" className="inFields" placeholder="Last Name" value={state.ln} onChange={handleChange}/>
-                <span ref={lnMess} style={{display: "none", color: "red"}}>{message}</span><br/>
+            <Form ref={signup} id="signUpForm" className="form" onSubmit={handleSubmit}>
+                <p id="inner-title">Complete all the fields below to create an account</p>
+                <input type="text" id="firstName" name="first_name" className="inFields" placeholder="First Name" value={state.first_name} onChange={handleChange}/>
+                <span ref={first_nameMess} style={{display: "none", color: "red"}}>{message}</span>
+                <input type="text" id="lastName" name="last_name" className="inFields" placeholder="Last Name" value={state.last_name} onChange={handleChange}/>
+                <span ref={last_nameMess} style={{display: "none", color: "red"}}>{message}</span>
                 <input type="text" id="email" name="email" className="inFields" placeholder="Email" value={state.email} onChange={handleChange}/>
-                <span ref={emailMess} style={{display: "none", color: "red"}}>{message}</span><br/>
-                <input type="text" id="userName" name="un" className="inFields" placeholder="Username" value={state.un} onChange={handleChange}/>
-                <span ref={unMess} style={{display: "none", color: "red"}}>{message}</span><br/>
-                <input type="password" id="password" name="pw" className="inFields" placeholder="Password" value={state.pw} onChange={handleChange}/>
-                <span ref={pwMess} style={{display: "none", color: "red"}}>{message}</span><br/>
-                <input type="password" id="cpassword" name="cpw" className="inFields" placeholder="Confirm password" value={state.cpw} onChange={handleChange}/>
-                <span ref={cpwMess} style={{display: "none", color: "red"}}>{message}</span><br/>
+                <span ref={emailMess} style={{display: "none", color: "red"}}>{message}</span>
+                <input type="text" id="userName" name="un" className="inFields" placeholder="Username" value={state.login} onChange={handleChange}/>
+                <span ref={loginMess} style={{display: "none", color: "red"}}>{message}</span>
+                <input type="password" id="password" name="password" className="inFields" placeholder="Password" value={state.password} onChange={handleChange}/>
+                <span ref={passwordMess} style={{display: "none", color: "red"}}>{message}</span>
+                <input type="password" id="cpassword" name="cpassword" className="inFields" placeholder="Confirm password" value={state.cpassword} onChange={handleChange}/>
+                <span ref={cpasswordMess} style={{display: "none", color: "red"}}>{message}</span><br />
                 <input type="submit" id="signUpButton"  className="formBtn" value = "Sign Up"/>
-                <span id="signUpResult" ref={signUpResult} style={{display: "none", color: "red"}}></span><br />
+                <span id="signUpResult" ref={signUpResult} style={{display: "none", color: "red"}}></span>
                 <p>Already have an account? <Link to="/login">Sign In</Link></p>
             </Form>
+            <div id="successBlock" ref={confirm}>
+                    {message}
+            </div>
         </div>
     );
 };
