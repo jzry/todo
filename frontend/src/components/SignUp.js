@@ -80,6 +80,19 @@ function SignUp()
             setMessage('Please provide an email.');
             emailMess.current.style.display = "inline-block";
             return;
+        } 
+        else if(!(state.email).includes('@') || 
+            (state.email[(state.email).length - 4] !== '.' && state.email[(state.email).length - 3] !== '.'))
+        {
+            first_nameMess.current.style.display = "none";
+            last_nameMess.current.style.display = "none";
+            loginMess.current.style.display = "none";
+            passwordMess.current.style.display = "none";
+            cpasswordMess.current.style.display = "none";
+
+            setMessage('Email format is invalid.');
+            emailMess.current.style.display = "inline-block";
+            return;
         }
         else if(state.login === "")
         {
@@ -89,7 +102,7 @@ function SignUp()
             passwordMess.current.style.display = "none";
             cpasswordMess.current.style.display = "none";
 
-            setMessage('Please provide a username.');
+            setMessage('Please provide a username with at least 7 characters.');
             loginMess.current.style.display = "inline-block";
             return;
         }
@@ -177,13 +190,13 @@ function SignUp()
                 <span ref={last_nameMess} style={{display: "none", color: "red"}}>{message}</span>
                 <input type="text" id="email" name="email" className="inFields" placeholder="Email" value={state.email} onChange={handleChange}/>
                 <span ref={emailMess} style={{display: "none", color: "red"}}>{message}</span>
-                <input type="text" id="userName" name="un" className="inFields" placeholder="Username" value={state.login} onChange={handleChange}/>
+                <input type="text" id="login" name="login" className="inFields" placeholder="Username" value={state.login} onChange={handleChange}/>
                 <span ref={loginMess} style={{display: "none", color: "red"}}>{message}</span>
                 <input type="password" id="password" name="password" className="inFields" placeholder="Password" value={state.password} onChange={handleChange}/>
                 <span ref={passwordMess} style={{display: "none", color: "red"}}>{message}</span>
                 <input type="password" id="cpassword" name="cpassword" className="inFields" placeholder="Confirm password" value={state.cpassword} onChange={handleChange}/>
                 <span ref={cpasswordMess} style={{display: "none", color: "red"}}>{message}</span><br />
-                <input type="submit" id="signUpButton"  className="formBtn" value = "Sign Up"/>
+                <input type="submit" id="signUpButton"  className="formBtn buttonScheme" value = "Sign Up"/>
                 <span id="signUpResult" ref={signUpResult} style={{display: "none", color: "red"}}></span>
                 <p>Already have an account? <Link to="/login">Sign In</Link></p>
             </Form>

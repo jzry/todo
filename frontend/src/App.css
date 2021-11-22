@@ -116,11 +116,11 @@
 .checkScheme
 {
   -webkit-appearance: none;
-  background-color: #fafafa;
+  background-color: #cacece;
   border: 3px solid #cacece;
   box-shadow: 0 1px 2px rgba(0,0,0,0.05), inset 0px -15px 10px -12px rgba(0,0,0,0.05);
   padding: 9px;
-  border-radius:10px;
+  border-radius: 10px;
   display: inline-block;
   position: relative;
   margin-right: 0.5em;
@@ -164,6 +164,7 @@
   font-size: var(--descSize);
   margin-top: 3em;
   width: 40vw;
+  z-index: 2;
 }
 
 .editBtns
@@ -318,8 +319,7 @@
 
 .inFields:focus
 {
-  background-color: rgb(243, 243, 243);
-  border-color: red;
+  background-color: rgb(250, 255, 252);
 }
 
 #landing
@@ -566,6 +566,7 @@ h1:hover > .listCtrl
 .tagline
 {
   font-size: 8vw;
+  z-index: 2;
 }
 
 .taskTitle
@@ -585,6 +586,29 @@ h1:hover > .listCtrl
 {
   background-color: var(--buttonColor);
   border-color: transparent;
+}
+
+.taskImg
+{
+  position: fixed;
+  z-index: 1;
+}
+#taskImg1
+{
+  left: 55vw;
+  top: 25vh;
+}
+
+#taskImg2
+{
+  transform: rotate(5deg);
+  left: 60vw;
+  top: 53vh;
+}
+
+#title
+{
+  color:rgb(38, 65, 55);
 }
 
 #title1
