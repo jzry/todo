@@ -1,10 +1,11 @@
+import { ObjectId } from "bson";
 import mongoose from "mongoose";
 
 const ListsSchema = new mongoose.Schema({
-    noteId: {
-        type: Number
+    UserId: {
+        type: ObjectId,
+        required: true
     },
-
     Title: {
         type: String,
         required: true
