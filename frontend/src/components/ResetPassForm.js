@@ -2,7 +2,7 @@ import React, { useRef, useState } from 'react';
 import { Form } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 
-function UpdatePassForm()
+function ResetPassForm()
 {
     const [resetPassword, setResetPassword] = useState(
         {
@@ -47,19 +47,21 @@ function UpdatePassForm()
 
     return(
         <div className="app">
+            <h1>Reset Password</h1>
+            <p>Please enter your new password.</p>
             <Form className="form" onSubmit={handleSubmit}>
-                <h1>Reset Password</h1>
-                <p>Please enter your new password.</p>
                 <input type="password" id="newpass" className="inFields" name="newpass" placeholder="New password"
-                value={resetPassword.newpass} onChange={handleChange}/><br/>
+                value={resetPassword.newpass} onChange={handleChange}/>
                 <input type="password" id="cnewpass" className="inFields" name="cnewpass" placeholder="Confirm new password"
-                value={resetPassword.cnewpass} onChange={handleChange}/><br/>
-                <input type="submit" value="Set password" className="buttonScheme formBtn"/>
+                value={resetPassword.cnewpass} onChange={handleChange}/>
+                <input id="resetButton" type="submit" value="Set password" className="buttonScheme formBtn"/>
             </Form>
-            <span ref={forgotMess} style={{display: "none", color: "red"}}>{message}</span><br />
-            <Link to="/login">Cancel</Link>
+            <div className="groupSection">
+                <span ref={forgotMess} style={{display: "none", color: "red"}}>{message}</span>
+                <Link to="/login">Cancel</Link>
+            </div>
         </div>
     );
 }
 
-export default UpdatePassForm;
+export default ResetPassForm;

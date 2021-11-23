@@ -41,18 +41,18 @@ function ForgotForm()
 
     return(
         <div className="app">
-            <Form className="form" onSubmit={handleSubmit}>
-                <h1>Reset your password</h1>
-                <p>We'll send you an email so that you can reset your password.</p>
+            <Form id="forgotForm" className="form" onSubmit={handleSubmit}>
                 <div id="successBlock" ref={confirm}>
                     {message}
                 </div>
                 <input type="text" id="email" className="inFields" name="email" placeholder="Account email"
-                value={email} onChange={handleChange}/><br/>
-                <input type="submit" value="Send Email" className="buttonScheme formBtn"/>
+                value={email} onChange={handleChange}/>
+                <input id="forgotButton" type="submit" value="Send Email" className="buttonScheme formBtn"/>
             </Form>
-            <span ref={forgotMess} style={{display: "none", color: "red"}}>{message}</span><br />
-            <Link to="/login">Cancel</Link>
+            <div className="groupSection">
+                <span ref={forgotMess} style={{display: "none", color: "red"}}>{message}</span>
+                <Link to="/login">Cancel</Link>
+            </div>
         </div>
     );
 }

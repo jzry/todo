@@ -108,20 +108,27 @@ function Login(props)
 
     return(
         <div id="loginDiv" className="app">
-            <span id="inner-title">Sign in to your account</span><br /><br />
+            <p id="inner-title">Sign in to your account</p>
             <Form id="loginForm" className="form iconBox" onSubmit={handleSubmit}>
-                <input type="text" id="loginName" className="inFields" name="loginName" placeholder="Username"
-                    value={state.loginName} ref={un} onChange={handleChange}/>
-                <span ref={usernameMess} style={{display: "none", color: "red"}}>{message}</span>
-                <div id="helpLink">
-                    <Link to="/forgot">Forgot password?</Link>
+                <div className="groupSection">
+                    <input type="text" id="loginName" className="inFields" name="loginName" placeholder="Username"
+                        value={state.loginName} ref={un} onChange={handleChange}/>
+                    <span ref={usernameMess} style={{display: "none", color: "red"}}>{message}</span>
                 </div>
-                <input type="password" id="loginPassword" name="loginPassword" className="inFields" 
-                    placeholder="Password" value={state.loginPassword} ref={pw} onChange={handleChange}/><br />
-                <span ref={userpassMess} style={{display: "none", color: "red"}}>{message}</span>
-                <input type="submit" id="loginButton" className="buttonScheme formBtn" value = "Continue" />
-                <span id="loginResult" ref={loginRes} style={{display: "none", color: "red"}}>{message}</span><br />
+                <div className="groupSection">
+                    <div id="helpLink">
+                        <Link to="/forgot">Forgot password?</Link>
+                    </div>
+                    <input type="password" id="loginPassword" name="loginPassword" className="inFields" 
+                        placeholder="Password" value={state.loginPassword} ref={pw} onChange={handleChange}/>
+                    <span ref={userpassMess} style={{display: "none", color: "red"}}>{message}</span>
+                </div>
+                <div className="groupSection">
+                    <input type="submit" id="loginButton" className="buttonScheme formBtn" value = "Continue" />
+                    <span id="loginResult" ref={loginRes} style={{display: "none", color: "red"}}>{message}</span>
+                </div>
                 <p>Don't have an account? <Link to="/signup">Sign Up</Link></p>
+
             </Form>
         </div>
     );

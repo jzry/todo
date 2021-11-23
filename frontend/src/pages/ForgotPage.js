@@ -8,7 +8,9 @@ function ForgotPage()
     return (
         <div>
             <Card id="formCard">
-                <Card.Body>
+                <Card.Body className="app">
+                    <h1>Reset your password</h1>
+                    <p>We'll send you an email so that you can reset your password.</p>
                     <ForgotForm />
                 </Card.Body>
             </Card>

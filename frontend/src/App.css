@@ -235,7 +235,9 @@
 {
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: space-evenly;
+  margin-top: 10px;
+  row-gap: 10px;
 }
 
 .formBtn
@@ -277,6 +279,12 @@
     margin-left: auto;
     margin-right: auto;
   }
+}
+
+.groupSection
+{
+  display: flex;
+  flex-direction: column;
 }
 
 #helpLink
@@ -404,9 +412,9 @@ h1:hover > .listCtrl
   padding: 0.25rem 0.75rem;
 }
 
-#loginForm .inFields
+#forgotButton, #loginButton, #signUpButton, #resetButton
 {
-  margin-bottom: 0.4em;
+  margin-top: 1em;
 }
 
 .navi 
@@ -538,11 +546,6 @@ h1:hover > .listCtrl
   display: none;
 }
 
-#signUpForm .inFields
-{
-  margin-top: 0.4em;
-}
-
 .splitFields
 {
   display: flex;
@@ -591,6 +594,7 @@ h1:hover > .listCtrl
 .taskImg
 {
   position: fixed;
+  width: 30%;
   z-index: 1;
 }
 #taskImg1

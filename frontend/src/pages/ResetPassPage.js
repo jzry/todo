@@ -1,7 +1,7 @@
 import React from 'react';
 import Card from 'react-bootstrap/Card';
 
-import UpdatePassForm from '../components/UpdatePassForm';
+import ResetPassForm from '../components/ResetPassForm';
 
 function ResetPassPage() 
 {
@@ -9,7 +9,7 @@ function ResetPassPage()
         <div>
             <Card id="formCard">
                 <Card.Body>
-                    <UpdatePassForm/>
+                    <ResetPassForm/>
                 </Card.Body>
             </Card>
         </div>

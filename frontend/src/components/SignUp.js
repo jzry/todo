@@ -184,21 +184,35 @@ function SignUp()
         <div id="signUpDiv" className="app">
             <Form ref={signup} id="signUpForm" className="form" onSubmit={handleSubmit}>
                 <p id="inner-title">Complete all the fields below to create an account</p>
-                <input type="text" id="firstName" name="first_name" className="inFields" placeholder="First Name" value={state.first_name} onChange={handleChange}/>
-                <span ref={first_nameMess} style={{display: "none", color: "red"}}>{message}</span>
-                <input type="text" id="lastName" name="last_name" className="inFields" placeholder="Last Name" value={state.last_name} onChange={handleChange}/>
-                <span ref={last_nameMess} style={{display: "none", color: "red"}}>{message}</span>
-                <input type="text" id="email" name="email" className="inFields" placeholder="Email" value={state.email} onChange={handleChange}/>
-                <span ref={emailMess} style={{display: "none", color: "red"}}>{message}</span>
-                <input type="text" id="login" name="login" className="inFields" placeholder="Username" value={state.login} onChange={handleChange}/>
-                <span ref={loginMess} style={{display: "none", color: "red"}}>{message}</span>
-                <input type="password" id="password" name="password" className="inFields" placeholder="Password" value={state.password} onChange={handleChange}/>
-                <span ref={passwordMess} style={{display: "none", color: "red"}}>{message}</span>
-                <input type="password" id="cpassword" name="cpassword" className="inFields" placeholder="Confirm password" value={state.cpassword} onChange={handleChange}/>
-                <span ref={cpasswordMess} style={{display: "none", color: "red"}}>{message}</span><br />
+                <div className="groupSection">
+                    <input type="text" id="firstName" name="first_name" className="inFields" placeholder="First Name" value={state.first_name} onChange={handleChange}/>
+                    <span ref={first_nameMess} style={{display: "none", color: "red"}}>{message}</span>
+                </div>
+                <div className="groupSection">
+                    <input type="text" id="lastName" name="last_name" className="inFields" placeholder="Last Name" value={state.last_name} onChange={handleChange}/>
+                    <span ref={last_nameMess} style={{display: "none", color: "red"}}>{message}</span>
+                </div>
+                <div className="groupSection">
+                    <input type="text" id="email" name="email" className="inFields" placeholder="Email" value={state.email} onChange={handleChange}/>
+                    <span ref={emailMess} style={{display: "none", color: "red"}}>{message}</span>
+                </div>
+                <div className="groupSection">
+                    <input type="text" id="login" name="login" className="inFields" placeholder="Username" value={state.login} onChange={handleChange}/>
+                    <span ref={loginMess} style={{display: "none", color: "red"}}>{message}</span>
+                </div>
+                <div className="groupSection">
+                    <input type="password" id="password" name="password" className="inFields" placeholder="Password" value={state.password} onChange={handleChange}/>
+                    <span ref={passwordMess} style={{display: "none", color: "red"}}>{message}</span>
+                </div>
+                <div className="groupSection">
+                    <input type="password" id="cpassword" name="cpassword" className="inFields" placeholder="Confirm password" value={state.cpassword} onChange={handleChange}/>
+                    <span ref={cpasswordMess} style={{display: "none", color: "red"}}>{message}</span>
+                </div>
                 <input type="submit" id="signUpButton"  className="formBtn buttonScheme" value = "Sign Up"/>
-                <span id="signUpResult" ref={signUpResult} style={{display: "none", color: "red"}}></span>
-                <p>Already have an account? <Link to="/login">Sign In</Link></p>
+                <div className="groupSection">
+                    <span id="signUpResult" ref={signUpResult} style={{display: "none", color: "red"}}></span>
+                    <p>Already have an account? <Link to="/login">Sign In</Link></p>
+                </div>
             </Form>
             <div id="successBlock" ref={confirm}>
                     {message}
