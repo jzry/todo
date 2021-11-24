@@ -1,9 +1,6 @@
 import mongoose from "mongoose";
 
 const UsersSchema = new mongoose.Schema({
-    UserId: {
-        type: Number
-    },
     FirstName: {
         type: String,
         required: true
@@ -23,10 +20,12 @@ const UsersSchema = new mongoose.Schema({
     Password: {
         type: String,
         required: true
+    },
+    AuthStatus: {
+        type: Number,
+        required: true
     }
 }, {timestamps: true});
-
-
 
 export default mongoose.model(
     "Users",
