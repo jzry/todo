@@ -4,7 +4,7 @@ import path from "path";
 
 import mongoose from "mongoose";
 import users from "./api/users.js"
-import notes from "./api/notes.js"
+import lists from "./api/lists.js"
 
 import { config as envConfig } from "dotenv";
 import { dirname } from 'path';
@@ -15,11 +15,11 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 envConfig();
 
 const apiPrefix = "/api";
-const notesPrefix = `${apiPrefix}/notes`;
+const listsPrefix = `${apiPrefix}/lists`;
 const usersPrefix = `${apiPrefix}/users`;
 
-const PORT = process.env.PORT || 5000,
-    app = express();
+const PORT = process.env.PORT || 8080;
+const app = express();
 
 app.set("port", PORT);
 
@@ -40,6 +40,7 @@ app.use((req, res, next) => {
         "Access-Control-Allow-Methods",
         "GET, POST, PATCH, DELETE, OPTIONS"
     );
+    
     next();
 
 });
@@ -59,10 +60,10 @@ app.post(`${usersPrefix}/login`, users.login);
 app.post(`${usersPrefix}/forgotpassword`, users.forgot);
 app.post(`${usersPrefix}/resetpassword`, users.reset);
 
-app.post(`${notesPrefix}/create`, notes.create);
-app.post(`${notesPrefix}/read`, notes.read);
-app.post(`${notesPrefix}/update`, notes.update);
-app.post(`${notesPrefix}/delete`, notes.delete);
+app.post(`${listsPrefix}/create`, lists.create);
+app.post(`${listsPrefix}/read`, lists.read);
+app.post(`${listsPrefix}/update`, lists.update);
+app.post(`${listsPrefix}/delete`, lists.delete);
 
 app.get( `${apiPrefix}`, (req, res, next) => {
     res.send("<h1>API Docs</h2>")
@@ -70,15 +71,15 @@ app.get( `${apiPrefix}`, (req, res, next) => {
 });
 
 app.get(`${apiPrefix}/*`, (_, res) => {
-    res.send({ message: "404: Not Found" });
+    res.status(404).json({ error: "404: Not Found" });
 });
 
 app.post(`${apiPrefix}/*`, async (_, res) => {
-    res.send({ message: "404: Not Found" });
+    res.status(404).json({ error: "404: Not Found" });
 });
 
 app.put(`${apiPrefix}/*`, async (_, res) => {
-    res.send({ message: "404: Not Found" });
+    res.status(404).json({ error: "404: Not Found" });
 });
 
 if (process.env.NODE_ENV === "production") {

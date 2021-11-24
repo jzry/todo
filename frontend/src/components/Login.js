@@ -2,11 +2,11 @@ import React, { useRef, useState } from 'react';
 import Form from 'react-bootstrap/Form';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
+import bp from "./Path.js";
+import storage from "../tokenStorage.js";
 
 function Login(props)
 {
-    var bp = require('./Path.js');
-    var storage = require('../tokenStorage.js');
     const [state, setState] = useState(
         {
             loginName: "",
