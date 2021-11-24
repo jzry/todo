@@ -1,6 +1,9 @@
 import React, { useRef, useState } from 'react';
 import { Form } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
+import _validateEmail from "./Email.helper.js";
+import bp from "./Path.js";
+import axios from 'axios';
 
 function ForgotForm()
 {
@@ -21,22 +24,48 @@ function ForgotForm()
         {
             setMessage('Please provide an email.');
             forgotMess.current.style.display = "inline-block";
+            return;
         } 
-        else if (!email.includes('@') || (email[(email).length - 4] !== '.' && email[(email).length - 3] !== '.'))
+        else if (!_validateEmail(email))
         {
             setMessage('Email format is incorrect.');
             forgotMess.current.style.display = "inline-block";
+            return;
         }
-        else 
-        {
-            forgotMess.current.style.display = "none";
-            confirm.current.style.display = "inline-block";
-            setMessage('If we have that email in our records, a message containing a reset link will be sent to that address.');
-            // Submit email to update/reset password info.
 
-            //
-            setEmail('');
-        }
+        // Submit email to update/reset password info.
+        const config = 
+        {
+            method: 'post',
+            url: bp.buildPath('api/users/forgotpassword'),
+            headers: 
+            {
+                'Content-Type': 'application/json'
+            },
+            data: JSON.stringify({ email: email })
+        };
+
+        axios(config)
+            .then((response) => {
+                const res = response.data;
+                if (!res) {
+                    setMessage('No response from the server');
+                    forgotMess.current.style.display = "inline-block";
+                    return;
+                }
+                    
+                forgotMess.current.style.display = "none";
+                confirm.current.style.display = "inline-block";
+                setMessage('If we have that email in our records, a message containing a reset link will be sent to that address.');
+            })
+            .catch(function (error)  {
+                if (error.response) {
+                    setMessage(error.response.data?.error);
+                    forgotMess.current.style.display = "inline-block";
+                }
+            });
+        //
+        setEmail('');
     }
 
     return(

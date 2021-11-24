@@ -67,7 +67,7 @@ function Login(props)
         var config = 
         {
             method: 'post',
-            url: bp.buildPath('api/login'),
+            url: bp.buildPath('api/users/login'),
             headers: 
             {
                 'Content-Type': 'application/json'
@@ -75,33 +75,29 @@ function Login(props)
             data: js
         };
         axios(config)
-            .then(function (response) 
-            {
-                var res = response.data;
-                if (res.error) 
-                {
-                    setMessage('User/Password combination incorrect');
+            .then((response) => {
+                const res = response.data;
+                if (!res) {
+                    setMessage('No response from the server');
+                    loginRes.current.style.display = "inline-block";
+                    return;
+                }
+
+                storage.storeToken(res.token);
+
+                const firstName = res.first_name;
+                const lastName = res.last_name;
+
+                const user = {firstName:firstName,lastName:lastName}
+                localStorage.setItem('user_data', JSON.stringify(user));
+                props.onLogin(true);
+                window.location.href = '/canvas';
+            })
+            .catch(function (error)  {
+                if (error.response) {
+                    setMessage(error.response.data?.error);
                     loginRes.current.style.display = "inline-block";
                 }
-                else 
-                {
-                    storage.storeToken(res);
-                    var jwt = require('jsonwebtoken');
-
-                    var ud = jwt.decode(storage.retrieveToken(),{complete:true});
-                    var userId = ud.payload._id;
-                    var firstName = ud.payload.first_name;
-                    var lastName = ud.payload.last_name;
-
-                    var user = {firstName:firstName,lastName:lastName,id:userId}
-                    localStorage.setItem('user_data', JSON.stringify(user));
-                    props.onLogin(true);
-                    // window.location.href = '/canvas';
-                }
-            })
-            .catch(function (error) 
-            {
-                console.log(error);
             });
     }
 

@@ -17,27 +17,28 @@ function App()
 {
     const [user, setUser] = useState(
         {
-            id: null,
+            token: null,
             firstName: "",
             lastName: ""
         }
     );
 
     // true == active user (logged in)
-    const [state, setState] = useState(user.id ? true : false);
+    const [state, setState] = useState(localStorage.getItem("token_data") ? true : false);
 
     // Set user vars to access the Canvas page
     function onLogin(active)
     {
         setState(active);
 
-        let check = JSON.parse(localStorage.getItem('user_data'));
+        const token = localStorage.getItem("token_data");
+        const user = JSON.parse(localStorage.getItem('user_data'));
 
         setUser(
             {
-                id: check.id,
-                firstName: check.firstName, 
-                lastName: check.lastName
+                token: token,
+                firstName: user.firstName, 
+                lastName: user.lastName
             }
         );
 
@@ -50,7 +51,7 @@ function App()
         setState(active);
         setUser(
             {        
-                id: null,
+                token: null,
                 firstName: "",
                 lastName: ""
             }
@@ -75,7 +76,7 @@ function App()
                     <Route path="/forgot" exact>
                         <ForgotPage />
                     </Route>
-                    <Route path="/resetpw">
+                    <Route path="/resetpassword">
                         <ResetPassPage />
                     </Route>
                     <Route path="/product">

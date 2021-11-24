@@ -2,7 +2,7 @@ exports.storeToken = function ( tok )
 {
     try
     {
-      localStorage.setItem('token_data', tok.accessToken);
+      localStorage.setItem('token_data', tok);
     }
     catch(e)
     {
@@ -11,7 +11,7 @@ exports.storeToken = function ( tok )
 }
 exports.retrieveToken = function ()
 {
-    var ud;
+    let ud;
     try
     {
       ud = localStorage.getItem('token_data');

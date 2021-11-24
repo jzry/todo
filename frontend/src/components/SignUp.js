@@ -2,6 +2,7 @@ import React, {useRef, useState} from 'react';
 import Form from 'react-bootstrap/Form';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
+import _validateEmail from "./Email.helper.js";
 
 // fill in completed sign up/add user api path in doSignUp
 // complete action for successful user sign up
@@ -81,8 +82,7 @@ function SignUp()
             emailMess.current.style.display = "inline-block";
             return;
         } 
-        else if(!(state.email).includes('@') || 
-            (state.email[(state.email).length - 4] !== '.' && state.email[(state.email).length - 3] !== '.'))
+        else if(!_validateEmail(state.email))
         {
             first_nameMess.current.style.display = "none";
             last_nameMess.current.style.display = "none";
@@ -145,12 +145,19 @@ function SignUp()
 
     const doSignUp = async event => 
     {
-        var obj = {first: state.first_name,last: state.last_name, email: state.email, username: state.login, password: state.password};
+        var obj = {
+            first_name: state.first_name,
+            last_name: state.last_name,
+            email: state.email,
+            login: state.login,
+            password: state.password
+        };
+        
         var js = JSON.stringify(obj);
         var config = 
         {
             method: 'post',
-            url: bp.buildPath('api/'),
+            url: bp.buildPath('api/users/register'),
             headers: 
             {
                 'Content-Type': 'application/json'
@@ -175,9 +182,11 @@ function SignUp()
 
                 }
             })
-            .catch(function (error) 
-            {
-                console.log(error);
+            .catch(function (error)  {
+                if (error.response) {
+                    setMessage(error.response.data?.error);
+                    signUpResult.current.style.display = "inline-block";
+                }
             });
     }
     return(

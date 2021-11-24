@@ -1,17 +1,16 @@
 import listModel from "./models/list.js";
 import jwt from "jsonwebtoken";
-// !!! TODO no user validation being done in any of these api calls
+
+// may switch to http headers for authorization
+
 // Create API receives the description of a new to-do task.
 // Returns the title and body to the to-do database of the user.
-// NOTE: I THINK NOTES ARE NOT BEING INSERTED FOR SPECIFIC USERS
-// We can not insert notes for everyone in general.
-
 async function create(req, res, next) {
 
     // Check if JSON request payload exists.
     if (!req.body) {
         return res.status(400).json({
-            error: "empty note"
+            error: "empty list"
         });
     }
      
@@ -23,14 +22,14 @@ async function create(req, res, next) {
             });
 
         // Create a new to do task with a title and a body.
-        const note = new listModel({
+        const list = new listModel({
             UserId: decoded.id,
             Title: req.body.title,
-            Body: req.body.note
+            Body: req.body.list
         });
 
-        // Save note in the database.
-        await note.save()
+        // Save list in the database.
+        await list.save()
             .then(data => {
                 res.json({
                     id: data.id
@@ -57,26 +56,26 @@ async function read(req, res, next) {
         listModel.find({Title: { $regex: `(?i)${search}`}, UserId: decoded.id })
             .then(list => {
                 let out = []
-                for (const note of list) {
+                for (const l of list) {
                     out.push({
-                        id: note._id,
-                        title: note.Title,
-                        note: note.Body,
-                        created: note.createdAt,
-                        updated: note.updatedAt
+                        id: l._id,
+                        title: l.Title,
+                        list: l.Body,
+                        created: l.createdAt,
+                        updated: l.updatedAt
                     });
                 }
                 res.send(out);
             })
             .catch(err => {
                 res.status(500).send({
-                    message: err.message || "Error finding note"
+                    message: err.message || "error finding list"
                 });
             });
     });
 }
 
-// Update API receives the ID, UID, title, body of the note.
+// Update API receives the ID, UID, title, body of the list.
 async function update(req, res, next) {
 
     // Check if JSON payload request has content.
@@ -84,14 +83,14 @@ async function update(req, res, next) {
         return res
             .status(400)
             .json({
-                error: "Can not submit an empty note."
+                error: "empty update request"
             });
 
     const id = req.body.id;
     const title = req.body.title;
-    const note = req.body.note;
+    const list = req.body.list;
 
-    const requiredFields = ["id", "title", "note", "token"];
+    const requiredFields = ["id", "title", "list", "token"];
 
     for (const field of requiredFields) {
         if (!(field in req.body))
@@ -104,14 +103,14 @@ async function update(req, res, next) {
         return res
             .status(400)
             .send({
-                error: "Can not update a note without an id"
+                error: "Can not update a list without an id"
             });
 
     if (title === "")
         return res
             .status(400)
             .send({
-                error: "Can not submit a note with an empty title"
+                error: "Can not submit a list with an empty title"
             });
 
     jwt.verify(token, process.env.LOGIN_KEY, (err, decoded) => {
@@ -120,34 +119,34 @@ async function update(req, res, next) {
                 error: "unauthorized access"
             });
 
-        listModel.findOneAndUpdate({_id: id, UserId: decoded.id}, {Title: title, Body: note})
+        listModel.findOneAndUpdate({_id: id, UserId: decoded.id}, {Title: title, Body: list})
             .then(data => {
                 if (!data) {
                     // Data does not exist.
                     res.status(404).send({
-                        error: `Note with ID: ${id} can not be updated.`
+                        error: `list with ID: ${id} can not be updated.`
                     });
                     return;
                 }
 
                 res.send({
-                    message: "note update success"
+                    message: "list update success"
                 });
             })
             .catch(err => {
                 if (err.path === "_id")
                     return res.status(500).send({
-                        error: `Cannot find note with id '${id}'`
+                        error: `Cannot find list with id '${id}'`
                     });
                 res.status(500).send({
-                    error: err.message || "Error updating note"
+                    error: err.message || "Error updating list"
                 });
             });
         });
 }
 
-// Delete API receives the ID, body, title, and respective UID of the note.
-// Deletes note from the specific user from the database.
+// Delete API receives the ID, body, title, and respective UID of the list.
+// Deletes list from the specific user from the database.
 async function del (req, res, next) {
 
     const id = req.body?.id;
@@ -168,18 +167,18 @@ async function del (req, res, next) {
             .then(data => {
                 if (!data) {
                     res.status(404).send({
-                        error: `Note with ID ${id} does not exist.`
+                        error: `list with id:${id} does not exist`
                     })
                     return;
                 }
 
                 res.send({
-                    message: "Note was deleted successfully."
+                    message: "list was deleted successfully"
                 });
             })
-            .catch(err => { // There is an error trying to delete one of the notes.
+            .catch(err => { // There is an error trying to delete one of the lists.
                 res.status(500).send({
-                    error: `Note ${id} could not be deleted.`
+                    error: `list id:${id} could not be deleted`
                 })
             });
         });

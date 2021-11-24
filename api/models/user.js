@@ -24,6 +24,10 @@ const UsersSchema = new mongoose.Schema({
     AuthStatus: {
         type: Number,
         required: true
+    },
+    ResetPassword: {
+        type: String,
+        default: ""
     }
 }, {timestamps: true});
 

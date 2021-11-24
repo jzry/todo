@@ -36,13 +36,13 @@ function _createNewUser(req, res) {
             })
         })
         .catch((e) => {
-            console.error(e);
+            console.error(e.message);
         })
 
     const jwtoken = jwt.sign(
         { id: user._id }, 
         process.env.LOGIN_KEY,
-        { expiresIn: '24h'}
+        { expiresIn: '7d'}
     );
 
     // use an html page here with css styling and better content
@@ -50,7 +50,7 @@ function _createNewUser(req, res) {
     Hello ${req.body.first_name} ${req.body.last_name}, <br>
     
     This verification link expires in 24 hours:
-    <a href="https://cop4331-test123.herokuapp.com/verifyemail?q=${jwtoken}">Verify your email</a></br>
+    <a href="https://cop4331-test123.herokuapp.com/verify?q=${jwtoken}">Verify your email</a></br>
     `;
 
     // send verification email
@@ -147,7 +147,7 @@ async function login(req, res) {
 
     if (!results)
         return res.status(400).json({
-            error: "login/Password incorrect"
+            error: "login/password incorrect"
         });
 
     const verStatus = results.AuthStatus;
@@ -160,9 +160,6 @@ async function login(req, res) {
 
     try {
         const ret = jwt.sign({
-                first_name: results.FirstName,
-                last_name: results.LastName,
-                login: results.Login, 
                 id: results._id
             },
             process.env.LOGIN_KEY, {
@@ -170,7 +167,12 @@ async function login(req, res) {
             }
         );
 
-        return res.status(200).json(ret);
+        return res.status(200).json({
+            token: ret,
+            first_name: results.FirstName,
+            last_name: results.LastName,
+            login: results.Login, 
+        });
 
     } catch (e) {
         
@@ -257,7 +259,7 @@ async function forgot(req, res) {
         // Modifies an existing document or documents in a collection.
         userModel.updateOne({ _id: user._id }, {
             $set: {
-                resetPassword: jwtoken
+                ResetPassword: jwtoken
             }
         });
 
@@ -287,7 +289,7 @@ async function reset(req, res) {
         }
 
         // Return the correct user.
-        userModel.findOne({ resetPassword: reset_link }, (err, user) => {
+        userModel.findOne({ ResetPassword: reset_link }, (err, user) => {
             if (err || !user)
                 return res.status(400).json({
                     error: "invalid token"
@@ -295,7 +297,7 @@ async function reset(req, res) {
 
             userModel.updateOne(
                 { _id: user._id }, 
-                { $set: { Password: new_password }
+                { $set: { Password: new_password, ResetPassword: "" }
             }).catch(err => {
                 return res.status(400).json({
                     error: "password update failed"

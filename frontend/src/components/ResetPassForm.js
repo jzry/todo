@@ -1,17 +1,27 @@
 import React, { useRef, useState } from 'react';
 import { Form } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
+import bp from "./Path.js";
+import axios from 'axios';
 
 function ResetPassForm()
 {
+    const params = new URLSearchParams(window.location.search);
+    const q = params.get("q");
+
     const [resetPassword, setResetPassword] = useState(
         {
             newpass: '',
-            cnewpass: ''
+            cnewpass: '',
+            success: false
         }
     );
     const [message,setMessage] = useState('');
     const forgotMess = useRef(null);
+
+
+    if (!q)
+        return <Redirect to="/" />
 
     const handleChange = (e) =>
     {
@@ -26,24 +36,64 @@ function ResetPassForm()
     function handleSubmit(e)
     {
         e.preventDefault();
+
         if(resetPassword.newpass === "")
         {
             setMessage('Please provide a password.');
             forgotMess.current.style.display = "inline-block";
+            return;
         } 
         else if (resetPassword.cnewpass !== resetPassword.newpass)
         {
             setMessage('Passwords do not match.');
             forgotMess.current.style.display = "inline-block";
-        } 
-        else 
-        {
-            setMessage('');
-            forgotMess.current.style.display = "none";
-            // submission
-
+            return;
         }
+
+        setMessage('');
+        forgotMess.current.style.display = "none";
+        // submission
+
+        const config = 
+        {
+            method: 'post',
+            url: bp.buildPath('api/users/resetpassword'),
+            headers: 
+            {
+                'Content-Type': 'application/json'
+            },
+            data: JSON.stringify({ new_password: resetPassword.newpass, reset_link: q })
+        };
+
+        axios(config)
+            .then((response) => {
+                const res = response.data;
+                if (!res) {
+                    setMessage('No response from the server');
+                    forgotMess.current.style.display = "inline-block";
+                    return;
+                }
+
+                setResetPassword({success: true});
+            })
+            .catch(function (error)  {
+                if (error.response) {
+                    setMessage(error.response.data?.error);
+                    forgotMess.current.style.display = "inline-block";
+                }
+            });
     }
+
+    if (resetPassword.success)
+        return(
+        <div className="app">
+            <h1>Password Reset Success</h1>
+
+            <div className="groupSection">
+                <span style={{color: "green"}}>Password reset successfully!</span>
+                <Link to="/login">Return to login.</Link>
+            </div>
+        </div>);
 
     return(
         <div className="app">
