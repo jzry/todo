@@ -36,6 +36,11 @@
   position: relative;
 }
 
+.addicon
+{
+  font-size: 60px;
+}
+
 .app
 {
   text-align: center;
@@ -65,6 +70,7 @@
   display: flex;
   flex-direction: row;
   justify-content: flex-start;
+  align-items: center;
   margin-left: 30vw;
 }
 
@@ -593,7 +599,7 @@ h1:hover > .listCtrl
 
 .taskImg
 {
-  position: fixed;
+  position: absolute;
   width: 30%;
   z-index: 1;
 }

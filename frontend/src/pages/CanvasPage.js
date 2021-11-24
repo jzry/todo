@@ -1,57 +1,165 @@
 import React, { useState } from 'react';
-import  { Container } from 'react-bootstrap';
+import  { Container, Button } from 'react-bootstrap';
+import { nanoid } from 'nanoid';
+import {CgAdd} from 'react-icons/cg'
 
 import PriorityList from '../components/PriorityList';
 import LoggedInName from '../components/LoggedInName';
-import SchedList from '../components/SchedList';
+import NewListForm from '../components/NewListForm';
+
+// Force Update Page when called
+function useForceUpdate()
+{
+    const [value, setValue] = useState(0);
+    return () => setValue(value => value + 1); 
+}
+
 
 function CanvasPage(props)
 {
-    // Priority Task Format:
-    // type:"Priority", id:"todo-#", name: "task", completed: T/F
-    // Schedule:
-    // type:"Schedule", id:"todo-#", name: "task", date: ISO datetime
+    // Lists 
+    // userId: ####
+    // title: list name
+    // body: array of tasks
 
-    // Array of all user tasks
-    const list = [];
-    
-    // state.lists = [[],[]]
-    const [state, setState] = useState(
+    const l1 = [
         {
-            user: "",
-            userId: "",
-            lists:splitLists(list)
-        });
+            title: 'Priority List',
+            id: `list-${nanoid()}`,
+            body: 
+            [
+                
+                { 
+                    id: "todo-0", 
+                    name: "Eat", 
+                    completed: false
+                },
+                { 
+                    id: "todo-1", 
+                    name: "Sleep", 
+                    completed: false
+                },
+                { 
+                    id: "todo-2", 
+                    name: "Repeat", 
+                    completed: false
+                }
+            ]
+        }, 
+        {
+            title: 'Groceries',
+            id: `list-${nanoid()}`,
+            body: 
+            [
+                
+                { 
+                    id: "todo-3", 
+                    name: "Bananas", 
+                    completed: false
+                },
+                { 
+                    id: "todo-4", 
+                    name: "Tea", 
+                    completed: false
+                },
+                { 
+                    id: "todo-5", 
+                    name: "Beef", 
+                    completed: false
+                }
+            ]
+        }
+    ];
+
+    const forceUpdate = useForceUpdate();
+    const [state, setState] = useState("");
+    const  [lists, setLists] = useState(l1);
+
+    const [showForm, setShowForm] = useState(false);
 
     // Called with the init. of state and setState to pull + split lists by type
-   function splitLists(userLists)
-   {
-       let plist = [];
-       let slist = [];
-        for(let i = 0; i < userLists.length; i++)
+    const listArr = lists
+        .map(list => (
+            <PriorityList 
+                name={list.title}
+                id={list.id}
+                key={list.id}
+                tasks={list.body}
+                editList={editList}
+                deleteList={deleteList}
+            />
+        ));
+
+    function addList(title)
+    {
+        let str;
+        let listCard;
+
+        str = `todo-${nanoid()}`;
+        listCard = 
         {
-            if(userLists[i].type === 'Priority')
+            title: title,
+            id: str,
+            body: []
+        }
+        setShowForm(!showForm);
+        return setLists([...lists, listCard]);
+    }
+
+    function editList(id, title)
+    {
+        let updatedList = lists;
+
+        for(let i = 0; i < updatedList.length; i++)
+        {
+            if(updatedList[i].id === id)
             {
-                plist.push(userLists[i]);
-            } 
-            else 
-            {
-                slist.push(userLists[i]);
+                if(!title)
+                {
+                    title = updatedList[i].title;
+                }
+                updatedList[i].title = title;
             }
         }
-        return [plist, slist];
-    };
+        setLists(updatedList);
+        forceUpdate();
+    }
+
+    function deleteList(id)
+    {
+        let remainingLists = lists;
+        let index = -1;
+
+        for(let i = 0; i < lists.length; i++)
+        {
+            if(lists[i].id === id)
+            {  
+                index = i;
+                break;
+            }
+        }
+
+        if(index > -1)
+        {
+            remainingLists.splice(index, 1);
+        }
+
+        setLists(remainingLists);
+        forceUpdate();
+    }
 
     // LoggedInName name={state.user}
     return(
         <div id="canvas" className="pageSolid app">
             <div className="canvasBlock">
-                <LoggedInName name={state.user}/>
+                <Button className="addCard" onClick={() => setShowForm(!showForm)}>
+                    <CgAdd className="addicon"/>
+                </Button>
+                <LoggedInName name={state}/>
             </div>
-
             <Container className="cardContainer" >
-                <PriorityList name="Priority" tasks={state.lists[0]}/>
-                <SchedList name="Schedule" tasks={state.lists[1]}/>
+                {showForm ? <NewListForm addList={addList}/> : null}
+                {listArr}
             </Container>
         </div>
     );

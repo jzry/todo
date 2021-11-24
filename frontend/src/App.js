@@ -24,7 +24,7 @@ function App()
     );
 
     // true == active user (logged in)
-    const [state, setState] = useState(localStorage.getItem("token_data") ? true : false);
+    const [state, setState] = useState(localStorage.getItem("token_data") ? true : true);
 
     // Set user vars to access the Canvas page
     function onLogin(active)
@@ -68,10 +68,10 @@ function App()
                         <HomePage />
                     </Route>
                     <Route path="/login" exact>
-                        {state ? <Redirect to="/" /> : <LoginPage onLogin={onLogin}/>}
+                        {state ? <Redirect to="/canvas" /> : <LoginPage onLogin={onLogin}/>}
                     </Route>
                     <Route path="/signup" exact>
-                        {state ? <Redirect to="/" /> : <SignUpPage />}
+                        {state ? <Redirect to="/canvas" /> : <SignUpPage />}
                     </Route>
                     <Route path="/forgot" exact>
                         <ForgotPage />

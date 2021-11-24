@@ -55,58 +55,23 @@ function NewTaskForm(props)
     }
 
     return(
-        <Form id="newListForm" onSubmit={handleSubmit}>
-            {
-                props.type === "Priority" ?         
-                    <div id="newTaskForm" onSubmit={handleSubmit}>
-                        <input
-                            type="text"
-                            id="new-todo-input"
-                            className="inFields newTask"
-                            name="name"
-                            autoComplete="off"
-                            placeholder="New Task"
-                            value={state.name}
-                            onChange={handleChange}
-                            ref={focus}
-                        />
-                        <Button type="submit" className="buttonScheme">
-                            <ButtonIcons type="Add"/>
-                        </Button>
-                    </div> 
-                    : 
-                    <div id="newSchedTaskForm"  className="form" onSubmit={handleSubmit}>
-                        <div className="schedTaskForm">
-                            <div className="splitFields">
-                                <input
-                                    type="text"
-                                    id="taskName"
-                                    className="inFields"
-                                    name="name"
-                                    autoComplete="off"
-                                    placeholder="New Task"
-                                    value={state.name}
-                                    onChange={handleChange}
-                                    ref={focus}
-                                />
-            
-                                <div id="dateTime">
-                                    <input 
-                                        type="datetime-local"
-                                        id="taskDate"
-                                        className="inFields"
-                                        name="date"
-                                        value={state.date}
-                                        onChange={handleChange}
-                                    />
-                                </div>
-                            </div>
-                            <Button type="submit" className="buttonScheme schedButton">
-                                <ButtonIcons type="Add"/>
-                            </Button>
-                        </div>
-                    </div>
-            }
+        <Form onSubmit={handleSubmit}>      
+            <div id="newTaskForm" onSubmit={handleSubmit}>
+                <input
+                    type="text"
+                    id="new-todo-input"
+                    className="inFields newTask"
+                    name="name"
+                    autoComplete="off"
+                    placeholder="New Task"
+                    value={state.name}
+                    onChange={handleChange}
+                    ref={focus}
+                />
+                <Button type="submit" className="buttonScheme">
+                    <ButtonIcons type="Add"/>
+                </Button>
+            </div>
             <span ref={show} className="errorMsg" style={{display: "none", color: "red"}}>{err}</span>
         </Form>
     );

@@ -78,6 +78,7 @@ function ForgotForm()
                 value={email} onChange={handleChange}/>
                 <input id="forgotButton" type="submit" value="Send Email" className="buttonScheme formBtn"/>
             </Form>
+            
             <div className="groupSection">
                 <span ref={forgotMess} style={{display: "none", color: "red"}}>{message}</span>
                 <Link to="/login">Cancel</Link>
