@@ -14,7 +14,6 @@ function useForceUpdate()
     return () => setValue(value => value + 1); 
 }
 
-
 function CanvasPage(props)
 {
     // Lists 
