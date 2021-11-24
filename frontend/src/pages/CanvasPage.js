@@ -1,12 +1,11 @@
 import React, { useState } from 'react';
 import  { Container } from 'react-bootstrap';
 
-import UserNavi from '../components/UserNavi';
 import PriorityList from '../components/PriorityList';
 import LoggedInName from '../components/LoggedInName';
 import SchedList from '../components/SchedList';
 
-function CanvasPage()
+function CanvasPage(props)
 {
     // Priority Task Format:
     // type:"Priority", id:"todo-#", name: "task", completed: T/F
@@ -46,7 +45,6 @@ function CanvasPage()
     // LoggedInName name={state.user}
     return(
         <div id="canvas" className="pageSolid app">
-            <UserNavi />
             <div className="canvasBlock">
                 <LoggedInName name={state.user}/>
             </div>

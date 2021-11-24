@@ -76,7 +76,7 @@ function PriorityList(props)
             type: "Priority",
             id: `todo-${nanoid()}`, 
             name: name, 
-
+            completed: false
         };
         var obj = {type: newTask.type,userId: "",id:newTask.id,name:newTask.name};
         var js = JSON.stringify(obj);

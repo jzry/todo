@@ -3,7 +3,7 @@ import Form from 'react-bootstrap/Form';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 
-function Login()
+function Login(props)
 {
     var bp = require('./Path.js');
     var storage = require('../tokenStorage.js');
@@ -89,13 +89,14 @@ function Login()
                     var jwt = require('jsonwebtoken');
 
                     var ud = jwt.decode(storage.retrieveToken(),{complete:true});
-                    var userId = ud.payload.userId;
-                    var firstName = ud.payload.firstName;
-                    var lastName = ud.payload.lastName;
+                    var userId = ud.payload._id;
+                    var firstName = ud.payload.first_name;
+                    var lastName = ud.payload.last_name;
 
                     var user = {firstName:firstName,lastName:lastName,id:userId}
                     localStorage.setItem('user_data', JSON.stringify(user));
-                    window.location.href = '/canvas';
+                    props.onLogin(true);
+                    // window.location.href = '/canvas';
                 }
             })
             .catch(function (error) 
@@ -107,20 +108,27 @@ function Login()
 
     return(
         <div id="loginDiv" className="app">
-            <Form id="loginForm" className="form" onSubmit={handleSubmit}>
-                <span id="inner-title">Sign in to your account</span><br />
-                <input type="text" id="loginName" className="inFields" name="loginName" placeholder="Username"
-                    value={state.loginName} ref={un} onChange={handleChange}/>
-                <span ref={usernameMess} style={{display: "none", color: "red"}}>{message}</span>
-                <div id="helpLink">
-                    <Link to="/forgot">Forgot password?</Link>
+            <p id="inner-title">Sign in to your account</p>
+            <Form id="loginForm" className="form iconBox" onSubmit={handleSubmit}>
+                <div className="groupSection">
+                    <input type="text" id="loginName" className="inFields" name="loginName" placeholder="Username"
+                        value={state.loginName} ref={un} onChange={handleChange}/>
+                    <span ref={usernameMess} style={{display: "none", color: "red"}}>{message}</span>
                 </div>
-                <input type="password" id="loginPassword" name="loginPassword" className="inFields" 
-                    placeholder="Password" value={state.loginPassword} ref={pw} onChange={handleChange}/><br />
-                <span ref={userpassMess} style={{display: "none", color: "red"}}>{message}</span>
-                <input type="submit" id="loginButton" className="buttonScheme formBtn" value = "Continue" />
-                <span id="loginResult" ref={loginRes} style={{display: "none", color: "red"}}>{message}</span><br />
+                <div className="groupSection">
+                    <div id="helpLink">
+                        <Link to="/forgot">Forgot password?</Link>
+                    </div>
+                    <input type="password" id="loginPassword" name="loginPassword" className="inFields" 
+                        placeholder="Password" value={state.loginPassword} ref={pw} onChange={handleChange}/>
+                    <span ref={userpassMess} style={{display: "none", color: "red"}}>{message}</span>
+                </div>
+                <div className="groupSection">
+                    <input type="submit" id="loginButton" className="buttonScheme formBtn" value = "Continue" />
+                    <span id="loginResult" ref={loginRes} style={{display: "none", color: "red"}}>{message}</span>
+                </div>
                 <p>Don't have an account? <Link to="/signup">Sign Up</Link></p>
+
             </Form>
         </div>
     );

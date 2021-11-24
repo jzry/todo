@@ -1,20 +1,19 @@
 import React from 'react';
 import Card from 'react-bootstrap/Card';
-import PageTitle from '../components/PageTitle';
-import Login from '../components/Login';
 
-function LoginPage(props) 
+import ResetPassForm from '../components/ResetPassForm';
+
+function ResetPassPage() 
 {
     return (
         <div>
             <Card id="formCard">
                 <Card.Body>
-                    <PageTitle />
-                    <Login onLogin={props.onLogin} />
+                    <ResetPassForm/>
                 </Card.Body>
             </Card>
         </div>
     );
 }
 
-export default LoginPage;
+export default ResetPassPage;

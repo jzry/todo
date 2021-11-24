@@ -1,7 +1,7 @@
 :root
 {
   --backgroundColor: #9aa791;
-  --buttonColor: #89a89e;;
+  --buttonColor: #89a89e;
   --ariaSelected: #517470;
   --buttonHover: #9eac94;
   --checkSelect: #64706f;
@@ -9,6 +9,10 @@
   --layeringWhite: #ffffff7e;
   --semiWhite: rgba(255, 255, 255, 0.25);
   --descSize: 3vw;
+}
+
+:focus-visible{
+  outline: #89a89e auto 0.5px;
 }
 
 #addButton
@@ -50,6 +54,7 @@
   margin-left: 1%;
   margin-right: 1%;
 }
+
 .buttonScheme:hover {
   background-color: #ACBAA1;
   border-color: transparent;
@@ -111,11 +116,11 @@
 .checkScheme
 {
   -webkit-appearance: none;
-  background-color: #fafafa;
+  background-color: #cacece;
   border: 3px solid #cacece;
   box-shadow: 0 1px 2px rgba(0,0,0,0.05), inset 0px -15px 10px -12px rgba(0,0,0,0.05);
   padding: 9px;
-  border-radius:10px;
+  border-radius: 10px;
   display: inline-block;
   position: relative;
   margin-right: 0.5em;
@@ -159,6 +164,7 @@
   font-size: var(--descSize);
   margin-top: 3em;
   width: 40vw;
+  z-index: 2;
 }
 
 .editBtns
@@ -229,7 +235,9 @@
 {
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: space-evenly;
+  margin-top: 10px;
+  row-gap: 10px;
 }
 
 .formBtn
@@ -271,14 +279,19 @@
     margin-left: auto;
     margin-right: auto;
   }
+}
 
+.groupSection
+{
+  display: flex;
+  flex-direction: column;
 }
 
 #helpLink
 {
   text-align: right;
   font-size: smaller;
-  margin-top: 2%;
+  margin-top: 1%;
 }
 
 #homeText
@@ -300,19 +313,21 @@
 .inFields
 {
   display: flex;
-  border-color: transparent;
+  border-color: rgb(255, 255, 255);
+  border-style: solid;
   border-radius: 10px;
-  background-color: rgb(255, 255, 255, 0.8);
+  border-width: 1px;
+  background-color: rgb(255, 255, 255, 0.4);
   font-size: 20px;
-  text-align: center;
   margin-left: 1%;
   margin-right: 1%;
+  padding-left: 5%;
 }
+
 
 .inFields:focus
 {
-  background-color: rgb(243, 243, 243);
-  border-color: red;
+  background-color: rgb(250, 255, 252);
 }
 
 #landing
@@ -397,20 +412,39 @@ h1:hover > .listCtrl
   padding: 0.25rem 0.75rem;
 }
 
+#forgotButton, #loginButton, #signUpButton, #resetButton
+{
+  margin-top: 1em;
+}
+
 .navi 
 {
   background-color: transparent;
   margin-bottom: 0.25%;
 }
 
+.navbar-dark .navbar-nav .nav-link:focus, .navbar-dark .navbar-nav .nav-link:hover 
+{
+  color: white;
+}
+
 .navBtn 
 {
-  background-color: var(--semiWhite);
-  border-color: transparent;
+  background-color: transparent;
+  border-color: white;
   margin-left: 5px;
   margin-right: 5px;
   padding-top: 3px;
   padding-bottom: 3px;
+}
+.navBtn:hover{
+  background-color: var(--buttonColor);
+  border-color: #435f4c;
+}
+
+#navTitle
+{
+  margin-bottom: 0;
 }
 
 #newRadios
@@ -523,10 +557,19 @@ h1:hover > .listCtrl
   width: auto;
 }
 
+#successBlock
+{
+  display: none;
+  color: green;
+  background-color: white;
+  border-left: thick solid green;
+  margin-bottom: 15px;
+}
 
 .tagline
 {
   font-size: 8vw;
+  z-index: 2;
 }
 
 .taskTitle
@@ -548,6 +591,30 @@ h1:hover > .listCtrl
   border-color: transparent;
 }
 
+.taskImg
+{
+  position: fixed;
+  width: 30%;
+  z-index: 1;
+}
+#taskImg1
+{
+  left: 55vw;
+  top: 25vh;
+}
+
+#taskImg2
+{
+  transform: rotate(5deg);
+  left: 60vw;
+  top: 53vh;
+}
+
+#title
+{
+  color:rgb(38, 65, 55);
+}
+
 #title1
 {
   color: white;
@@ -564,7 +631,9 @@ h1:hover > .listCtrl
 
 .toDoBar
 {
-  padding: 0.5em;
+  padding: 0;
+  background-color: rgba(255, 255, 255, 0.062);
+  margin-bottom: 2em;
 }
 
 .toggle-btn[aria-pressed="true"] 
