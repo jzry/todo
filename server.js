@@ -3,8 +3,8 @@ import cors from "cors";
 import path from "path";
 
 import mongoose from "mongoose";
-import * as users from "./api/users.js";
-import * as lists from "./api/lists.js";
+import users from "./api/users.js";
+import lists from "./api/lists.js";
 
 import { config as envConfig } from "dotenv";
 import { dirname } from 'path';
@@ -63,7 +63,7 @@ app.post(`${usersPrefix}/resetpassword`, users.reset);
 app.post(`${listsPrefix}/create`, lists.create);
 app.post(`${listsPrefix}/read`, lists.read);
 app.post(`${listsPrefix}/update`, lists.update);
-app.post(`${listsPrefix}/delete`, lists.delete);
+app.post(`${listsPrefix}/delete`, lists.remove);
 
 app.get( `${apiPrefix}`, (req, res, next) => {
     res.send("<h1>API Docs</h2>")
