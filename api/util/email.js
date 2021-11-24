@@ -1,4 +1,4 @@
-import testEmailService from "./test_email.js"
+import testEmailService from "./email.debug.js"
 
 export default async function (emailObj) {
     if (process.env.NODE_ENV === "production") {

@@ -3,13 +3,13 @@ import Form from 'react-bootstrap/Form';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import _validateEmail from "./Email.helper.js";
+import bp from "./Path.js";
 
 // fill in completed sign up/add user api path in doSignUp
 // complete action for successful user sign up
 
-function SignUp()
-{
-    var bp = require('./Path.js');
+function SignUp() {
+    
     const [state, setState] = useState(
         {
             first_name: "",

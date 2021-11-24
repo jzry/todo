@@ -11,7 +11,16 @@ const ListsSchema = new mongoose.Schema({
         required: true
     },
     Body: {
-        type: String,
+        type: [{
+            Completed: {
+                type: Boolean,
+                default: false
+            },
+            Text: {
+                type: String,
+                required: true
+            }
+        }],
         required: true
     }
 }, {timestamps: true});
