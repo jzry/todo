@@ -3,7 +3,7 @@ import cors from "cors";
 import path from "path";
 
 import mongoose from "mongoose";
-import users from "./api/users.js"
+import * as users from "./api/users.js"
 import lists from "./api/lists.js"
 
 import { config as envConfig } from "dotenv";
