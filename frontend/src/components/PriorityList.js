@@ -2,7 +2,6 @@ import React, { useEffect, useRef, useState } from 'react';
 import { Button, Card, ListGroup } from 'react-bootstrap';
 
 import axios from 'axios';
-import { nanoid } from 'nanoid';
 
 import Task from './Task';
 import FilterButtons from './FilterButtons';
@@ -271,9 +270,18 @@ function PriorityList(props) {
             <Card className="canvasCards">
                 <Card.Body className="cardContent">
                     <h1>{props.name}</h1>
-                    <button
-                        type="button"
-                        className="btn delListView"
+
+                    <button 
+                        type="button" 
+                        className="btn listCtrl" 
+                        onClick={ () => setEditing(true) } 
+                        ref={editButtonRef}
+                    >
+                        <ButtonIcons type="Edit" />
+                    </button>
+                    <button 
+                        type="button" 
+                        className="btn delListView" 
                         onClick={() => props.deleteList(props.id)}
                     >
                         <ButtonIcons type="Delete" />
@@ -288,14 +296,6 @@ function PriorityList(props) {
                     <span id="taskResult" ref={addRes} style={{ display: "none", color: "red" }}>{message}</span>
                 </Card.Body>
             </Card>
-            <button
-                type="button"
-                className="btn listCtrl"
-                onClick={() => setEditing(true)}
-                ref={editButtonRef}
-            >
-                Edit <span className="visually-hidden">{name}</span>
-            </button>
         </div>
     );
 

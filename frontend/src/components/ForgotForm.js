@@ -49,14 +49,14 @@ function ForgotForm()
             .then((response) => {
                 const res = response.data;
                 if (!res) {
-                    setMessage('No response from the server');
+                    setMessage('No response from the server...');
                     forgotMess.current.style.display = "inline-block";
                     return;
                 }
                     
                 forgotMess.current.style.display = "none";
                 confirm.current.style.display = "inline-block";
-                setMessage('If we have that email in our records, a message containing a reset link will be sent to that address.');
+                setMessage('If that email is in our records, a message containing a reset link will be sent to that address.');
             })
             .catch(function (error)  {
                 if (error.response) {

@@ -78,7 +78,7 @@ function Login(props)
             .then((response) => {
                 const res = response.data;
                 if (!res) {
-                    setMessage('No response from the server');
+                    setMessage('No response from the server...');
                     loginRes.current.style.display = "inline-block";
                     return;
                 }
@@ -91,7 +91,6 @@ function Login(props)
                 const user = {firstName:firstName,lastName:lastName}
                 localStorage.setItem('user_data', JSON.stringify(user));
                 props.onLogin(true);
-                window.location.href = '/canvas';
             })
             .catch(function (error)  {
                 if (error.response) {
@@ -107,7 +106,7 @@ function Login(props)
             <p id="inner-title">Sign in to your account</p>
             <Form id="loginForm" className="form iconBox" onSubmit={handleSubmit}>
                 <div className="groupSection">
-                    <input type="text" id="loginName" className="inFields" name="loginName" placeholder="Username"
+                    <input type="text" id="loginName" className="inFields" name="loginName" placeholder="Email or Username"
                         value={state.loginName} ref={un} onChange={handleChange}/>
                     <span ref={usernameMess} style={{display: "none", color: "red"}}>{message}</span>
                 </div>
