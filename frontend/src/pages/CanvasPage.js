@@ -224,13 +224,16 @@ function CanvasPage() {
     return (
         <div id="canvas" className="pageSolid app">
             <div className="canvasBlock">
-                <Button className="addCard" onClick={() => setShowForm(!showForm)}>
-                    <CgAdd className="addicon" />
-                </Button>
+                <div id="newListPop">
+                    <Button className="addCard" onClick={() => setShowForm(!showForm)}>
+                        <CgAdd className="addicon" />
+                    </Button>
+                    {showForm ? <NewListForm addList={addList} /> : null}
+                </div>
                 <LoggedInName name={state} />
             </div>
             <Container className="cardContainer" >
-                {showForm ? <NewListForm addList={addList} /> : null}
+                
                 {listArr}
             </Container>
         </div>

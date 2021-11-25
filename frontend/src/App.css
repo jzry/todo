@@ -462,6 +462,11 @@
   margin-bottom: 0;
 }
 
+#newListCard
+{
+  position: absolute;
+}
+
 #newRadios
 {
   display: flex;
