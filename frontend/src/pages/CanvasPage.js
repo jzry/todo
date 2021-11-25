@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import  { Container, Button } from 'react-bootstrap';
-import {CgAdd} from 'react-icons/cg'
+import { Container, Button } from 'react-bootstrap';
+import { CgAdd } from 'react-icons/cg'
 import axios from 'axios';
 
 import PriorityList from '../components/PriorityList';
@@ -29,7 +29,7 @@ function readLists() {
         axios(config)
             .then(function (response) {
                 const res = response.data;
-                if (res.error)  {
+                if (res.error) {
                     // setMessage('Error adding list');
                     // addRes.current.style.display = "inline-block";
                     console.error(res.error);
@@ -47,11 +47,11 @@ function readLists() {
                 }
                 resolve(pulledLists);
             })
-            .catch(function (error)  {
+            .catch(function (error) {
                 if (error.response) {
                     // setMessage(error.response.data?.error);
                     // .current.style.display = "inline-block";
-                    
+
                     console.error(error.response);
                     return;
                 }
@@ -62,7 +62,7 @@ function readLists() {
 // Force Update Page when called
 function useForceUpdate() {
     const [value, setValue] = useState(0);
-    return () => setValue(value => value + 1); 
+    return () => setValue(value => value + 1);
 }
 
 function CanvasPage(props) {
@@ -77,25 +77,25 @@ function CanvasPage(props) {
 
     const forceUpdate = useForceUpdate();
     const [state, setState] = useState(`${firstName} ${lastName}`);
-    const  [lists, setLists] = useState([]);
+    const [lists, setLists] = useState([]);
     const [showForm, setShowForm] = useState(false);
 
     useEffect(() => {
         readLists().then(setLists)
-     }, []);
+    }, []);
     // readLists().then(setLists);
 
     // Called with the init. of state and setState to pull + split lists by type
     const listArr = lists.map(list => (
-            <PriorityList 
-                name={list.title}
-                id={list.id}
-                key={list.key}
-                tasks={list.body}
-                editList={editList}
-                deleteList={deleteList}
-            />
-        ));
+        <PriorityList
+            name={list.title}
+            id={list.id}
+            key={list.key}
+            tasks={list.body}
+            editList={editList}
+            deleteList={deleteList}
+        />
+    ));
 
     function addList(title) {
         const obj = {
@@ -114,10 +114,9 @@ function CanvasPage(props) {
         };
 
         axios(config)
-            .then(function (response) 
-            {
+            .then(function (response) {
                 const res = response.data;
-                if (res.error)  {
+                if (res.error) {
                     // setMessage('Error adding list');
                     // addRes.current.style.display = "inline-block";
                     console.error(res.error);
@@ -134,7 +133,7 @@ function CanvasPage(props) {
                     return setLists([...lists, listCard]);
                 }
             })
-            .catch(function (error)  {
+            .catch(function (error) {
                 if (error.response) {
                     // setMessage(error.response.data?.error);
                     // .current.style.display = "inline-block";
@@ -143,21 +142,49 @@ function CanvasPage(props) {
             });
     }
 
-    function editList(id, title) {
-
-        let updatedList = lists;
-
-        for(let i = 0; i < updatedList.length; i++) {
-            if(updatedList[i].id === id) {
-                if(!title) {
-                    title = updatedList[i].title;
-                }
-                updatedList[i].title = title;
+    function editList(id, title, body) {
+        const config = {
+            method: "post",
+            url: bp.buildPath("api/lists/update"),
+            headers: {
+                "Content-Type": "application/json"
+            },
+            data: {
+                token: localStorage.getItem("token_data"),
+                id: id,
+                title: title,
+                list: body
             }
-        }
+        };
 
-        setLists(updatedList);
-        forceUpdate();
+        axios(config)
+            .then(function (response) {
+                const res = response.data;
+                if (res.error) {
+                    // setMessage('Error adding list');
+                    // addRes.current.style.display = "inline-block";
+                    console.error(res.error);
+                    return;
+                }
+
+                for (let i = 0; i < lists.length; i++) {
+                    if (lists[i].id === id) {
+                        lists[i].title = title;
+                    }
+                }
+
+
+                setLists(lists);
+                forceUpdate();
+
+                })
+            .catch(function (error) {
+                if (error.response) {
+                    // setMessage(error.response.data?.error);
+                    // .current.style.display = "inline-block";
+                    console.error(error.response);
+                }
+            });
     }
 
     function deleteList(id) {
@@ -174,10 +201,9 @@ function CanvasPage(props) {
         };
 
         axios(config)
-            .then(function (response) 
-            {
+            .then(function (response) {
                 const res = response.data;
-                if (res.error)  {
+                if (res.error) {
                     // setMessage('Error adding list');
                     // addRes.current.style.display = "inline-block";
                     console.error(res.error);
@@ -187,7 +213,7 @@ function CanvasPage(props) {
                 setLists(lists.filter(list => list.id !== id));
                 forceUpdate();
             })
-            .catch(function (error)  {
+            .catch(function (error) {
                 if (error.response) {
                     // setMessage(error.response.data?.error);
                     // .current.style.display = "inline-block";
@@ -197,16 +223,16 @@ function CanvasPage(props) {
     }
 
     // LoggedInName name={state.user}
-    return(
+    return (
         <div id="canvas" className="pageSolid app">
             <div className="canvasBlock">
                 <Button className="addCard" onClick={() => setShowForm(!showForm)}>
-                    <CgAdd className="addicon"/>
+                    <CgAdd className="addicon" />
                 </Button>
-                <LoggedInName name={state}/>
+                <LoggedInName name={state} />
             </div>
             <Container className="cardContainer" >
-                {showForm ? <NewListForm addList={addList}/> : null}
+                {showForm ? <NewListForm addList={addList} /> : null}
                 {listArr}
             </Container>
         </div>

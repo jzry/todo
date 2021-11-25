@@ -209,7 +209,7 @@ function PriorityList(props)
 
     function handleSubmit(e) {
         e.preventDefault();
-        props.editList(props.id, name);
+        props.editList(props.id, name, tasks);
         setName(name);
         // re-init. date and setting editing state to false
         setEditing(false);

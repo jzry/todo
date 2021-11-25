@@ -15,6 +15,7 @@ export default async function (req, res, next) {
     const id = req.body.id;
     const title = req.body.title;
     const list = req.body.list;
+    const token = req.body.token;
 
     const requiredFields = ["id", "title", "list", "token"];
 
