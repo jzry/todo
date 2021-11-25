@@ -15,9 +15,9 @@ import ResetPassPage from './pages/ResetPassPage';
 
 function App() 
 {
-
+    const token = localStorage.getItem("token_data")
     // true == active user (logged in)
-    const [state, setState] = useState(localStorage.getItem("token_data") !== "" ? true : false);
+    const [state, setState] = useState(token !== null && token !== "" ? true : false);
 
     // Set user vars to access the Canvas page
     function onLogin(active)
