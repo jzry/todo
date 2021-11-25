@@ -164,26 +164,40 @@ function CanvasPage(props) {
         forceUpdate();
     }
 
-    function deleteList(id)
-    {
-        let remainingLists = lists;
-        let index = -1;
-
-        for(let i = 0; i < lists.length; i++)
-        {
-            if(lists[i].id === id)
-            {  
-                index = i;
-                break;
+    function deleteList(id) {
+        const config = {
+            method: "post",
+            url: bp.buildPath("api/lists/delete"),
+            headers: {
+                "Content-Type": "application/json"
+            },
+            data: {
+                token: localStorage.getItem("token_data"),
+                id: id
             }
-        }
+        };
 
-        if(index > -1) {
-            remainingLists.splice(index, 1);
-        }
+        axios(config)
+            .then(function (response) 
+            {
+                const res = response.data;
+                if (res.error)  {
+                    // setMessage('Error adding list');
+                    // addRes.current.style.display = "inline-block";
+                    console.error(res.error);
+                    return;
+                }
 
-        setLists(remainingLists);
-        forceUpdate();
+                setLists(lists.filter(list => list.id !== id));
+                forceUpdate();
+            })
+            .catch(function (error)  {
+                if (error.response) {
+                    // setMessage(error.response.data?.error);
+                    // .current.style.display = "inline-block";
+                    console.error(error.response);
+                }
+            });
     }
 
     // LoggedInName name={state.user}
