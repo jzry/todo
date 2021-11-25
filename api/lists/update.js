@@ -2,7 +2,7 @@ import listModel from "../models/list.js";
 import jwt from "jsonwebtoken";
 
 // Update API receives the ID, UID, title, body of the list.
-export default async function (req, res, next) {
+export default async function(req, res, next) {
 
     // Check if JSON payload request has content.
     if (!req.body)
@@ -45,16 +45,22 @@ export default async function (req, res, next) {
             return res.status(400).json({
                 error: "unauthorized access"
             });
-        
-            let fmtBody = [];
-            for (const task of list) {
-                fmtBody.push({
-                    Completed: task.completed,
-                    Text: task.text
-                })
-            }
-        
-        listModel.findOneAndUpdate({_id: id, UserId: decoded.id}, {Title: title, Body: fmtBody})
+
+        let fmtBody = [];
+        for (const task of list) {
+            fmtBody.push({
+                Completed: task.completed,
+                Text: task.text
+            })
+        }
+
+        listModel.findOneAndUpdate({
+                _id: id,
+                UserId: decoded.id
+            }, {
+                Title: title,
+                Body: fmtBody
+            })
             .then(data => {
                 if (!data) {
                     // Data does not exist.
@@ -77,5 +83,5 @@ export default async function (req, res, next) {
                     error: err.message || "Error updating list"
                 });
             });
-        });
+    });
 }

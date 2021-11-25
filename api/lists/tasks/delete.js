@@ -5,7 +5,7 @@ import jwt from "jsonwebtoken";
 
 // Create API receives the description of a new to-do task.
 // Returns the title and body to the to-do database of the user.
-export default async function (req, res, next) {
+export default async function(req, res, next) {
 
     // Check if JSON request payload exists.
     if (!req.body || !req.params) {
@@ -24,37 +24,44 @@ export default async function (req, res, next) {
                 error: "unauthorized access"
             });
 
-        listModel.findOne({_id: list_id, UserId: decoded.id})
+        listModel.findOne({
+                _id: list_id,
+                UserId: decoded.id
+            })
             .then(data => {
                 if (!data)
                     return res.status(404).send({
                         error: `list with ID: ${id} cannot be modified`
                     });
-                
+
 
                 if (data.Body.filter(body => body._id == task_id).length === 0)
                     return res.status(404).send({
                         error: `task not found`
                     });
 
-                listModel.findOneAndUpdate({_id: list_id}, {Body: data.Body.filter(body => body._id != task_id)})
-                .then(data => {
-                    if (!data) {
-                        res.status(404).send({
-                            error: `cannot remove task`
+                listModel.findOneAndUpdate({
+                        _id: list_id
+                    }, {
+                        Body: data.Body.filter(body => body._id != task_id)
+                    })
+                    .then(data => {
+                        if (!data) {
+                            res.status(404).send({
+                                error: `cannot remove task`
+                            });
+                            return;
+                        }
+
+                        res.send({
+                            message: "task removed successfully"
                         });
-                        return;
-                    }
-                    
-                    res.send({
-                        message: "task removed successfully"
+                    })
+                    .catch(err => {
+                        res.status(500).send({
+                            error: err.message || "error removing task"
+                        });
                     });
-                })
-                .catch(err => {
-                    res.status(500).send({
-                        error: err.message || "error removing task"
-                    });
-                });
             })
             .catch(err => {
                 if (err.path === "_id")

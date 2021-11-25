@@ -7,11 +7,11 @@ import jwt from "jsonwebtoken";
 
 function _createNewUser(req, res) {
     const user = new userModel({
-        FirstName:  req.body.first_name,
-        LastName:   req.body.last_name,
-        Email:      req.body.email,
-        Login:      req.body.login,
-        Password:   req.body.password,
+        FirstName: req.body.first_name,
+        LastName: req.body.last_name,
+        Email: req.body.email,
+        Login: req.body.login,
+        Password: req.body.password,
         AuthStatus: 0
     });
 
@@ -25,10 +25,12 @@ function _createNewUser(req, res) {
             console.error(e.message);
         })
 
-    const jwtoken = jwt.sign(
-        { id: user._id }, 
-        process.env.LOGIN_KEY,
-        { expiresIn: '7d'}
+    const jwtoken = jwt.sign({
+            id: user._id
+        },
+        process.env.LOGIN_KEY, {
+            expiresIn: '7d'
+        }
     );
 
     // use an html page here with css styling and better content
@@ -43,11 +45,13 @@ function _createNewUser(req, res) {
     sendEmail({
         address: req.body.email,
         subject: "todo Account Email Verification",
-        html: emailContent 
-    }).catch(e => {console.error(e.message)});
+        html: emailContent
+    }).catch(e => {
+        console.error(e.message)
+    });
 }
 
-export default async function (req, res) {
+export default async function(req, res) {
     if (!req.body) {
         return res.status(400).send({
             error: "missing required fields"
@@ -67,20 +71,24 @@ export default async function (req, res) {
         return res.status(400).send({
             error: `invalid email`
         });
-        
+
     // gross
-    userModel.findOne({ Email: req.body.email }, (err, user) => {
+    userModel.findOne({
+        Email: req.body.email
+    }, (err, user) => {
         if (err === null && user)
             return res.status(400).send({
                 error: `user account with email already exists`
             });
-        
-        userModel.findOne({ Login: req.body.login }, (err, user) => {
+
+        userModel.findOne({
+            Login: req.body.login
+        }, (err, user) => {
             if (err === null && user)
                 return res.status(400).send({
                     error: `user account with login already exists`
                 });
-            
+
             _createNewUser(req, res);
         });
     });

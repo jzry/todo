@@ -1,7 +1,7 @@
 import listModel from "../models/list.js";
 import jwt from "jsonwebtoken";
 
-export default async function (req, res, next) {
+export default async function(req, res, next) {
 
     const search = req.query?.search || req.body?.search || req.params?.search || "";
     const token = req.body?.token || "";
@@ -11,7 +11,12 @@ export default async function (req, res, next) {
             return res.status(400).json({
                 error: "unauthorized access"
             });
-        listModel.find({Title: { $regex: `(?i)${search}`}, UserId: decoded.id })
+        listModel.find({
+                Title: {
+                    $regex: `(?i)${search}`
+                },
+                UserId: decoded.id
+            })
             .then(list => {
 
                 let out = []
@@ -35,7 +40,7 @@ export default async function (req, res, next) {
                         updated: l.updatedAt
                     });
                 }
-                
+
                 res.send(out);
             })
             .catch(err => {
