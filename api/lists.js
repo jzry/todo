@@ -13,4 +13,10 @@ const tasks = {
     update: updateTask
 };
 
-export default {create, read, update, remove, tasks}
+export default {
+    create,
+    read,
+    update,
+    remove,
+    tasks
+}

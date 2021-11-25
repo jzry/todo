@@ -4,27 +4,36 @@ import jwt from "jsonwebtoken";
 
 // Login API receives login & password.
 // Returns ID, firstName, lastName, error.
-export default async function (req, res) {
+export default async function(req, res) {
 
     if (!process.env.LOGIN_KEY)
         return console.error("LOGIN_KEY not defined in the ENV");
 
-    const { login, password } = req.body;
+    const {
+        login,
+        password
+    } = req.body;
 
-    if (!login || !password) 
+    if (!login || !password)
         return res.status(400).json({
             error: "missing required fields"
         });
 
     const results = await userModel.findOne({
-        $and: [
-            { Password: password }, 
-            { $or: [
-                    { Email: login }, 
-                    { Login: login }
+        $and: [{
+                Password: password
+            },
+            {
+                $or: [{
+                        Email: login
+                    },
+                    {
+                        Login: login
+                    }
                 ]
-            }]
-        });
+            }
+        ]
+    });
 
     if (!results)
         return res.status(400).json({
@@ -52,11 +61,11 @@ export default async function (req, res) {
             token: ret,
             first_name: results.FirstName,
             last_name: results.LastName,
-            login: results.Login, 
+            login: results.Login,
         });
 
     } catch (e) {
-        
+
         return res.status(400).json({
             error: e.message
         });

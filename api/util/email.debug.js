@@ -1,7 +1,7 @@
 import nodemailer from "nodemailer";
 
 // use something like ethereal to test email
-export default async function (email) {
+export default async function(email) {
     let acc = await nodemailer.createTestAccount();
 
     let transport = nodemailer.createTransport({

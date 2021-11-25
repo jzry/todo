@@ -5,7 +5,7 @@ import jwt from "jsonwebtoken";
 
 // Create API receives the description of a new to-do task.
 // Returns the title and body to the to-do database of the user.
-export default async function (req, res, next) {
+export default async function(req, res, next) {
 
     // Check if JSON request payload exists.
     if (!req.body) {
@@ -13,7 +13,7 @@ export default async function (req, res, next) {
             error: "empty list"
         });
     }
-     
+
     jwt.verify(req.body.token, process.env.LOGIN_KEY, async (err, decoded) => {
 
         if (err)

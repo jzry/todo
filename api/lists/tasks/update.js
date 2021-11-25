@@ -5,12 +5,12 @@ import jwt from "jsonwebtoken";
 
 // Create API receives the description of a new to-do task.
 // Returns the title and body to the to-do database of the user.
-export default async function (req, res, next) {
+export default async function(req, res, next) {
 
     // Check if JSON request payload exists.
-    if (!req.body
-        || !req.params
-        || (req.body.completed === undefined && !req.body.text)) {
+    if (!req.body ||
+        !req.params ||
+        (req.body.completed === undefined && !req.body.text)) {
 
         return res.status(400).json({
             error: "empty task"
@@ -27,7 +27,10 @@ export default async function (req, res, next) {
                 error: "unauthorized access"
             });
 
-        listModel.findOne({ _id: list_id, UserId: decoded.id })
+        listModel.findOne({
+                _id: list_id,
+                UserId: decoded.id
+            })
             .then(data => {
                 if (!data) {
                     res.status(404).send({
@@ -46,9 +49,12 @@ export default async function (req, res, next) {
                         data.Body[i].Text = req.body.text;
                 }
 
-                listModel.findOneAndUpdate(
-                    { _id: list_id, UserId: decoded.id },
-                    { Body: data.Body },
+                listModel.findOneAndUpdate({
+                        _id: list_id,
+                        UserId: decoded.id
+                    }, {
+                        Body: data.Body
+                    },
                     (err, updatedData) => {
                         if (!updatedData) {
                             res.status(404).send({

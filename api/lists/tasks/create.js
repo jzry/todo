@@ -5,7 +5,7 @@ import jwt from "jsonwebtoken";
 
 // Create API receives the description of a new to-do task.
 // Returns the title and body to the to-do database of the user.
-export default async function (req, res, next) {
+export default async function(req, res, next) {
 
     // Check if JSON request payload exists.
     if (!req.body || !req.params) {
@@ -15,7 +15,7 @@ export default async function (req, res, next) {
     }
 
     const id = req.params.list_id;
-     
+
     jwt.verify(req.body.token, process.env.LOGIN_KEY, async (err, decoded) => {
 
         if (err)
@@ -23,7 +23,10 @@ export default async function (req, res, next) {
                 error: "unauthorized access"
             });
 
-        listModel.findOne({_id: id, UserId: decoded.id})
+        listModel.findOne({
+                _id: id,
+                UserId: decoded.id
+            })
             .then(data => {
                 if (!data) {
                     res.status(404).send({
@@ -32,23 +35,29 @@ export default async function (req, res, next) {
                     return;
                 }
 
-                listModel.findOneAndUpdate(
-                    {_id: id, UserId: decoded.id},
-                    {Body: [...data.Body, {Text: req.body.text }]},
-                    {new: true},
+                listModel.findOneAndUpdate({
+                        _id: id,
+                        UserId: decoded.id
+                    }, {
+                        Body: [...data.Body, {
+                            Text: req.body.text
+                        }]
+                    }, {
+                        new: true
+                    },
                     (err, updatedData) => {
-                    if (!updatedData) {
-                        res.status(404).send({
-                            error: `cannot add task`
-                        });
-                        return;
-                    }
+                        if (!updatedData) {
+                            res.status(404).send({
+                                error: `cannot add task`
+                            });
+                            return;
+                        }
 
-                    res.send({
-                        message: "task added successfully",
-                        id: updatedData.Body[updatedData.Body.length - 1]._id
+                        res.send({
+                            message: "task added successfully",
+                            id: updatedData.Body[updatedData.Body.length - 1]._id
+                        });
                     });
-                });
             })
             .catch(err => {
                 if (err.path === "_id")

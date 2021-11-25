@@ -5,4 +5,10 @@ import verify from "./users/verify.js";
 import reset from "./users/reset-password.js";
 import forgot from "./users/forgot-password.js";
 
-export default {login, register, verify, reset, forgot}
+export default {
+    login,
+    register,
+    verify,
+    reset,
+    forgot
+}

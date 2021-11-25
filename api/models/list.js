@@ -1,4 +1,6 @@
-import { ObjectId } from "bson";
+import {
+    ObjectId
+} from "bson";
 import mongoose from "mongoose";
 
 const ListsSchema = new mongoose.Schema({
@@ -23,7 +25,9 @@ const ListsSchema = new mongoose.Schema({
         }],
         required: true
     }
-}, {timestamps: true});
+}, {
+    timestamps: true
+});
 
 export default mongoose.model(
     "Lists",
