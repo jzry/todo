@@ -8,6 +8,7 @@ import Task from './Task';
 import FilterButtons from './FilterButtons';
 import NewTaskForm from './NewTaskForm';
 import ButtonIcons from './ButtonIcons';
+import bp from "../components/Path.js";
 
 function usePrevious(value) 
 {
@@ -32,7 +33,6 @@ function PriorityList(props)
     const editButtonRef = useRef(null);
     const wasEditing = usePrevious(isEditing);
 
-    var bp = require('./Path.js');
     const addRes = useRef(null);
 
     const handleChange = (e) =>
@@ -41,8 +41,7 @@ function PriorityList(props)
     }
 
     // Filter names and conditions
-    const FILTER_MAP = 
-    {
+    const FILTER_MAP = {
         All: () => true,
         Unfinished: task => task.completed === false,
         Completed: task => task.completed
@@ -52,15 +51,13 @@ function PriorityList(props)
 
 
     // Toggle for filter/browser to unify state
-    function toggleTaskCompleted(id) 
-    {
-        const updatedTasks = tasks.map(task => 
-        {
+    function toggleTaskCompleted(id) {
+        const updatedTasks = tasks.map(task => {
             
-            if (id === task.id) 
-            {
+            if (id === task.id) {
                 return{...task, completed: !task.completed}
             }
+
             return task;
         });
 
@@ -73,9 +70,9 @@ function PriorityList(props)
         .map(task => (
             <Task 
                 id = {task.id} 
-                name = {task.name} 
+                name = {task.text} 
                 completed ={ task.completed } 
-                key = {task.id} 
+                key = {task.id}
                 toggleTaskCompleted = {toggleTaskCompleted}
                 deleteTask = {deleteTask}
                 editTask={editTask}
@@ -92,59 +89,51 @@ function PriorityList(props)
         />
     ));
 
-    function addTask(name) 
-    {
-        const newTask = 
-        { 
-            type: "Priority",
-            id: `todo-${nanoid()}`, 
-            name: name, 
-            completed: false
-        };
-        var obj = {type: newTask.type,userId: "",id:newTask.id,name:newTask.name};
-        var js = JSON.stringify(obj);
-        var config = 
-        {
+    function addTask(name) {
+        const config = {
             method: 'post',
-            url: bp.buildPath('api/createNote'),
-            headers: 
-            {
+            url: bp.buildPath(`api/lists/${props.id}/create`),
+            headers: {
                 'Content-Type': 'application/json'
             },
-            data: js
+            data: {
+                token: localStorage.getItem("token_data"),
+                completed: false,
+                text: name
+            }
         };
+
         axios(config)
-            .then(function (response) 
-            {
-                var res = response.data;
-                if (res.error) 
-                {
+            .then(function (response) {
+                const res = response.data;
+                if (res.error) {
                     setMessage('Error adding list');
                     addRes.current.style.display = "inline-block";
+                    return;
                 }
-                else 
-                {
-                    setTasks([...tasks, newTask]);
-                }
+
+                const newTask =  { 
+                    type: "Priority",
+                    id: res.id,
+                    text: name, 
+                    completed: false
+                };
+
+                setTasks([...tasks, newTask]);
             })
-            .catch(function (error) 
-            {
+            .catch((error) => {
                 console.log(error);
             });
-
-        setTasks([...tasks, newTask]);
     }
 
-    function editTask(id, newName) 
-    {
+    function editTask(id, newName) {
         const editedTaskList = tasks.map(task => 
         {
         // if this task has the same ID as the edited task
           if (id === task.id) 
           {
             //
-            if(!newName)
-            {
+            if(!newName) {
                 newName = task.name;
             }
 
@@ -188,46 +177,37 @@ function PriorityList(props)
         setTasks(editedTaskList);
     }
 
-    function deleteTask(id) 
-    {
+    function deleteTask(id) {
         const remainingTasks = tasks.filter(task => id !== task.id);
-
-        var obj = {userId: "",id:id};
-        var js = JSON.stringify(obj);
-        var config = 
-        {
+        const config = {
             method: 'post',
-            url: bp.buildPath('api/deleteNote'),
-            headers: 
-            {
+            url: bp.buildPath(`api/lists/${props.id}/delete/${id}`),
+            headers: {
                 'Content-Type': 'application/json'
             },
-            data: js
+            data: {
+                "token": localStorage.getItem("token_data")
+            }
         };
+
         axios(config)
-            .then(function (response) 
-            {
-                var res = response.data;
-                if (res.error) 
-                {
+            .then(function (response) {
+
+                const res = response.data;
+                if (res.error)  {
                     setMessage('Error deleting task');
                     addRes.current.style.display = "inline-block";
+                    return;
                 }
-                else 
-                {
-                    setTasks(remainingTasks);
-                }
+                
+                setTasks(remainingTasks);
             })
-            .catch(function (error) 
-            {
+            .catch(function (error) {
                 console.log(error);
             });
-
-        setTasks(remainingTasks);
     }
 
-    function handleSubmit(e)
-    {
+    function handleSubmit(e) {
         e.preventDefault();
         props.editList(props.id, name);
         setName(name);
