@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import  { Container, Button } from 'react-bootstrap';
-import { nanoid } from 'nanoid';
 import {CgAdd} from 'react-icons/cg'
 import axios from 'axios';
 
@@ -99,14 +98,6 @@ function CanvasPage(props) {
         ));
 
     function addList(title) {
-
-        const str = `todo-${nanoid()}`;
-        const listCard = {
-            title: title,
-            id: str,
-            body: []
-        };
-
         const obj = {
             title: title,
             list: [],
@@ -133,8 +124,13 @@ function CanvasPage(props) {
                 }
 
                 else {
-                    setShowForm(!showForm);
+                    const listCard = {
+                        title: title,
+                        id: res.id,
+                        body: []
+                    };
 
+                    setShowForm(!showForm);
                     return setLists([...lists, listCard]);
                 }
             })
