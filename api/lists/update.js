@@ -15,6 +15,7 @@ export default async function (req, res, next) {
     const id = req.body.id;
     const title = req.body.title;
     const list = req.body.list;
+    const token = req.body.token;
 
     const requiredFields = ["id", "title", "list", "token"];
 
@@ -44,8 +45,16 @@ export default async function (req, res, next) {
             return res.status(400).json({
                 error: "unauthorized access"
             });
-
-        listModel.findOneAndUpdate({_id: id, UserId: decoded.id}, {Title: title, Body: list})
+        
+            let fmtBody = [];
+            for (const task of list) {
+                fmtBody.push({
+                    Completed: task.completed,
+                    Text: task.text
+                })
+            }
+        
+        listModel.findOneAndUpdate({_id: id, UserId: decoded.id}, {Title: title, Body: fmtBody})
             .then(data => {
                 if (!data) {
                     // Data does not exist.

@@ -13,16 +13,29 @@ export default async function (req, res, next) {
             });
         listModel.find({Title: { $regex: `(?i)${search}`}, UserId: decoded.id })
             .then(list => {
+
                 let out = []
+
                 for (const l of list) {
+                    let body = [];
+
+                    for (const b of l.Body) {
+                        body.push({
+                            completed: b.Completed,
+                            text: b.Text,
+                            id: b._id
+                        });
+                    }
+
                     out.push({
                         id: l._id,
                         title: l.Title,
-                        list: l.Body,
+                        list: body,
                         created: l.createdAt,
                         updated: l.updatedAt
                     });
                 }
+                
                 res.send(out);
             })
             .catch(err => {

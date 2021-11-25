@@ -65,6 +65,11 @@ app.post(`${listsPrefix}/read`, lists.read);
 app.post(`${listsPrefix}/update`, lists.update);
 app.post(`${listsPrefix}/delete`, lists.remove);
 
+app.post(`${listsPrefix}/:list_id/create`, lists.tasks.create);
+app.post(`${listsPrefix}/:list_id/update/:task_id`, lists.tasks.update);
+app.post(`${listsPrefix}/:list_id/delete/:task_id`, lists.tasks.remove);
+
+
 app.get( `${apiPrefix}`, (req, res, next) => {
     res.send("<h1>API Docs</h2>")
     next()
