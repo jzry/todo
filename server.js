@@ -66,6 +66,7 @@ app.post(`${listsPrefix}/update`, lists.update);
 app.post(`${listsPrefix}/delete`, lists.remove);
 
 app.post(`${listsPrefix}/:list_id/create`, lists.tasks.create);
+app.post(`${listsPrefix}/:list_id/update/:task_id`, lists.tasks.update);
 app.post(`${listsPrefix}/:list_id/delete/:task_id`, lists.tasks.remove);
 
 

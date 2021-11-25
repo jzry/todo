@@ -10,22 +10,19 @@ import NewTaskForm from './NewTaskForm';
 import ButtonIcons from './ButtonIcons';
 import bp from "../components/Path.js";
 
-function usePrevious(value) 
-{
+function usePrevious(value) {
     const ref = useRef();
-    useEffect(() => 
-    {
-      ref.current = value;
+    useEffect(() => {
+        ref.current = value;
     });
     return ref.current;
 };
 
-function PriorityList(props)
-{
+function PriorityList(props) {
 
     const [tasks, setTasks] = useState(props.tasks);
     const [filter, setFilter] = useState('All');
-    const [message,setMessage] = useState('');
+    const [message, setMessage] = useState('');
 
     const [name, setName] = useState(props.name);
     const [isEditing, setEditing] = useState(false);
@@ -35,8 +32,7 @@ function PriorityList(props)
 
     const addRes = useRef(null);
 
-    const handleChange = (e) =>
-    {
+    const handleChange = (e) => {
         setName(e.target.value);
     }
 
@@ -52,36 +48,64 @@ function PriorityList(props)
 
     // Toggle for filter/browser to unify state
     function toggleTaskCompleted(id) {
+        let completed = false;
         const updatedTasks = tasks.map(task => {
-            
+
             if (id === task.id) {
-                return{...task, completed: !task.completed}
+                completed = !task.completed;
+                return { ...task, completed: !task.completed }
             }
 
             return task;
         });
+        
+        const config = {
+            method: 'post',
+            url: bp.buildPath(`api/lists/${props.id}/update/${id}`),
+            headers:
+            {
+                'Content-Type': 'application/json'
+            },
+            data: {
+                token: localStorage.getItem("token_data"),
+                completed: completed
+            }
+        };
 
-        setTasks(updatedTasks);
+        axios(config)
+            .then(function (response) {
+                var res = response.data;
+                if (res.error) {
+                    setMessage('Error editing task');
+                    addRes.current.style.display = "inline-block";
+                    return;
+                }
+
+                setTasks(updatedTasks);
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
     }
 
     // For rendering desired number of tasks based on task props
     const taskList = tasks
         .filter(FILTER_MAP[filter])
         .map(task => (
-            <Task 
-                id = {task.id} 
-                name = {task.text} 
-                completed ={ task.completed } 
-                key = {task.id}
-                toggleTaskCompleted = {toggleTaskCompleted}
-                deleteTask = {deleteTask}
+            <Task
+                id={task.id}
+                name={task.text}
+                completed={task.completed}
+                key={task.id}
+                toggleTaskCompleted={toggleTaskCompleted}
+                deleteTask={deleteTask}
                 editTask={editTask}
             />
         ));
 
     // For rendering desired number of filter buttons by name and condition
     const filterList = FILTER_NAMES.map(name => (
-        <FilterButtons 
+        <FilterButtons
             key={name}
             name={name}
             isPressed={name === filter}
@@ -112,10 +136,10 @@ function PriorityList(props)
                     return;
                 }
 
-                const newTask =  { 
+                const newTask = {
                     type: "Priority",
                     id: res.id,
-                    text: name, 
+                    text: name,
                     completed: false
                 };
 
@@ -127,54 +151,42 @@ function PriorityList(props)
     }
 
     function editTask(id, newName) {
-        const editedTaskList = tasks.map(task => 
-        {
-        // if this task has the same ID as the edited task
-          if (id === task.id) 
-          {
-            //
-            if(!newName) {
-                newName = task.name;
-            }
 
-            return {...task, name: newName}
-          }
-
-          return task;
-        });
-
-        var obj = {userId: "",id:id,name:newName};
-        var js = JSON.stringify(obj);
-        var config = 
-        {
+        const config = {
             method: 'post',
-            url: bp.buildPath('api/updateNote'),
-            headers: 
+            url: bp.buildPath(`api/lists/${props.id}/update/${id}`),
+            headers:
             {
                 'Content-Type': 'application/json'
             },
-            data: js
+            data: {
+                token: localStorage.getItem("token_data"),
+                text: newName
+            }
         };
+
         axios(config)
-            .then(function (response) 
-            {
+            .then(function (response) {
                 var res = response.data;
-                if (res.error) 
-                {
+                if (res.error) {
                     setMessage('Error editing task');
                     addRes.current.style.display = "inline-block";
+                    return;
                 }
-                else 
-                {
-                    setTasks(editedTaskList);
-                }
+
+                const editedTaskList = tasks.map(task => {
+                    // if this task has the same ID as the edited task
+                    if (id === task.id)
+                        return { ...task, text: newName }
+        
+                    return task;
+                });
+
+                setTasks(editedTaskList);
             })
-            .catch(function (error) 
-            {
+            .catch(function (error) {
                 console.log(error);
             });
-
-        setTasks(editedTaskList);
     }
 
     function deleteTask(id) {
@@ -194,12 +206,12 @@ function PriorityList(props)
             .then(function (response) {
 
                 const res = response.data;
-                if (res.error)  {
+                if (res.error) {
                     setMessage('Error deleting task');
                     addRes.current.style.display = "inline-block";
                     return;
                 }
-                
+
                 setTasks(remainingTasks);
             })
             .catch(function (error) {
@@ -209,7 +221,7 @@ function PriorityList(props)
 
     function handleSubmit(e) {
         e.preventDefault();
-        props.editList(props.id, name, tasks);
+        props.editList(props.id, name, props.tasks);
         setName(name);
         // re-init. date and setting editing state to false
         setEditing(false);
@@ -220,19 +232,19 @@ function PriorityList(props)
             <Card.Body className="cardContent">
                 <form className="form editTask" onSubmit={handleSubmit}>
                     <div className="editFields splitFields">
-                        <input 
-                            id={props.id} 
-                            name="name" 
-                            className="todo-text inFields" 
+                        <input
+                            id={props.id}
+                            name="name"
+                            className="todo-text inFields"
                             type="text"
                             value={name}
-                            onChange={handleChange} 
+                            onChange={handleChange}
                             ref={editFieldRef}
                         />
                         <div className="editBtns editRow">
-                            <Button 
-                                type="button" 
-                                className="buttonScheme schedButton" 
+                            <Button
+                                type="button"
+                                className="buttonScheme schedButton"
                                 onClick={() => setEditing(false)}
                             >
                                 Cancel
@@ -249,7 +261,7 @@ function PriorityList(props)
                 <ListGroup variant="flush" className="listAdjust">
                     {taskList}
                 </ListGroup>
-                <NewTaskForm addTask={addTask}/>
+                <NewTaskForm addTask={addTask} />
             </Card.Body>
         </Card>
     );
@@ -259,27 +271,27 @@ function PriorityList(props)
             <Card className="canvasCards">
                 <Card.Body className="cardContent">
                     <h1>{props.name}</h1>
-                    <button 
-                        type="button" 
-                        className="btn delListView" 
+                    <button
+                        type="button"
+                        className="btn delListView"
                         onClick={() => props.deleteList(props.id)}
                     >
-                        <ButtonIcons type="Delete"/>
+                        <ButtonIcons type="Delete" />
                     </button>
                     <div className="filterBtns priority">
                         {filterList}
                     </div>
                     <ListGroup variant="flush" className="listAdjust">
-                        {taskList.length < 1 ? <p><br/>Add a new task below</p> : taskList}
+                        {taskList.length < 1 ? <p><br />Add a new task below</p> : taskList}
                     </ListGroup>
-                    <NewTaskForm type="Priority" addTask={addTask}/>
-                    <span id="taskResult" ref={addRes} style={{display: "none", color: "red"}}>{message}</span>
+                    <NewTaskForm type="Priority" addTask={addTask} />
+                    <span id="taskResult" ref={addRes} style={{ display: "none", color: "red" }}>{message}</span>
                 </Card.Body>
             </Card>
-            <button 
-                type="button" 
-                className="btn listCtrl" 
-                onClick={ () => setEditing(true) } 
+            <button
+                type="button"
+                className="btn listCtrl"
+                onClick={() => setEditing(true)}
                 ref={editButtonRef}
             >
                 Edit <span className="visually-hidden">{name}</span>
@@ -287,21 +299,18 @@ function PriorityList(props)
         </div>
     );
 
-    useEffect(() => 
-    {
-      if (!wasEditing && isEditing) 
-      {
-        editFieldRef.current.focus();
-      }
-      if (wasEditing && !isEditing) 
-      {
-        editButtonRef.current.focus();
-      }
+    useEffect(() => {
+        if (!wasEditing && isEditing) {
+            editFieldRef.current.focus();
+        }
+        if (wasEditing && !isEditing) {
+            editButtonRef.current.focus();
+        }
     }, [wasEditing, isEditing]);
 
-    return(
+    return (
         <div className="app">
-            { isEditing ? editingTemplate : viewTemplate }
+            {isEditing ? editingTemplate : viewTemplate}
         </div>
     );
 }

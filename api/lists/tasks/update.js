@@ -10,8 +10,7 @@ export default async function (req, res, next) {
     // Check if JSON request payload exists.
     if (!req.body
         || !req.params
-        || !req.body.completed
-        || !req.body.completed) {
+        || (req.body.completed === undefined && !req.body.text)) {
 
         return res.status(400).json({
             error: "empty task"
@@ -37,18 +36,18 @@ export default async function (req, res, next) {
                     return;
                 }
 
-                for (const task of data.Body) {
+                for (const [i, task] of data.Body.entries()) {
                     if (task._id != task_id)
                         continue;
 
-                    if (req.body.completed)
-                        data.Body.Completed = req.body.completed;
+                    if (req.body.completed !== undefined)
+                        data.Body[i].Completed = req.body.completed;
                     if (req.body.text)
-                        data.Body.Text = req.body.text;
+                        data.Body[i].Text = req.body.text;
                 }
 
                 listModel.findOneAndUpdate(
-                    { _id: id, UserId: decoded.id },
+                    { _id: list_id, UserId: decoded.id },
                     { Body: data.Body },
                     (err, updatedData) => {
                         if (!updatedData) {
