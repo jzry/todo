@@ -370,6 +370,7 @@
 #listBar
 {
   background-color: #405c59;
+  position: sticky;
 }
 
 .listCtrl
