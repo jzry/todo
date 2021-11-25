@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Container, Button } from 'react-bootstrap';
-import { CgAdd } from 'react-icons/cg'
+import { Container} from 'react-bootstrap';
 import axios from 'axios';
 
 import ToDoList from '../components/ToDoList';
@@ -72,8 +71,8 @@ function CanvasPage() {
     // title: list name
     // body: array of tasks
     const user = JSON.parse(localStorage.getItem('user_data'));
-    const firstName = user.firstName;
-    const lastName = user.lastName;
+    const firstName = "Jess";//user.firstName;
+    const lastName = "H";//user.lastName;
 
     const forceUpdate = useForceUpdate();
     const [state, setState] = useState(`${firstName} ${lastName}`);
@@ -224,18 +223,12 @@ function CanvasPage() {
     return (
         <div id="canvas" className="pageSolid app">
             <div className="canvasBlock">
-                <div id="newListPop">
-                    <Button className="addCard" onClick={() => setShowForm(!showForm)}>
-                        <CgAdd className="addicon" />
-                    </Button>
-                    {showForm ? <NewListForm addList={addList} /> : null}
-                </div>
                 <LoggedInName name={state} />
             </div>
             <Container className="cardContainer" >
-                
                 {listArr}
             </Container>
+            <NewListForm addList={addList} />
         </div>
     );
 }

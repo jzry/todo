@@ -78,7 +78,7 @@ function ListPage() {
         .catch(_ => {
             return setRedirect(<Redirect to="/canvas"/>);
         });
-    }, []);
+    }, [list_id]);
     // readLists().then(setLists);
 
     const listView = (
@@ -170,7 +170,7 @@ function ListPage() {
         <div id="canvas" className="pageSolid app">
             <div className="canvasBlock">
             </div>
-            <Container className="cardContainer" >
+            <Container className="cardContainer singleContainer" >
                 {listView}
                 {redirect}
             </Container>

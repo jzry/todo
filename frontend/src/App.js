@@ -18,7 +18,7 @@ function App()
 {
     const token = localStorage.getItem("token_data")
     // true == active user (logged in)
-    const [state, setState] = useState(token !== null && token !== "" ? true : false);
+    const [state, setState] = useState(token !== null && token !== "" ? true : true);
 
     // Set user vars to access the Canvas page
     function onLogin(active)
