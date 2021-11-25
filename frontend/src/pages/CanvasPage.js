@@ -71,8 +71,8 @@ function CanvasPage() {
     // title: list name
     // body: array of tasks
     const user = JSON.parse(localStorage.getItem('user_data'));
-    const firstName = "Jess";//user.firstName;
-    const lastName = "H";//user.lastName;
+    const firstName = user.firstName;
+    const lastName = user.lastName;
 
     const forceUpdate = useForceUpdate();
     const [state, setState] = useState(`${firstName} ${lastName}`);
