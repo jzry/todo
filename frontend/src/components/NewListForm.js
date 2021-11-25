@@ -1,5 +1,5 @@
 import React, { useRef, useState } from 'react';
-import { Button, Card, FloatingLabel, Form } from 'react-bootstrap';
+import { Button, Container, Form, Navbar } from 'react-bootstrap';
 
 // Not completely functional yet..
 function NewListForm(props)
@@ -42,21 +42,16 @@ function NewListForm(props)
     }
 
     return(
-        <Card id="newListCard" className="app canvasCards">
-            <Card.Body className="cardContent">
-            <h1>New List</h1>
+        <Navbar id="listBar" className="app fixed-bottom" variant="dark">
+            <Container className="fluid">
                 <Form id="newListForm" className="form" onSubmit={handleSubmit}>
-                    <div className="groupSection">
-                        <FloatingLabel htmlFor="listName" label="List Name">
-                        <Form.Control type="text" id="listName" className="inFields" name="name" 
-                            placeholder="New List" value={state.name} onChange={handleChange} ref={focus}/>
-                        </FloatingLabel>
-                        <span ref={show} className="errorMsg" style={{display: "none", color: "red"}}>{err}</span>
-                    </div>
+                    <Form.Control type="text" id="listName" className="inFields" name="name" 
+                        placeholder="New List" value={state.name} onChange={handleChange} ref={focus}/>
+                    <span ref={show} className="errorMsg" style={{display: "none", color: "red"}}>{err}</span>
                     <Button type="submit" id="newListSubmit" className="buttonScheme"> Add List </Button>
                 </Form>
-            </Card.Body>
-        </Card>
+            </Container>
+        </Navbar>
     );
 }
 
