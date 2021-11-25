@@ -221,7 +221,7 @@ function CanvasPage() {
     }
 
     return (
-        <div id="canvas" className="pageSolid app">
+        <div id="canvas" className="app">
             <div className="canvasBlock">
                 <LoggedInName name={state} />
             </div>
