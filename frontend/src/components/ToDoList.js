@@ -7,7 +7,7 @@ import Task from './Task';
 import FilterButtons from './FilterButtons';
 import NewTaskForm from './NewTaskForm';
 import ButtonIcons from './ButtonIcons';
-import bp from "../components/Path.js";
+import bp from "./Path.js";
 
 function usePrevious(value) {
     const ref = useRef();
@@ -17,7 +17,7 @@ function usePrevious(value) {
     return ref.current;
 };
 
-function PriorityList(props) {
+function ToDoList(props) {
 
     const [tasks, setTasks] = useState(props.tasks);
     const [filter, setFilter] = useState('All');
@@ -227,76 +227,70 @@ function PriorityList(props) {
     }
 
     const editingTemplate = (
-        <Card className="canvasCards">
-            <Card.Body className="cardContent">
-                <form className="form editTask" onSubmit={handleSubmit}>
-                    <div className="editFields splitFields">
-                        <input
-                            id={props.id}
-                            name="name"
-                            className="todo-text inFields"
-                            type="text"
-                            value={name}
-                            onChange={handleChange}
-                            ref={editFieldRef}
-                        />
-                        <div className="editBtns editRow">
-                            <Button
-                                type="button"
-                                className="buttonScheme schedButton"
-                                onClick={() => setEditing(false)}
-                            >
-                                Cancel
-                            </Button>
-                            <Button type="submit" className="buttonScheme schedButton">
-                                Save
-                            </Button>
-                        </div>
+        <Card.Body className="cardContent">
+            <form className="form editTask" onSubmit={handleSubmit}>
+                <div className="editFields splitFields">
+                    <input
+                        id={props.id}
+                        name="name"
+                        className="todo-text inFields"
+                        type="text"
+                        value={name}
+                        onChange={handleChange}
+                        ref={editFieldRef}
+                    />
+                    <div className="editBtns editRow">
+                        <Button
+                            type="button"
+                            className="buttonScheme schedButton"
+                            onClick={() => setEditing(false)}
+                        >
+                            Cancel
+                        </Button>
+                        <Button type="submit" className="buttonScheme schedButton">
+                            Save
+                        </Button>
                     </div>
-                </form>
-                <div className="filterBtns priority">
-                    {filterList}
                 </div>
-                <ListGroup variant="flush" className="listAdjust">
-                    {taskList}
-                </ListGroup>
-                <NewTaskForm addTask={addTask} />
-            </Card.Body>
-        </Card>
+            </form>
+            <div className="filterBtns priority">
+                {filterList}
+            </div>
+            <ListGroup variant="flush" className="listAdjust">
+                {taskList}
+            </ListGroup>
+            <NewTaskForm addTask={addTask} />
+        </Card.Body>
     );
 
     const viewTemplate = (
-        <div>
-            <Card className="canvasCards">
-                <Card.Body className="cardContent">
-                    <h1>{props.name}</h1>
+        <Card.Body className="cardContent">
+            <h1>{props.name}</h1>
 
-                    <button 
-                        type="button" 
-                        className="btn listCtrl" 
-                        onClick={ () => setEditing(true) } 
-                        ref={editButtonRef}
-                    >
-                        <ButtonIcons type="Edit" />
-                    </button>
-                    <button 
-                        type="button" 
-                        className="btn delListView" 
-                        onClick={() => props.deleteList(props.id)}
-                    >
-                        <ButtonIcons type="Delete" />
-                    </button>
-                    <div className="filterBtns priority">
-                        {filterList}
-                    </div>
-                    <ListGroup variant="flush" className="listAdjust">
-                        {taskList.length < 1 ? <p><br />Add a new task below</p> : taskList}
-                    </ListGroup>
-                    <NewTaskForm type="Priority" addTask={addTask} />
-                    <span id="taskResult" ref={addRes} style={{ display: "none", color: "red" }}>{message}</span>
-                </Card.Body>
-            </Card>
-        </div>
+            <button 
+                type="button" 
+                className="btn listCtrl" 
+                onClick={ () => setEditing(true) } 
+                ref={editButtonRef}
+            >
+                <ButtonIcons type="Edit" />
+            </button>
+            <button 
+                type="button" 
+                className="btn delListView" 
+                onClick={() => props.deleteList(props.id)}
+            >
+                <ButtonIcons type="Delete" />
+            </button>
+            <div className="filterBtns priority">
+                {filterList}
+            </div>
+            <ListGroup variant="flush" className="listAdjust">
+                {taskList.length < 1 ? <p><br />Add a new task below</p> : taskList}
+            </ListGroup>
+            <NewTaskForm type="Priority" addTask={addTask} />
+            <span id="taskResult" ref={addRes} style={{ display: "none", color: "red" }}>{message}</span>
+        </Card.Body>
     );
 
     useEffect(() => {
@@ -309,10 +303,10 @@ function PriorityList(props) {
     }, [wasEditing, isEditing]);
 
     return (
-        <div className="app">
+        <Card className="app canvasCards">
             {isEditing ? editingTemplate : viewTemplate}
-        </div>
+        </Card>
     );
 }
 
-export default PriorityList;
+export default ToDoList;

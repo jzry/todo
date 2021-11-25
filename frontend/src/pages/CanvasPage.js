@@ -3,7 +3,7 @@ import { Container, Button } from 'react-bootstrap';
 import { CgAdd } from 'react-icons/cg'
 import axios from 'axios';
 
-import PriorityList from '../components/PriorityList';
+import ToDoList from '../components/ToDoList';
 import LoggedInName from '../components/LoggedInName';
 import NewListForm from '../components/NewListForm';
 
@@ -65,7 +65,7 @@ function useForceUpdate() {
     return () => setValue(value => value + 1);
 }
 
-function CanvasPage(props) {
+function CanvasPage() {
 
     // Lists 
     // userId: ####
@@ -85,9 +85,8 @@ function CanvasPage(props) {
     }, []);
     // readLists().then(setLists);
 
-    // Called with the init. of state and setState to pull + split lists by type
     const listArr = lists.map(list => (
-        <PriorityList
+        <ToDoList
             name={list.title}
             id={list.id}
             key={list.key}
@@ -222,7 +221,6 @@ function CanvasPage(props) {
             });
     }
 
-    // LoggedInName name={state.user}
     return (
         <div id="canvas" className="pageSolid app">
             <div className="canvasBlock">

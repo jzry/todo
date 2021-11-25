@@ -15,33 +15,14 @@ import ResetPassPage from './pages/ResetPassPage';
 
 function App() 
 {
-    const [user, setUser] = useState(
-        {
-            token: null,
-            firstName: "",
-            lastName: ""
-        }
-    );
 
     // true == active user (logged in)
-    const [state, setState] = useState(localStorage.getItem("token_data") ? true : false);
+    const [state, setState] = useState(localStorage.getItem("token_data") !== "" ? true : false);
 
     // Set user vars to access the Canvas page
     function onLogin(active)
     {
         setState(active);
-
-        const token = localStorage.getItem("token_data");
-        const user = JSON.parse(localStorage.getItem('user_data'));
-
-        setUser(
-            {
-                token: token,
-                firstName: user.firstName, 
-                lastName: user.lastName
-            }
-        );
-
         return <Redirect to="/canvas"/>
     }
 
@@ -49,13 +30,6 @@ function App()
     function onLogout(active)
     {
         setState(active);
-        setUser(
-            {        
-                token: null,
-                firstName: "",
-                lastName: ""
-            }
-        );
         return <Redirect to="/" />
     }
 
@@ -89,7 +63,7 @@ function App()
                         <Pricing />
                     </Route>
                     <Route path="/canvas" exact>
-                        {state ? <CanvasPage user={user}/> : <Redirect to="/" />}
+                        {state ? <CanvasPage /> : <Redirect to="/" />}
                     </Route>
                     <Redirect to="/" />
                 </Switch>

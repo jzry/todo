@@ -42,23 +42,21 @@ function NewListForm(props)
     }
 
     return(
-        <div id="newListCard" className="app">
-            <Card className="canvasCards">
-                <Card.Body className="cardContent">
-                <h1>New List</h1>
-                    <Form id="newListForm" className="form" onSubmit={handleSubmit}>
-                        <div className="groupSection">
-                            <FloatingLabel htmlFor="listName" label="List Name">
-                            <Form.Control type="text" id="listName" className="inFields" name="name" 
-                                placeholder="New List" value={state.name} onChange={handleChange} ref={focus}/>
-                            </FloatingLabel>
-                            <span ref={show} className="errorMsg" style={{display: "none", color: "red"}}>{err}</span>
-                        </div>
-                        <Button type="submit" id="newListSubmit" className="buttonScheme"> Add List </Button>
-                    </Form>
-                </Card.Body>
-            </Card>
-        </div>
+        <Card id="newListCard" className="app canvasCards">
+            <Card.Body className="cardContent">
+            <h1>New List</h1>
+                <Form id="newListForm" className="form" onSubmit={handleSubmit}>
+                    <div className="groupSection">
+                        <FloatingLabel htmlFor="listName" label="List Name">
+                        <Form.Control type="text" id="listName" className="inFields" name="name" 
+                            placeholder="New List" value={state.name} onChange={handleChange} ref={focus}/>
+                        </FloatingLabel>
+                        <span ref={show} className="errorMsg" style={{display: "none", color: "red"}}>{err}</span>
+                    </div>
+                    <Button type="submit" id="newListSubmit" className="buttonScheme"> Add List </Button>
+                </Form>
+            </Card.Body>
+        </Card>
     );
 }
 
