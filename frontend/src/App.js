@@ -6,6 +6,7 @@ import HomePage from './pages/HomePage';
 import LoginPage from './pages/LoginPage';
 import SignUpPage from './pages/SignUpPage';
 import CanvasPage from './pages/CanvasPage';
+import ListPage from './pages/ListPage';
 import ProductPage from './pages/ProductPage';
 import CompanyPage from './pages/CompanyPage';
 import Pricing from './pages/Pricing';
@@ -64,6 +65,9 @@ function App()
                     </Route>
                     <Route path="/canvas" exact>
                         {state ? <CanvasPage /> : <Redirect to="/" />}
+                    </Route>
+                    <Route path="/list/:list_id" exact>
+                        {state ? <ListPage /> : <Redirect to="/" />}
                     </Route>
                     <Redirect to="/" />
                 </Switch>

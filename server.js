@@ -62,6 +62,7 @@ app.post(`${usersPrefix}/resetpassword`, users.reset);
 
 app.post(`${listsPrefix}/create`, lists.create);
 app.post(`${listsPrefix}/read`, lists.read);
+app.post(`${listsPrefix}/read/:list_id`, lists.read);
 app.post(`${listsPrefix}/update`, lists.update);
 app.post(`${listsPrefix}/delete`, lists.remove);
 

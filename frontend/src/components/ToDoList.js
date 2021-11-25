@@ -89,7 +89,7 @@ function ToDoList(props) {
 
     // For rendering desired number of tasks based on task props
     const taskList = tasks
-        .filter(FILTER_MAP[filter])
+        ?.filter(FILTER_MAP[filter])
         .map(task => (
             <Task
                 id={task.id}
@@ -265,7 +265,11 @@ function ToDoList(props) {
 
     const viewTemplate = (
         <Card.Body className="cardContent">
-            <h1>{props.name}</h1>
+            {
+                !props.singleView
+                    ? <h1><a href={`/list/${props.id}`}>{props.name}</a></h1>
+                    : <h1>{props.name}</h1>
+            }
 
             <button 
                 type="button" 
@@ -286,7 +290,7 @@ function ToDoList(props) {
                 {filterList}
             </div>
             <ListGroup variant="flush" className="listAdjust">
-                {taskList.length < 1 ? <p><br />Add a new task below</p> : taskList}
+                {taskList?.length < 1 ? <p><br />Add a new task below</p> : taskList}
             </ListGroup>
             <NewTaskForm type="Priority" addTask={addTask} />
             <span id="taskResult" ref={addRes} style={{ display: "none", color: "red" }}>{message}</span>
