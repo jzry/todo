@@ -465,6 +465,8 @@
 #newListCard
 {
   position: absolute;
+  right: 10px;
+  z-index: 10;
 }
 
 #newRadios
