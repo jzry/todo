@@ -464,6 +464,7 @@
 
 #newListCard
 {
+  background-color: white;
   position: absolute;
   margin-right: 10px;
   z-index: 10;
