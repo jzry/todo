@@ -37,7 +37,7 @@ export default async function(req, res, next) {
             })
             .catch(err => {
                 res.status(500).json({
-                    message: err.message || "something happened"
+                    error: err.message || "something happened"
                 });
             });
     });
