@@ -6,7 +6,7 @@
   --buttonHover: #9eac94;
   --checkSelect: #64706f;
   --almostBlack: #000000cb;
-  --layeringWhite: #ffffff7e;
+  --layeringWhite: #ffffff96;
   --semiWhite: rgba(255, 255, 255, 0.25);
   --descSize: 3vw;
 }
@@ -83,6 +83,7 @@
 {
   border-radius: 30px;
   max-height: 75vh;
+  max-width: 40%;
 }
 
 .cardContainer
@@ -133,7 +134,7 @@
 .checkScheme
 {
   -webkit-appearance: none;
-  background-color: #cacece;
+  background-color: #dfdfdf;
   border: 3px solid #cacece;
   box-shadow: 0 1px 2px rgba(0,0,0,0.05), inset 0px -15px 10px -12px rgba(0,0,0,0.05);
   padding: 9px;
@@ -201,6 +202,7 @@
   justify-content: center;
   flex-wrap: wrap;
   margin-bottom: 1%;
+  column-gap: 15px;
 }
 
 .editRow
@@ -371,7 +373,7 @@
 
 #listBar
 {
-  background-color: #405c59;
+  background-color: var(--ariaSelected);
 }
 
 .listCtrl
@@ -637,6 +639,19 @@
   z-index: 2;
 }
 
+.tagline1
+{
+  font-size: 6vw;
+  z-index: 2;
+}
+
+.tagline2
+{
+  margin-top: 1em;
+  font-size: var(--descSize);
+  width: 60vw;
+}
+
 .taskTitle
 {
  margin-right: auto;
@@ -663,15 +678,15 @@
 }
 #taskImg1
 {
-  left: 55vw;
-  top: 25vh;
+  left: 50vw;
+  top: 20vh;
 }
 
 #taskImg2
 {
   transform: rotate(5deg);
   left: 60vw;
-  top: 53vh;
+  top: 33vh;
 }
 
 #title
@@ -692,6 +707,7 @@
   inline-size: 250px;
   font-size: 1.25em;
   overflow-wrap: normal;
+  text-align: left;
 }
 
 .toDoBar
