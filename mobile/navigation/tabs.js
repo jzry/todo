@@ -3,7 +3,7 @@ import { StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
-import LoginScreen from '../screens/LoginScreen.js';
+import HomeScreen from '../screens/HomeScreen.js';
 import RegistrationScreen from '../screens/RegistrationScreen.js';
 import TodoScreen from '../screens/TodoScreen.js';
 import DeskScreen from '../screens/DeskScreen.js';
@@ -15,7 +15,7 @@ function RegistrationStackScreen() {
     <RegistrationStack.Navigator
 		initialRouteName="Login"
 		screenOptions={{headerShown:false}}>
-      <RegistrationStack.Screen name="Login" component={LoginScreen} />
+      <RegistrationStack.Screen name="Login" component={HomeScreen} />
       <RegistrationStack.Screen name="Registration" component={RegistrationScreen} />
     </RegistrationStack.Navigator>
   );
@@ -28,7 +28,7 @@ function MainStackScreen() {
     <MainStack.Navigator
 		initialRouteName="Todo"
 		screenOptions={{headerShown:false}}>
-      <MainStack.Screen name="Todo" component={TodoScreen} />
+      <MainStack.Screen name="Todo" component={HomeScreen} />
     </MainStack.Navigator>
   );
 }
