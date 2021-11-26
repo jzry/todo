@@ -51,7 +51,7 @@ const HomeScreen = ({ navigation }) => {
         }}>
         <Text 
           style={styles.forgot_button}>
-          Don't have an account? Create one
+          Don't have an account? Create one.
         </Text>
       </TouchableOpacity>
 
