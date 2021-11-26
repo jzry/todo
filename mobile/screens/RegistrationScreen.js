@@ -38,16 +38,9 @@ function RegistrationScreen({ route, navigation }) {
       />
     </View>
 
-    <TouchableOpacity>
-      <Text 
-        style={styles.forgot_button}>
-        Forgot Password?
-      </Text>
-    </TouchableOpacity>
-
     <TouchableOpacity
       onPress={() => {
-        navigation.navigate('Home');
+        navigation.navigate('Login');
       }}>
       <Text 
         style={styles.forgot_button}>

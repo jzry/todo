@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import { View, Text, Button, StyleSheet, KeyboardAvoidingView, Platform, TouchableOpacity, TextInput, Keyboard } from 'react-native';
 import Task from '../components/Task';
 
-const WorkspaceScreen = ({ navigation }) => {
+const TodoScreen = ({ navigation }) => {
 	const [task, setTask] = useState();
 	const [taskItems, setTaskItems] = useState([]);
 
@@ -58,7 +58,7 @@ const WorkspaceScreen = ({ navigation }) => {
 	);
 };
 
-export default WorkspaceScreen;
+export default TodoScreen;
 
 const styles = StyleSheet.create({
 	container: {
@@ -66,7 +66,7 @@ const styles = StyleSheet.create({
 		backgroundColor: '#E8EAED',
 	},
 	tasksWrapper: {
-		paddingTop: 80,
+		paddingTop: 30,
 		paddingHorizontal: 20,
 	},
 	sectionTitle: {
