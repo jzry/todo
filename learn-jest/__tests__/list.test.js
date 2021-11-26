@@ -18,7 +18,19 @@ describe("POST /lists", () => {
     })
 
     describe("Read the list", () => {
+        // read a list in the database
+        // should respond with a 200 status and return the list
 
 
+    })
+    describe("update the list", () => {
+        // updates the list in the database
+        // should respond with a 200 status and update the list
+    })
+
+    describe("deletes the list", () => {
+        // deletes the list from the database
+        // should respond with a 200 status and deletes the list
+        
     })
 })
