@@ -10,7 +10,7 @@ function RegistrationScreen({ route, navigation }) {
     <View style={styles.container}>
     <Image  
         style={styles.logo}
-        source={require('../assets/logo.png')} />
+        source={require('../assets/icon.png')} />
 
     <StatusBar style="auto" />
 
