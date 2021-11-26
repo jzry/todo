@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Container, Button } from 'react-bootstrap';
+import { Container } from 'react-bootstrap';
 import { useParams, Redirect } from "react-router-dom";
 import axios from 'axios';
 
@@ -78,7 +78,7 @@ function ListPage() {
         .catch(_ => {
             return setRedirect(<Redirect to="/canvas"/>);
         });
-    }, []);
+    }, [list_id]);
     // readLists().then(setLists);
 
     const listView = (
@@ -167,10 +167,10 @@ function ListPage() {
     }
 
     return (
-        <div id="canvas" className="pageSolid app">
+        <div id="canvas" className="app">
             <div className="canvasBlock">
             </div>
-            <Container className="cardContainer" >
+            <Container className="cardContainer singleContainer" >
                 {listView}
                 {redirect}
             </Container>

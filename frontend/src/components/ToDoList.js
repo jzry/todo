@@ -267,7 +267,7 @@ function ToDoList(props) {
         <Card.Body className="cardContent">
             {
                 !props.singleView
-                    ? <h1><a href={`/list/${props.id}`}>{props.name}</a></h1>
+                    ? <h1><a className="singleView" href={`/list/${props.id}`}>{props.name}</a></h1>
                     : <h1>{props.name}</h1>
             }
 

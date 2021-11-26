@@ -6,7 +6,7 @@
   --buttonHover: #9eac94;
   --checkSelect: #64706f;
   --almostBlack: #000000cb;
-  --layeringWhite: #ffffff7e;
+  --layeringWhite: #ffffff96;
   --semiWhite: rgba(255, 255, 255, 0.25);
   --descSize: 3vw;
 }
@@ -69,9 +69,8 @@
 {
   display: flex;
   flex-direction: row;
-  justify-content: flex-start;
+  justify-content: center;
   align-items: center;
-  margin-left: 30vw;
 }
 
 .card
@@ -84,6 +83,7 @@
 {
   border-radius: 30px;
   max-height: 75vh;
+  max-width: 40%;
 }
 
 .cardContainer
@@ -98,6 +98,7 @@
   padding-bottom: 1em;
   margin-left: auto;
   margin-right: auto;
+  padding-bottom: 70px;
 }
 
 .container{
@@ -133,7 +134,7 @@
 .checkScheme
 {
   -webkit-appearance: none;
-  background-color: #cacece;
+  background-color: #dfdfdf;
   border: 3px solid #cacece;
   box-shadow: 0 1px 2px rgba(0,0,0,0.05), inset 0px -15px 10px -12px rgba(0,0,0,0.05);
   padding: 9px;
@@ -141,6 +142,7 @@
   display: inline-block;
   position: relative;
   margin-right: 0.5em;
+  margin-top: 0.5em;
 }
 
 .checkScheme:active, .checkScheme:checked:active 
@@ -200,6 +202,7 @@
   justify-content: center;
   flex-wrap: wrap;
   margin-bottom: 1%;
+  column-gap: 15px;
 }
 
 .editRow
@@ -255,6 +258,11 @@
   justify-content: space-evenly;
   margin-top: 10px;
   row-gap: 10px;
+}
+
+.form-floating
+{
+  width: 95%;
 }
 
 .formBtn
@@ -363,6 +371,11 @@
   overflow-y: scroll;
 }
 
+#listBar
+{
+  background-color: var(--ariaSelected);
+}
+
 .listCtrl
 {
   background-color: transparent;
@@ -417,7 +430,7 @@
 {
   display: flex;
   flex-direction: row;
-  align-items: center;
+  align-items: flex-start;
 }
 
 .listTask
@@ -462,13 +475,29 @@
   margin-bottom: 0;
 }
 
-#newListCard
+#newListField
 {
-  background-color: white;
-  position: absolute;
-  margin-right: 10px;
-  z-index: 10;
+  display: flex;
 }
+
+#newListForm.form{
+  flex-direction: row;
+  width: 100%;
+  column-gap: 5px;
+  max-height: 40px;
+  margin-top: 0px;
+}
+
+#newListForm > .inFields
+{
+  background-color: rgba(255, 255, 255, 0.644)
+}
+
+#newListSubmit
+{
+  width: 7em;
+}
+
 
 #newRadios
 {
@@ -544,6 +573,21 @@
   margin-left: 4em;
 }
 
+.singleContainer > .canvasCards
+{
+  max-height: fit-content;
+}
+
+.singleContainer > .canvasCards >.cardContent
+{
+  overflow: visible;
+}
+
+.singleView
+{
+  color: rgb(45, 77, 65);
+}
+
 .schedButton
 {
   margin-right: 10px;
@@ -595,6 +639,19 @@
   z-index: 2;
 }
 
+.tagline1
+{
+  font-size: 6vw;
+  z-index: 2;
+}
+
+.tagline2
+{
+  margin-top: 1em;
+  font-size: var(--descSize);
+  width: 60vw;
+}
+
 .taskTitle
 {
  margin-right: auto;
@@ -621,15 +678,15 @@
 }
 #taskImg1
 {
-  left: 55vw;
-  top: 25vh;
+  left: 50vw;
+  top: 20vh;
 }
 
 #taskImg2
 {
   transform: rotate(5deg);
   left: 60vw;
-  top: 53vh;
+  top: 33vh;
 }
 
 #title
@@ -647,8 +704,10 @@
 
 .todo-label
 {
-  display: flex;
+  inline-size: 250px;
   font-size: 1.25em;
+  overflow-wrap: normal;
+  text-align: left;
 }
 
 .toDoBar

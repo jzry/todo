@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Container, Button } from 'react-bootstrap';
-import { CgAdd } from 'react-icons/cg'
+import { Container} from 'react-bootstrap';
 import axios from 'axios';
 
 import ToDoList from '../components/ToDoList';
@@ -222,20 +221,14 @@ function CanvasPage() {
     }
 
     return (
-        <div id="canvas" className="pageSolid app">
+        <div id="canvas" className="app">
             <div className="canvasBlock">
-                <div id="newListPop">
-                    <Button className="addCard" onClick={() => setShowForm(!showForm)}>
-                        <CgAdd className="addicon" />
-                    </Button>
-                    {showForm ? <NewListForm addList={addList} /> : null}
-                </div>
                 <LoggedInName name={state} />
             </div>
             <Container className="cardContainer" >
-                
                 {listArr}
             </Container>
+            <NewListForm addList={addList} />
         </div>
     );
 }
