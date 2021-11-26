@@ -3,20 +3,21 @@ import { StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
-import HomeScreen from '../screens/HomeScreen.js';
+import LoginScreen from '../screens/LoginScreen.js';
 import RegistrationScreen from '../screens/RegistrationScreen.js';
-import WorkspaceScreen from '../screens/WorkspaceScreen.js';
+import TodoScreen from '../screens/TodoScreen.js';
+import HomeScreen from '../screens/HomeScreen.js';
 
-const HomeStack = createNativeStackNavigator();
+const RegistrationStack = createNativeStackNavigator();
 
-function HomeStackScreen() {
+function RegistrationStackScreen() {
   return (
-    <HomeStack.Navigator
-		initialRouteName="Home"
+    <RegistrationStack.Navigator
+		initialRouteName="Login"
 		screenOptions={{headerShown:false}}>
-      <HomeStack.Screen name="Home" component={HomeScreen} />
-      <HomeStack.Screen name="Registration" component={RegistrationScreen} />
-    </HomeStack.Navigator>
+      <RegistrationStack.Screen name="Login" component={LoginScreen} />
+      <RegistrationStack.Screen name="Registration" component={RegistrationScreen} />
+    </RegistrationStack.Navigator>
   );
 }
 
@@ -25,10 +26,23 @@ const MainStack = createNativeStackNavigator();
 function MainStackScreen() {
   return (
     <MainStack.Navigator
-		initialRouteName="Home"
+		initialRouteName="Todo"
 		screenOptions={{headerShown:false}}>
-      <MainStack.Screen name="Workspace" component={WorkspaceScreen} />
+      <MainStack.Screen name="Todo" component={TodoScreen} />
     </MainStack.Navigator>
+  );
+}
+
+const DeskStack = createNativeStackNavigator();
+
+function DeskStackScreen() {
+  return (
+    <DeskStack.Navigator
+		initialRouteName="Home"
+		screenOptions={{headerShown:true}}>
+      <DeskStack.Screen name="Home" component={HomeScreen} />
+	  <DeskStack.Screen name="Todo" component={TodoScreen} />
+    </DeskStack.Navigator>
   );
 }
 
@@ -65,7 +79,7 @@ const Tabs = () => {
 					</View>
 				),
 			}} />
-			<Tab.Screen name = "Desk" component = { HomeStackScreen } options = {{
+			<Tab.Screen name = "Desk" component = { DeskStackScreen } options = {{
 				tabBarIcon: ({focused}) => (
 					<View style = {{alignItems: 'center', justifyContent: 'center', top: 10}}>
 						<Image
@@ -82,7 +96,7 @@ const Tabs = () => {
 					</View>
 				),
 			}} />
-			<Tab.Screen name = "Register" component = { HomeStackScreen } options = {{
+			<Tab.Screen name = "Register" component = { RegistrationStackScreen } options = {{
 				tabBarIcon: ({focused}) => (
 					<View style = {{alignItems: 'center', justifyContent: 'center', top: 10}}>
 						<Image
