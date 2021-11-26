@@ -539,7 +539,9 @@
 .pageSolid
 {
   position: absolute;
-  min-width: 100vw;
+  width:auto;
+  height:auto;
+  min-width:100vw;
   min-height: 100vh;
 
   background-color: var(--backgroundColor);
