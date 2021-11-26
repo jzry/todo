@@ -2,13 +2,14 @@ import React, {useRef, useState} from 'react';
 import Form from 'react-bootstrap/Form';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
+import _validateEmail from "./Email.helper.js";
+import bp from "./Path.js";
 
 // fill in completed sign up/add user api path in doSignUp
 // complete action for successful user sign up
 
-function SignUp()
-{
-    var bp = require('./Path.js');
+function SignUp() {
+    
     const [state, setState] = useState(
         {
             first_name: "",
@@ -80,6 +81,18 @@ function SignUp()
             setMessage('Please provide an email.');
             emailMess.current.style.display = "inline-block";
             return;
+        } 
+        else if(!_validateEmail(state.email))
+        {
+            first_nameMess.current.style.display = "none";
+            last_nameMess.current.style.display = "none";
+            loginMess.current.style.display = "none";
+            passwordMess.current.style.display = "none";
+            cpasswordMess.current.style.display = "none";
+
+            setMessage('Email format is invalid.');
+            emailMess.current.style.display = "inline-block";
+            return;
         }
         else if(state.login === "")
         {
@@ -89,7 +102,7 @@ function SignUp()
             passwordMess.current.style.display = "none";
             cpasswordMess.current.style.display = "none";
 
-            setMessage('Please provide a username.');
+            setMessage('Please provide a username with at least 7 characters.');
             loginMess.current.style.display = "inline-block";
             return;
         }
@@ -132,12 +145,19 @@ function SignUp()
 
     const doSignUp = async event => 
     {
-        var obj = {first: state.first_name,last: state.last_name, email: state.email, username: state.login, password: state.password};
+        var obj = {
+            first_name: state.first_name,
+            last_name: state.last_name,
+            email: state.email,
+            login: state.login,
+            password: state.password
+        };
+        
         var js = JSON.stringify(obj);
         var config = 
         {
             method: 'post',
-            url: bp.buildPath('api/'),
+            url: bp.buildPath('api/users/register'),
             headers: 
             {
                 'Content-Type': 'application/json'
@@ -162,30 +182,46 @@ function SignUp()
 
                 }
             })
-            .catch(function (error) 
-            {
-                console.log(error);
+            .catch(function (error)  {
+                if (error.response) {
+                    setMessage(error.response.data?.error);
+                    signUpResult.current.style.display = "inline-block";
+                }
             });
     }
     return(
         <div id="signUpDiv" className="app">
             <Form ref={signup} id="signUpForm" className="form" onSubmit={handleSubmit}>
                 <p id="inner-title">Complete all the fields below to create an account</p>
-                <input type="text" id="firstName" name="first_name" className="inFields" placeholder="First Name" value={state.first_name} onChange={handleChange}/>
-                <span ref={first_nameMess} style={{display: "none", color: "red"}}>{message}</span>
-                <input type="text" id="lastName" name="last_name" className="inFields" placeholder="Last Name" value={state.last_name} onChange={handleChange}/>
-                <span ref={last_nameMess} style={{display: "none", color: "red"}}>{message}</span>
-                <input type="text" id="email" name="email" className="inFields" placeholder="Email" value={state.email} onChange={handleChange}/>
-                <span ref={emailMess} style={{display: "none", color: "red"}}>{message}</span>
-                <input type="text" id="userName" name="un" className="inFields" placeholder="Username" value={state.login} onChange={handleChange}/>
-                <span ref={loginMess} style={{display: "none", color: "red"}}>{message}</span>
-                <input type="password" id="password" name="password" className="inFields" placeholder="Password" value={state.password} onChange={handleChange}/>
-                <span ref={passwordMess} style={{display: "none", color: "red"}}>{message}</span>
-                <input type="password" id="cpassword" name="cpassword" className="inFields" placeholder="Confirm password" value={state.cpassword} onChange={handleChange}/>
-                <span ref={cpasswordMess} style={{display: "none", color: "red"}}>{message}</span><br />
-                <input type="submit" id="signUpButton"  className="formBtn" value = "Sign Up"/>
-                <span id="signUpResult" ref={signUpResult} style={{display: "none", color: "red"}}></span>
-                <p>Already have an account? <Link to="/login">Sign In</Link></p>
+                <div className="groupSection">
+                    <input type="text" id="firstName" name="first_name" className="inFields" placeholder="First Name" value={state.first_name} onChange={handleChange}/>
+                    <span ref={first_nameMess} style={{display: "none", color: "red"}}>{message}</span>
+                </div>
+                <div className="groupSection">
+                    <input type="text" id="lastName" name="last_name" className="inFields" placeholder="Last Name" value={state.last_name} onChange={handleChange}/>
+                    <span ref={last_nameMess} style={{display: "none", color: "red"}}>{message}</span>
+                </div>
+                <div className="groupSection">
+                    <input type="text" id="email" name="email" className="inFields" placeholder="Email" value={state.email} onChange={handleChange}/>
+                    <span ref={emailMess} style={{display: "none", color: "red"}}>{message}</span>
+                </div>
+                <div className="groupSection">
+                    <input type="text" id="login" name="login" className="inFields" placeholder="Username" value={state.login} onChange={handleChange}/>
+                    <span ref={loginMess} style={{display: "none", color: "red"}}>{message}</span>
+                </div>
+                <div className="groupSection">
+                    <input type="password" id="password" name="password" className="inFields" placeholder="Password" value={state.password} onChange={handleChange}/>
+                    <span ref={passwordMess} style={{display: "none", color: "red"}}>{message}</span>
+                </div>
+                <div className="groupSection">
+                    <input type="password" id="cpassword" name="cpassword" className="inFields" placeholder="Confirm password" value={state.cpassword} onChange={handleChange}/>
+                    <span ref={cpasswordMess} style={{display: "none", color: "red"}}>{message}</span>
+                </div>
+                <input type="submit" id="signUpButton"  className="formBtn buttonScheme" value = "Sign Up"/>
+                <div className="groupSection">
+                    <span id="signUpResult" ref={signUpResult} style={{display: "none", color: "red"}}></span>
+                    <p>Already have an account? <Link to="/login">Sign In</Link></p>
+                </div>
             </Form>
             <div id="successBlock" ref={confirm}>
                     {message}

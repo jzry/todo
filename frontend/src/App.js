@@ -6,6 +6,7 @@ import HomePage from './pages/HomePage';
 import LoginPage from './pages/LoginPage';
 import SignUpPage from './pages/SignUpPage';
 import CanvasPage from './pages/CanvasPage';
+import ListPage from './pages/ListPage';
 import ProductPage from './pages/ProductPage';
 import CompanyPage from './pages/CompanyPage';
 import Pricing from './pages/Pricing';
@@ -15,32 +16,14 @@ import ResetPassPage from './pages/ResetPassPage';
 
 function App() 
 {
-    const [user, setUser] = useState(
-        {
-            id: null,
-            firstName: "",
-            lastName: ""
-        }
-    );
-
+    const token = localStorage.getItem("token_data")
     // true == active user (logged in)
-    const [state, setState] = useState(user.id ? true : false);
+    const [state, setState] = useState(token !== null && token !== "" ? true : false);
 
     // Set user vars to access the Canvas page
     function onLogin(active)
     {
         setState(active);
-
-        let check = JSON.parse(localStorage.getItem('user_data'));
-
-        setUser(
-            {
-                id: check.id,
-                firstName: check.firstName, 
-                lastName: check.lastName
-            }
-        );
-
         return <Redirect to="/canvas"/>
     }
 
@@ -48,13 +31,6 @@ function App()
     function onLogout(active)
     {
         setState(active);
-        setUser(
-            {        
-                id: null,
-                firstName: "",
-                lastName: ""
-            }
-        );
         return <Redirect to="/" />
     }
 
@@ -67,15 +43,15 @@ function App()
                         <HomePage />
                     </Route>
                     <Route path="/login" exact>
-                        {state ? <Redirect to="/" /> : <LoginPage onLogin={onLogin}/>}
+                        {state ? <Redirect to="/canvas" /> : <LoginPage onLogin={onLogin}/>}
                     </Route>
                     <Route path="/signup" exact>
-                        {state ? <Redirect to="/" /> : <SignUpPage />}
+                        {state ? <Redirect to="/canvas" /> : <SignUpPage />}
                     </Route>
                     <Route path="/forgot" exact>
                         <ForgotPage />
                     </Route>
-                    <Route path="/resetpw">
+                    <Route path="/resetpassword">
                         <ResetPassPage />
                     </Route>
                     <Route path="/product">
@@ -88,7 +64,10 @@ function App()
                         <Pricing />
                     </Route>
                     <Route path="/canvas" exact>
-                        {state ? <CanvasPage user={user}/> : <Redirect to="/" />}
+                        {state ? <CanvasPage /> : <Redirect to="/" />}
+                    </Route>
+                    <Route path="/list/:list_id" exact>
+                        {state ? <ListPage /> : <Redirect to="/" />}
                     </Route>
                     <Redirect to="/" />
                 </Switch>

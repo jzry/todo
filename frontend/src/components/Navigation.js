@@ -10,7 +10,8 @@ function Navigation(props)
     {
         event.preventDefault();
 
-        alert('doLogout');
+        localStorage.setItem("user_data", "")
+        localStorage.setItem("token_data", "")
         props.onLogout(false);
         window.location.href = "/";
     };

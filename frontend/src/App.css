@@ -6,7 +6,7 @@
   --buttonHover: #9eac94;
   --checkSelect: #64706f;
   --almostBlack: #000000cb;
-  --layeringWhite: #ffffff7e;
+  --layeringWhite: #ffffff96;
   --semiWhite: rgba(255, 255, 255, 0.25);
   --descSize: 3vw;
 }
@@ -29,11 +29,16 @@
 {
   background-color: transparent;
   border-color: transparent;
-  border-radius:100px;
+  border-radius: 100px;
   font-size: 50px;
   box-shadow: none;
   line-height: 0px;
   position: relative;
+}
+
+.addicon
+{
+  font-size: 60px;
 }
 
 .app
@@ -64,15 +69,21 @@
 {
   display: flex;
   flex-direction: row;
-  justify-content: flex-start;
-  margin-left: 30vw;
+  justify-content: center;
+  align-items: center;
+}
+
+.card
+{
+  background-color: rgba(255, 255, 255, 0.8);
+  border: 1px solid white;
 }
 
 .canvasCards
 {
-  background-color: rgba(255, 255, 255, 0.8);
   border-radius: 30px;
   max-height: 75vh;
+  max-width: 40%;
 }
 
 .cardContainer
@@ -80,11 +91,18 @@
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
-  justify-content:center;
+  justify-content: center;
   align-content: flex-start;
   align-items: stretch;
   gap: 20px;
   padding-bottom: 1em;
+  margin-left: auto;
+  margin-right: auto;
+  padding-bottom: 70px;
+}
+
+.container{
+  max-width: 97.5vw;
 }
 
 .cardContent
@@ -95,7 +113,7 @@
   overflow: hidden;
 }
 
-.cardContent:hover > .delListView:hover
+.cardContent:hover > .delListView:hover, .cardContent:hover > .listCtrl:hover
 {
   background-color: var(--layeringWhite);
   border-radius: 15px;
@@ -116,14 +134,15 @@
 .checkScheme
 {
   -webkit-appearance: none;
-  background-color: #fafafa;
+  background-color: #dfdfdf;
   border: 3px solid #cacece;
   box-shadow: 0 1px 2px rgba(0,0,0,0.05), inset 0px -15px 10px -12px rgba(0,0,0,0.05);
   padding: 9px;
-  border-radius:10px;
+  border-radius: 10px;
   display: inline-block;
   position: relative;
   margin-right: 0.5em;
+  margin-top: 0.5em;
 }
 
 .checkScheme:active, .checkScheme:checked:active 
@@ -164,6 +183,7 @@
   font-size: var(--descSize);
   margin-top: 3em;
   width: 40vw;
+  z-index: 2;
 }
 
 .editBtns
@@ -182,6 +202,7 @@
   justify-content: center;
   flex-wrap: wrap;
   margin-bottom: 1%;
+  column-gap: 15px;
 }
 
 .editRow
@@ -234,7 +255,14 @@
 {
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: space-evenly;
+  margin-top: 10px;
+  row-gap: 10px;
+}
+
+.form-floating
+{
+  width: 95%;
 }
 
 .formBtn
@@ -247,7 +275,6 @@
 
 #formCard
 {
-  background-color: rgba(255, 255, 255, 0.8);
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -278,6 +305,12 @@
   }
 }
 
+.groupSection
+{
+  display: flex;
+  flex-direction: column;
+}
+
 #helpLink
 {
   text-align: right;
@@ -291,7 +324,7 @@
   display: flex;
   flex-direction: column;
   justify-content: left;
-  position: absolute;
+  position: relative;
   margin-left: 6em;
 }
 
@@ -318,8 +351,7 @@
 
 .inFields:focus
 {
-  background-color: rgb(243, 243, 243);
-  border-color: red;
+  background-color: rgb(250, 255, 252);
 }
 
 #landing
@@ -339,12 +371,17 @@
   overflow-y: scroll;
 }
 
+#listBar
+{
+  background-color: var(--ariaSelected);
+}
+
 .listCtrl
 {
-  background-color: var(--semiWhite);
-  border-radius: 20px;
-  color: white;
-  margin-top: 1%;
+  background-color: transparent;
+  color: var(--almostBlack);
+  position: absolute;
+  right: 50px;
 
 }
 
@@ -365,7 +402,7 @@
 }
 
 .listGrid:hover > .btn-group > .schedTaskView, 
-div:hover > .listCtrl, 
+.cardContent:hover > .listCtrl, 
 .cardContent:hover > .delListView
 {
   display: inline-block;
@@ -373,8 +410,7 @@ div:hover > .listCtrl,
 
 }
 
-.listGrid:hover > .btn-group > .schedTaskView:hover, 
-h1:hover > .listCtrl
+.listGrid:hover > .btn-group > .schedTaskView:hover
 {
   color: white;
 
@@ -394,7 +430,7 @@ h1:hover > .listCtrl
 {
   display: flex;
   flex-direction: row;
-  align-items: center;
+  align-items: flex-start;
 }
 
 .listTask
@@ -404,9 +440,9 @@ h1:hover > .listCtrl
   padding: 0.25rem 0.75rem;
 }
 
-#loginForm .inFields
+#forgotButton, #loginButton, #signUpButton, #resetButton
 {
-  margin-bottom: 0.4em;
+  margin-top: 1em;
 }
 
 .navi 
@@ -438,6 +474,30 @@ h1:hover > .listCtrl
 {
   margin-bottom: 0;
 }
+
+#newListField
+{
+  display: flex;
+}
+
+#newListForm.form{
+  flex-direction: row;
+  width: 100%;
+  column-gap: 5px;
+  max-height: 40px;
+  margin-top: 0px;
+}
+
+#newListForm > .inFields
+{
+  background-color: rgba(255, 255, 255, 0.644)
+}
+
+#newListSubmit
+{
+  width: 7em;
+}
+
 
 #newRadios
 {
@@ -478,7 +538,7 @@ h1:hover > .listCtrl
 
 .pageSolid
 {
-  position: relative;
+  position: absolute;
   min-width: 100vw;
   min-height: 100vh;
 
@@ -513,6 +573,21 @@ h1:hover > .listCtrl
   margin-left: 4em;
 }
 
+.singleContainer > .canvasCards
+{
+  max-height: fit-content;
+}
+
+.singleContainer > .canvasCards >.cardContent
+{
+  overflow: visible;
+}
+
+.singleView
+{
+  color: rgb(45, 77, 65);
+}
+
 .schedButton
 {
   margin-right: 10px;
@@ -538,11 +613,6 @@ h1:hover > .listCtrl
   display: none;
 }
 
-#signUpForm .inFields
-{
-  margin-top: 0.4em;
-}
-
 .splitFields
 {
   display: flex;
@@ -566,6 +636,20 @@ h1:hover > .listCtrl
 .tagline
 {
   font-size: 8vw;
+  z-index: 2;
+}
+
+.tagline1
+{
+  font-size: 6vw;
+  z-index: 2;
+}
+
+.tagline2
+{
+  margin-top: 1em;
+  font-size: var(--descSize);
+  width: 60vw;
 }
 
 .taskTitle
@@ -587,6 +671,29 @@ h1:hover > .listCtrl
   border-color: transparent;
 }
 
+.taskImg
+{
+  position: absolute;
+  z-index: 1;
+}
+#taskImg1
+{
+  left: 50vw;
+  top: 20vh;
+}
+
+#taskImg2
+{
+  transform: rotate(5deg);
+  left: 60vw;
+  top: 33vh;
+}
+
+#title
+{
+  color:rgb(38, 65, 55);
+}
+
 #title1
 {
   color: white;
@@ -597,8 +704,10 @@ h1:hover > .listCtrl
 
 .todo-label
 {
-  display: flex;
+  inline-size: 250px;
   font-size: 1.25em;
+  overflow-wrap: normal;
+  text-align: left;
 }
 
 .toDoBar

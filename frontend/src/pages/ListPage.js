@@ -1,25 +1,22 @@
 import React, { useState, useEffect } from 'react';
-import { Container} from 'react-bootstrap';
+import { Container } from 'react-bootstrap';
+import { useParams, Redirect } from "react-router-dom";
 import axios from 'axios';
 
 import ToDoList from '../components/ToDoList';
-import LoggedInName from '../components/LoggedInName';
-import NewListForm from '../components/NewListForm';
 
 import bp from "../components/Path.js";
 
-function readLists() {
+function readLists(id) {
     return new Promise((resolve, reject) => {
-        let pulledLists = [];
 
         const obj = {
-            search: "",
             token: localStorage.getItem("token_data")
         };
 
         const config = {
             method: "post",
-            url: bp.buildPath("api/lists/read"),
+            url: bp.buildPath(`api/lists/read/${id}`),
             headers: {
                 "Content-Type": "application/json"
             },
@@ -31,27 +28,26 @@ function readLists() {
                 if (res.error) {
                     // setMessage('Error adding list');
                     // addRes.current.style.display = "inline-block";
-                    console.error(res.error);
+                    console.error(res.errorS);
                     return;
                 }
+                
+                let param = null;
+                if (res.length > 0)
+                    param = {
+                        id: res[0].id,
+                        key: res[0].id,
+                        title: res[0].title,
+                        body: res[0].list || []
+                    };
 
-
-                for (const list of response.data) {
-                    pulledLists.push({
-                        id: list.id,
-                        key: list.id,
-                        title: list.title,
-                        body: list.list
-                    });
-                }
-                resolve(pulledLists);
+                resolve(param);
             })
             .catch(function (error) {
                 if (error.response) {
                     // setMessage(error.response.data?.error);
                     // .current.style.display = "inline-block";
-
-                    console.error(error.response);
+                    reject(error.response.data);
                     return;
                 }
             });
@@ -64,81 +60,38 @@ function useForceUpdate() {
     return () => setValue(value => value + 1);
 }
 
-function CanvasPage() {
-
-    // Lists 
-    // userId: ####
-    // title: list name
-    // body: array of tasks
-    const user = JSON.parse(localStorage.getItem('user_data'));
-    const firstName = user.firstName;
-    const lastName = user.lastName;
+function ListPage() {
+    
+    const { list_id } = useParams();
 
     const forceUpdate = useForceUpdate();
-    const [state, setState] = useState(`${firstName} ${lastName}`);
-    const [lists, setLists] = useState([]);
-    const [showForm, setShowForm] = useState(false);
+    const [list, setList] = useState({});
+    const [redirect, setRedirect] = useState(<></>);
 
     useEffect(() => {
-        readLists().then(setLists)
-    }, []);
+        readLists(list_id)
+        .then(list => {
+            if (!list)
+                setRedirect(<Redirect to="/canvas"/>);
+            setList(list);
+        })
+        .catch(_ => {
+            return setRedirect(<Redirect to="/canvas"/>);
+        });
+    }, [list_id]);
     // readLists().then(setLists);
 
-    const listArr = lists.map(list => (
+    const listView = (
         <ToDoList
             name={list.title}
             id={list.id}
             key={list.key}
             tasks={list.body}
+            singleView={true}
             editList={editList}
             deleteList={deleteList}
         />
-    ));
-
-    function addList(title) {
-        const obj = {
-            title: title,
-            list: [],
-            token: localStorage.getItem("token_data")
-        };
-
-        const config = {
-            method: "post",
-            url: bp.buildPath("api/lists/create"),
-            headers: {
-                "Content-Type": "application/json"
-            },
-            data: JSON.stringify(obj)
-        };
-
-        axios(config)
-            .then(function (response) {
-                const res = response.data;
-                if (res.error) {
-                    // setMessage('Error adding list');
-                    // addRes.current.style.display = "inline-block";
-                    console.error(res.error);
-                }
-
-                else {
-                    const listCard = {
-                        title: title,
-                        id: res.id,
-                        body: []
-                    };
-
-                    setShowForm(!showForm);
-                    return setLists([...lists, listCard]);
-                }
-            })
-            .catch(function (error) {
-                if (error.response) {
-                    // setMessage(error.response.data?.error);
-                    // .current.style.display = "inline-block";
-                    console.error(error.response);
-                }
-            });
-    }
+    );
 
     function editList(id, title, body) {
         const config = {
@@ -164,15 +117,9 @@ function CanvasPage() {
                     console.error(res.error);
                     return;
                 }
-
-                for (let i = 0; i < lists.length; i++) {
-                    if (lists[i].id === id) {
-                        lists[i].title = title;
-                    }
-                }
-
-
-                setLists(lists);
+                list.title = title;
+                list.body = body;
+                setList(list);
                 forceUpdate();
 
                 })
@@ -185,7 +132,7 @@ function CanvasPage() {
             });
     }
 
-    function deleteList(id) {
+    function deleteList() {
         const config = {
             method: "post",
             url: bp.buildPath("api/lists/delete"),
@@ -194,7 +141,7 @@ function CanvasPage() {
             },
             data: {
                 token: localStorage.getItem("token_data"),
-                id: id
+                id: list_id
             }
         };
 
@@ -208,8 +155,7 @@ function CanvasPage() {
                     return;
                 }
 
-                setLists(lists.filter(list => list.id !== id));
-                forceUpdate();
+                setRedirect(<Redirect to="/canvas"/>);
             })
             .catch(function (error) {
                 if (error.response) {
@@ -223,14 +169,13 @@ function CanvasPage() {
     return (
         <div id="canvas" className="app">
             <div className="canvasBlock">
-                <LoggedInName name={state} />
             </div>
-            <Container className="cardContainer" >
-                {listArr}
+            <Container className="cardContainer singleContainer" >
+                {listView}
+                {redirect}
             </Container>
-            <NewListForm addList={addList} />
         </div>
     );
 }
 
-export default CanvasPage;
+export default ListPage;

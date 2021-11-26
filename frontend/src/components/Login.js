@@ -2,11 +2,11 @@ import React, { useRef, useState } from 'react';
 import Form from 'react-bootstrap/Form';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
+import bp from "./Path.js";
+import storage from "../tokenStorage.js";
 
 function Login(props)
 {
-    var bp = require('./Path.js');
-    var storage = require('../tokenStorage.js');
     const [state, setState] = useState(
         {
             loginName: "",
@@ -67,7 +67,7 @@ function Login(props)
         var config = 
         {
             method: 'post',
-            url: bp.buildPath('api/login'),
+            url: bp.buildPath('api/users/login'),
             headers: 
             {
                 'Content-Type': 'application/json'
@@ -75,53 +75,55 @@ function Login(props)
             data: js
         };
         axios(config)
-            .then(function (response) 
-            {
-                var res = response.data;
-                if (res.error) 
-                {
-                    setMessage('User/Password combination incorrect');
+            .then((response) => {
+                const res = response.data;
+                if (!res) {
+                    setMessage('No response from the server...');
+                    loginRes.current.style.display = "inline-block";
+                    return;
+                }
+
+                storage.storeToken(res.token);
+
+                const firstName = res.first_name;
+                const lastName = res.last_name;
+
+                const user = {firstName:firstName,lastName:lastName}
+                localStorage.setItem('user_data', JSON.stringify(user));
+                props.onLogin(true);
+            })
+            .catch(function (error)  {
+                if (error.response) {
+                    setMessage(error.response.data?.error);
                     loginRes.current.style.display = "inline-block";
                 }
-                else 
-                {
-                    storage.storeToken(res);
-                    var jwt = require('jsonwebtoken');
-
-                    var ud = jwt.decode(storage.retrieveToken(),{complete:true});
-                    var userId = ud.payload._id;
-                    var firstName = ud.payload.first_name;
-                    var lastName = ud.payload.last_name;
-
-                    var user = {firstName:firstName,lastName:lastName,id:userId}
-                    localStorage.setItem('user_data', JSON.stringify(user));
-                    props.onLogin(true);
-                    // window.location.href = '/canvas';
-                }
-            })
-            .catch(function (error) 
-            {
-                console.log(error);
             });
     }
 
 
     return(
         <div id="loginDiv" className="app">
-            <span id="inner-title">Sign in to your account</span><br /><br />
+            <p id="inner-title">Sign in to your account</p>
             <Form id="loginForm" className="form iconBox" onSubmit={handleSubmit}>
-                <input type="text" id="loginName" className="inFields" name="loginName" placeholder="Username"
-                    value={state.loginName} ref={un} onChange={handleChange}/>
-                <span ref={usernameMess} style={{display: "none", color: "red"}}>{message}</span>
-                <div id="helpLink">
-                    <Link to="/forgot">Forgot password?</Link>
+                <div className="groupSection">
+                    <input type="text" id="loginName" className="inFields" name="loginName" placeholder="Email or Username"
+                        value={state.loginName} ref={un} onChange={handleChange}/>
+                    <span ref={usernameMess} style={{display: "none", color: "red"}}>{message}</span>
                 </div>
-                <input type="password" id="loginPassword" name="loginPassword" className="inFields" 
-                    placeholder="Password" value={state.loginPassword} ref={pw} onChange={handleChange}/><br />
-                <span ref={userpassMess} style={{display: "none", color: "red"}}>{message}</span>
-                <input type="submit" id="loginButton" className="buttonScheme formBtn" value = "Continue" />
-                <span id="loginResult" ref={loginRes} style={{display: "none", color: "red"}}>{message}</span><br />
+                <div className="groupSection">
+                    <div id="helpLink">
+                        <Link to="/forgot">Forgot password?</Link>
+                    </div>
+                    <input type="password" id="loginPassword" name="loginPassword" className="inFields" 
+                        placeholder="Password" value={state.loginPassword} ref={pw} onChange={handleChange}/>
+                    <span ref={userpassMess} style={{display: "none", color: "red"}}>{message}</span>
+                </div>
+                <div className="groupSection">
+                    <input type="submit" id="loginButton" className="buttonScheme formBtn" value = "Continue" />
+                    <span id="loginResult" ref={loginRes} style={{display: "none", color: "red"}}>{message}</span>
+                </div>
                 <p>Don't have an account? <Link to="/signup">Sign Up</Link></p>
+
             </Form>
         </div>
     );

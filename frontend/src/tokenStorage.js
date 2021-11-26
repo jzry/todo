@@ -1,24 +1,27 @@
-exports.storeToken = function ( tok )
-{
-    try
-    {
-      localStorage.setItem('token_data', tok.accessToken);
+export function storeToken(token) {
+    try {
+      localStorage.setItem('token_data', token);
     }
-    catch(e)
-    {
+    catch(e) {
       console.log(e.message);
     }
 }
-exports.retrieveToken = function ()
-{
-    var ud;
-    try
-    {
+
+export function retrieveToken() {
+
+    let ud;
+    
+    try {
       ud = localStorage.getItem('token_data');
     }
-    catch(e)
-    {
+    catch(e) {
       console.log(e.message);
     }
+
     return ud;
+}
+
+export default {
+  retrieveToken: retrieveToken,
+  storeToken: storeToken
 }

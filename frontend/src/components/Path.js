@@ -1,13 +1,13 @@
-const app_name = 'cop4331-test123'
-exports.buildPath = 
-function buildPath(route)
-{
-    if (process.env.NODE_ENV === 'production') 
-    {
-        return 'https://' + app_name +  '.herokuapp.com/' + route;
-    }
-    else
-    {        
-        return 'http://localhost:5000/' + route;
-    }
+const hostname = 'cop4331-test123.herokuapp.com';
+
+function buildPath(route) {
+    if (process.env.NODE_ENV === 'production') {
+        return `https://${hostname}/${route}`;
+    }      
+    
+    return `http://localhost:8090/${route}`;
+}
+
+export default {
+    buildPath: buildPath
 }
