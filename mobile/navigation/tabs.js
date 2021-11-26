@@ -6,7 +6,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import LoginScreen from '../screens/LoginScreen.js';
 import RegistrationScreen from '../screens/RegistrationScreen.js';
 import TodoScreen from '../screens/TodoScreen.js';
-import HomeScreen from '../screens/HomeScreen.js';
+import DeskScreen from '../screens/DeskScreen.js';
 
 const RegistrationStack = createNativeStackNavigator();
 
@@ -40,7 +40,7 @@ function DeskStackScreen() {
     <DeskStack.Navigator
 		initialRouteName="Home"
 		screenOptions={{headerShown:true}}>
-      <DeskStack.Screen name="Home" component={HomeScreen} />
+      <DeskStack.Screen name="Lists" component={DeskScreen} />
 	  <DeskStack.Screen name="Todo" component={TodoScreen} />
     </DeskStack.Navigator>
   );

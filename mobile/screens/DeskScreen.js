@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { StyleSheet, Text, View, Image, Button, TextInput, TouchableOpacity, SafeAreaView} from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 
-function HomeScreen({ route, navigation }) {
+function DeskScreen({ route, navigation }) {
     return (
       <View style={styles.container}>
 
@@ -12,20 +12,20 @@ function HomeScreen({ route, navigation }) {
         onPress={() => {
           navigation.navigate('Todo');
         }}>
-        <Text style={styles.loginText}>Create a to-do list!</Text>
+        <Text style={styles.loginText}>List 1</Text>
       </TouchableOpacity>
   
       <TouchableOpacity style={styles.Card}
         onPress={() => {
           navigation.navigate('Todo');
         }}>
-        <Text style={styles.loginText}>Make a note.</Text>
+        <Text style={styles.loginText}>List 2</Text>
       </TouchableOpacity>
     </View>
   );
   }
   
-  export default HomeScreen;
+  export default DeskScreen;
   
   const styles = StyleSheet.create({
       container: {

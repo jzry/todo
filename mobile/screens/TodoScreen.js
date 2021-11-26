@@ -36,9 +36,9 @@ const TodoScreen = ({ navigation }) => {
 								
 						})
 					}
-					<Task text={'Task 1'}/>
-					<Task text={'Task 2'}/>
-					<Task text={'Task 3'}/>
+					<Task text={'Task A'}/>
+					<Task text={'Task B'}/>
+					<Task text={'Task C'}/>
 				</View>
 			</View>
 			{/* Write a task */}
