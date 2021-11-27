@@ -7,6 +7,7 @@ import HomeScreen from '../screens/HomeScreen.js';
 import RegistrationScreen from '../screens/RegistrationScreen.js';
 import TodoScreen from '../screens/TodoScreen.js';
 import DeskScreen from '../screens/DeskScreen.js';
+import Landing from '../screens/Landing.js';
 
 const RegistrationStack = createNativeStackNavigator();
 
@@ -14,7 +15,7 @@ function RegistrationStackScreen() {
   return (
     <RegistrationStack.Navigator
 		initialRouteName="Login"
-		screenOptions={{headerShown:false}}>
+		screenOptions={{headerShown:true}}>
       <RegistrationStack.Screen name="Login" component={HomeScreen} />
       <RegistrationStack.Screen name="Registration" component={RegistrationScreen} />
     </RegistrationStack.Navigator>
@@ -27,8 +28,8 @@ function MainStackScreen() {
   return (
     <MainStack.Navigator
 		initialRouteName="Todo"
-		screenOptions={{headerShown:false}}>
-      <MainStack.Screen name="Todo" component={HomeScreen} />
+		screenOptions={{headerShown:true}}>
+      <MainStack.Screen name="Todo" component={Landing} />
     </MainStack.Navigator>
   );
 }

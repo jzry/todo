@@ -3,9 +3,13 @@ import { StyleSheet, Text, View, Image, Button, TextInput, TouchableOpacity, Saf
 import { StatusBar } from 'expo-status-bar';
 
 function RegistrationScreen({ route, navigation }) {
-  //const { itemId, otherParam } = route.params;
+  const [first_name, setFirst] = useState("");
+  const [last_name, setLast] = useState("");
   const [email, setEmail] = useState("");
+  const [login, setLogin] = useState("");
   const [password, setPassword] = useState("");
+  const [confirm, setConfirm] = useState("");
+
   return (
     <View style={styles.container}>
     <Image  
@@ -13,6 +17,42 @@ function RegistrationScreen({ route, navigation }) {
         source={require('../assets/icon.png')} />
 
     <StatusBar style="auto" />
+
+    <View style={styles.inputView}>
+      <TextInput
+        style={styles.TextInput}
+        placeholder="first name"
+        placeholderTextColor="#808080"
+        secureTextEntry={false}
+        onChangeText={(first_name) => setFirst(first_name)}
+        autoCapitalize='none'
+        autoCorrect='false'
+      />
+    </View>
+
+    <View style={styles.inputView}>
+      <TextInput
+        style={styles.TextInput}
+        placeholder="last name"
+        placeholderTextColor="#808080"
+        secureTextEntry={false}
+        onChangeText={(last_name) => setLast(last_name)}
+        autoCapitalize='none'
+        autoCorrect='false'
+      />
+    </View>
+
+    <View style={styles.inputView}>
+      <TextInput
+        style={styles.TextInput}
+        placeholder="login"
+        placeholderTextColor="#808080"
+        secureTextEntry={false}
+        onChangeText={(login) => setLogin(login)}
+        autoCapitalize='none'
+        autoCorrect='false'
+      />
+    </View>
 
     <View style={styles.inputView}>
       <TextInput
@@ -35,6 +75,18 @@ function RegistrationScreen({ route, navigation }) {
         onChangeText={(password) => setPassword(password)}
         autoCapitalize='none'
 		    autoCorrect='false'
+      />
+    </View>
+
+    <View style={styles.inputView}>
+      <TextInput
+        style={styles.TextInput}
+        placeholder="confirm password"
+        placeholderTextColor="#808080"
+        secureTextEntry={false}
+        onChangeText={(confirm) => setConfirm(confirm)}
+        autoCapitalize='none'
+        autoCorrect='false'
       />
     </View>
 
