@@ -1,6 +1,9 @@
 import React, { useState } from 'react';
 import { StyleSheet, Text, View, Image, Button, TextInput, TouchableOpacity, SafeAreaView} from 'react-native';
 import { StatusBar } from 'expo-status-bar';
+import axios from "axios";
+import bp from "./BuildPath.js"
+import EmailHelper from './EmailHelper.js';
 
 function RegistrationScreen({ route, navigation }) {
   const [first_name, setFirst] = useState("");
@@ -9,6 +12,48 @@ function RegistrationScreen({ route, navigation }) {
   const [login, setLogin] = useState("");
   const [password, setPassword] = useState("");
   const [confirm, setConfirm] = useState("");
+  const [errorMsg, setErr] = useState("");
+
+  function registerUser() {
+    setErr("");
+
+    if (!first_name || !last_name || !email || !login || !password) {
+      setErr("Please fill all fields");
+    }
+
+    const axiosConfig = {
+        method: 'post',
+        url: bp.BuildPath('api/users/register'),
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        data: {
+          first_name: first_name,
+          last_name: last_name,
+          email: email,
+          login: login,
+          password: password
+        }
+    };
+
+    if (!EmailHelper(email)) {
+      setErr("Invalid email");
+      return;
+    }
+
+    axios(axiosConfig)
+      .then((res) => {
+        const data = res.data;
+        if (data.error) {
+          setErr(data.error);
+        }
+        // switch screen
+      })
+      .catch((e) => {
+          setErr(e.message);
+      });
+
+  }
 
   return (
     <View style={styles.container}>
@@ -27,6 +72,7 @@ function RegistrationScreen({ route, navigation }) {
         onChangeText={(first_name) => setFirst(first_name)}
         autoCapitalize='none'
         autoCorrect='false'
+        value={first_name}
       />
     </View>
 
@@ -89,6 +135,9 @@ function RegistrationScreen({ route, navigation }) {
         autoCorrect='false'
       />
     </View>
+    <View>
+      <Text>{errorMsg}</Text>
+    </View>
 
     <TouchableOpacity
       onPress={() => {
@@ -102,7 +151,8 @@ function RegistrationScreen({ route, navigation }) {
 
     <TouchableOpacity style={styles.loginBtn}
       onPress={() => {
-        navigation.navigate('Details');
+        registerUser();
+        // navigation.navigate('Details');
       }}>
       <Text style={styles.loginText}>Register</Text>
     </TouchableOpacity>

@@ -5,7 +5,7 @@ import { StatusBar } from 'expo-status-bar';
 const HomeScreen = ({ navigation }) => {
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
-	console.log("App execeuted");
+	console.log("App executed");
 	return (
 		<View style={styles.container}>
       <Image  
