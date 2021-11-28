@@ -9,7 +9,7 @@ const wait = (timeout) => {
 	return new Promise(resolve => setTimeout(resolve, timeout));
   }
 
-const HomeScreen = ({navigation}) => {
+const Login = ({navigation}) => {
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
 	const [errorMsg, setErr] = useState("");
@@ -38,7 +38,6 @@ const HomeScreen = ({navigation}) => {
 			}
 		};
 
-
 		axios(axiosConfig)
 			.then(async (res) => {
 				const data = res.data;
@@ -61,7 +60,7 @@ const HomeScreen = ({navigation}) => {
 
 			})
 			.catch((e) => {
-				setErr(e.message);
+				setErr(e.response?.data?.error || e);
 			});
 	}
 
@@ -127,7 +126,7 @@ const HomeScreen = ({navigation}) => {
 	);
 };
 
-export default HomeScreen;
+export default Login;
 
 const styles = StyleSheet.create({
 	container: {

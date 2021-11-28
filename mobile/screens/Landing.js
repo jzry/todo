@@ -1,11 +1,10 @@
 import React, { useState } from 'react';
 import { StyleSheet, Text, View, Image, Button, TextInput, TouchableOpacity, SafeAreaView} from 'react-native';
-import { StatusBar } from 'expo-status-bar';
 
 const Landing = ({ navigation }) => {
 	console.log("App execeuted");
 	return (
-		<View style={styles.container}>
+	<View style={styles.container}>
       <Image  
           style={styles.logo}
           source={require('../assets/icon.png')} 

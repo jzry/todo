@@ -54,7 +54,7 @@ function RegistrationScreen({ route, navigation }) {
         // navigation.navigate('Details');
       })
       .catch((e) => {
-          setErr(e.message);
+        setErr(e.response?.data?.error || error);
       });
 
   }

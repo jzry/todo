@@ -1,13 +1,166 @@
 import React, { useEffect, useState } from 'react';
-import { StyleSheet, Text, View, Image, Button, TextInput, TouchableOpacity, SafeAreaView } from 'react-native';
+import { Keyboard, StyleSheet, Text, ScrollView, View, Image, Button, TextInput, KeyboardAvoidingView, TouchableOpacity, SafeAreaView } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import bp from "./BuildPath";
 import axios from 'axios';
+import Dialog from "react-native-dialog";
+
 
 function DeskScreen({ route, navigation }) {
 
+    const [dialogVisible, setDialogVisible] = useState(false);
     const [lists, setLists] = useState([]);
+
+    const [dialogText, setDialogText] = useState("");
+	const [currId, setCurrId] = useState("");
+    const [listName, setListName] = useState("");
+
+    async function addList() {
+        Keyboard.dismiss();
+
+        if (listName === "")
+            return;
+
+        let token;
+        try {
+            token = await AsyncStorage.getItem("token");
+        } catch (e) {
+            alert(e.message);
+            return;
+        }
+
+        const config = {
+            method: 'post',
+            url: bp.BuildPath(`api/lists/create`),
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            data: {
+                token: token,
+                title: listName,
+                list: []
+            }
+        };
+
+        axios(config)
+            .then(function (response) {
+                const data = response.data;
+                if (data.error) {
+                    alert(data.error);
+                    return;
+                }
+
+                const newList = {
+                    id: data.id,
+                    title: listName,
+                    list: []
+                };
+				
+                setLists([...lists, newList]);
+                setListName("");
+
+            })
+            .catch((error) => {
+                alert(error.response?.data?.error || error);
+            });
+    }
+
+    async function updateList() {
+
+        let token;
+        try {
+            token = await AsyncStorage.getItem("token");
+        } catch (e) {
+            alert(e.message);
+            return;
+        }
+
+        const config = {
+            method: 'post',
+            url: bp.BuildPath(`api/lists/update`),
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            data: {
+                token: token,
+                title: dialogText,
+                list: [],
+                id: currId
+            }
+        };
+
+        axios(config)
+            .then(function (response) {
+                const data = response.data;
+                if (data.error) {
+                    setDialogVisible(false);
+                    alert(data.error);
+                    return;
+                }
+
+                for (let i = 0; i < lists.length; i++) {
+                    if (lists[i].id === currId) {
+                        lists[i].title = dialogText;
+                    }
+                }
+
+                setLists(lists);
+                setDialogVisible(false);
+
+            })
+            .catch((error) => {
+                setDialogVisible(false);
+                alert(error.response?.data?.error || error);
+            });
+    }
+
+    async function deleteList() {
+        let token;
+        try {
+            token = await AsyncStorage.getItem("token");
+        } catch (e) {
+            alert(e.message);
+            return;
+        }
+
+        const config = {
+            method: 'post',
+            url: bp.BuildPath(`api/lists/delete`),
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            data: {
+                token: token,
+                id: currId
+            }
+        };
+
+        axios(config)
+            .then(function (response) {
+                const data = response.data;
+                if (data.error) {
+                    setDialogVisible(false);
+                    alert(data.error);
+                    return;
+                }
+
+				
+                setLists(lists.filter(list => list.id !== currId));
+                setDialogVisible(false);
+
+            })
+            .catch((error) => {
+                setDialogVisible(false);
+                alert(error);
+            });
+    }
+
+    function updateMode(id, text) {
+        setDialogVisible(true);
+        setDialogText(text);
+        setCurrId(id);
+    }
 
     function getLists() {
         return new Promise(async (resolve, reject) => {
@@ -41,10 +194,10 @@ function DeskScreen({ route, navigation }) {
                     let listsArray = [];
 
                     for (const list of data) {
-                        listsArray.push({title: list.title, id: list.id});
+                        listsArray.push({ title: list.title, id: list.id });
                     }
 
-                    resolve(listsArray); 
+                    resolve(listsArray);
                 })
                 .catch((e) => {
                     reject(e);
@@ -52,29 +205,52 @@ function DeskScreen({ route, navigation }) {
         });
     }
 
-    useEffect(()=>{
+    useEffect(() => {
+        getLists().then(ret => {
+            setLists(ret);
+        });
 
-
-    getLists().then(ret => {
-        setLists(ret?.map((list) => {
-            console.log(list)
-            return (<TouchableOpacity style={styles.Card}
-                onPress={() => {
-                    navigation.navigate('Todo', {id: list.id});
-                }}>
-                <Text style={styles.loginText}>{list.title}</Text>
-            </TouchableOpacity>)
-        }));
-    });
-
-},[]);
+    }, []);
 
     return (
         <View style={styles.container}>
-
+            <Dialog.Container visible={dialogVisible}>
+                <Dialog.Title>Modify List</Dialog.Title>
+                <Dialog.Input value={dialogText} onChangeText={(text) => { setDialogText(text) }} />
+                <Dialog.Button label="Update" onPress={updateList} />
+                <Dialog.Button label="Delete" onPress={deleteList} />
+                <Dialog.Button label="Cancel" onPress={()=>setDialogVisible(false)} />
+            </Dialog.Container>
             <StatusBar style="auto" />
-            {lists}
+            {
 
+                lists.map((list) => {
+                    return (<TouchableOpacity style={styles.Card}
+                        onPress={() => {
+                            navigation.navigate("Todo", { id: list.id, title: list.title });
+                        }}
+                        onLongPress={() => updateMode(list.id, list.title)}>
+                        <Text style={styles.loginText}>{list.title}</Text>
+                    </TouchableOpacity>)
+                })
+            }
+
+            <KeyboardAvoidingView
+                behavior={Platform.OS === "ios" ? "padding" : "height"}
+                style={styles.writeTaskWrapper}
+            >
+                <TextInput
+                    style={styles.input}
+                    placeholder={'New list'}
+                    value={listName}
+                    onChangeText={text => setListName(text)} />
+
+                <TouchableOpacity onPress={() => addList().catch(e => alert(e))} >
+                    <View style={styles.addWrapper}>
+                        <Text style={styles.addText}>+</Text>
+                    </View>
+                </TouchableOpacity>
+            </KeyboardAvoidingView>
         </View>
     );
 }
@@ -92,10 +268,40 @@ const styles = StyleSheet.create({
     Card: {
         width: "90%",
         borderRadius: 10,
-        height: 120,
+        height: 60,
         alignItems: "center",
         justifyContent: "center",
-        marginTop: 25,
+        marginBottom: 10,
         backgroundColor: "#517470",
+        color: "#FFFFFF"
     },
+    input: {
+        paddingVertical: 15,
+        paddingHorizontal: 15,
+        backgroundColor: '#fff',
+        borderRadius: 60,
+        borderColor: '#c0c0c0',
+        borderWidth: 1,
+        width: 250,
+
+    }, writeTaskWrapper: {
+        position: 'absolute',
+        bottom: 20,
+        width: '100%',
+        flexDirection: 'row',
+        justifyContent: 'space-around',
+        alignItems: 'center',
+    },
+    addWrapper: {
+        width: 60,
+        height: 60,
+        backgroundColor: '#fff',
+        borderRadius: 60,
+        justifyContent: 'center',
+        alignItems: 'center',
+        borderColor: '#c0c0c0',
+        borderWidth: 1,
+
+    },
+    addText: {},
 });

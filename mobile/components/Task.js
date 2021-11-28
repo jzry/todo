@@ -1,27 +1,28 @@
-import React, { Component } from 'react';
+import React, { Component, Button, TextInput } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 
 class Task extends Component {
     constructor(props) {
         super(props);
+        this.state = {
+            updateView: this.props.updateView
+        }
+    }
+
+    componentWillUpdate(nextProps, nextState) {
+        nextState.updateView = nextProps.updateView;
     }
 
     render() {
         return (
             <View style={styles.item}>
                 <View style={styles.itemLeft}>
-                    {
-                        this.props.checked
-                        ?   
-                        <View style={styles.square}>
-                        </View>
-                        : 
-                        <View style={styles.blanksquare}>
-                        </View>
-                    }
-                    <Text style={styles.itemText}>{this.props.text}</Text>
+                    <View style={this.props.checked ? styles.square : styles.blanksquare} >
+                    </View>
+                    
+                        <Text style={styles.itemText}>{this.props.text}</Text>
+                
                 </View>
-                <View style={styles.circular}></View>
             </View>
         )
     }
@@ -30,13 +31,13 @@ class Task extends Component {
 const styles = StyleSheet.create({
     item: {
         backgroundColor: '#fff',
-        padding: 15,
+        padding: 10,
         borderRadius: 10,
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'space-between',
-        marginBottom: 20,
-    },   
+        marginBottom: 5,
+    },
     itemLeft: {
         flexDirection: 'row',
         alignItems: 'center',
