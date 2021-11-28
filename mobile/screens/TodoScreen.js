@@ -1,8 +1,11 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import { View, Text, Button, StyleSheet, KeyboardAvoidingView, Platform, TouchableOpacity, TextInput, Keyboard } from 'react-native';
 import Task from '../components/Task';
+import bp from "./BuildPath";
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import axios from 'axios';
 
-const TodoScreen = ({ navigation }) => {
+const TodoScreen = ({ navigation, route }) => {
 	const [task, setTask] = useState();
 	const [taskItems, setTaskItems] = useState([]);
 
@@ -12,11 +15,66 @@ const TodoScreen = ({ navigation }) => {
 		setTask(null);
 	}
 
-	const completeTask = (index) => {
-		let itemsCopy = [...taskItems];
-		itemsCopy.splice(index, 1);
-		setTaskItems(itemsCopy);
-	}
+	// const completeTask = (index) => {
+	// 	let itemsCopy = [...taskItems];
+	// 	itemsCopy.splice(index, 1);
+	// 	setTaskItems(itemsCopy);
+	// }
+
+	function getLists() {
+        return new Promise(async (resolve, reject) => {
+            let token;
+            try {
+                token = await AsyncStorage.getItem("token");
+            } catch (e) {
+                reject(e);
+            }
+
+            const axiosConfig = {
+                method: 'post',
+                url: bp.BuildPath(`api/lists/read/${route.params?.id}`),
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                data: {
+                    token: token
+                }
+            };
+			console.log(token)
+
+            axios(axiosConfig)
+                .then(async (res) => {
+                    const data = res.data;
+                    if (data.error) {
+                        reject(e);
+                        return;
+                    }
+
+					let list = null;
+					if (data.length > 0)
+						list = {
+							id: data[0].id,
+							key: data[0].id,
+							title: data[0].title,
+							body: data[0].list || []
+						};
+                    resolve(list); 
+                })
+                .catch((e) => {
+                    reject(e);
+                });
+        });
+    }
+
+	useEffect(() => {
+        getLists()
+        .then(list => {
+            setTaskItems(list.body)
+        })
+        .catch(_ => {
+        });
+    }, []);
+
 	return (
 		<View style = { styles.container }>
 
@@ -27,18 +85,24 @@ const TodoScreen = ({ navigation }) => {
 				<View style={styles.items}>
 					{/*This is where the tasks will go! */}
 					{
-						taskItems.map((item, index) => { 
+						
+						taskItems?.map((task) => { 
+							console.log(task)
 							return (
-								<TouchableOpacity key={index} onPress={() => completeTask(index)}>
-									<Task key={index} text={item} />
+								<TouchableOpacity key={task.completed} 
+								// onPress={() => completeTask(task.completed)}
+								>
+									<Task 
+									// key={task.completed}
+									 text={task.text} checked={task.completed} />
 								</TouchableOpacity>
 							)
 								
 						})
 					}
-					<Task text={'Task A'}/>
+					{/* <Task text={'Task A'}/>
 					<Task text={'Task B'}/>
-					<Task text={'Task C'}/>
+					<Task text={'Task C'}/> */}
 				</View>
 			</View>
 			{/* Write a task */}

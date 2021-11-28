@@ -1,17 +1,30 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 
-const Task = (props) => {
+class Task extends Component {
+    constructor(props) {
+        super(props);
+    }
 
-    return (
-        <View style={styles.item}>
-            <View style={styles.itemLeft}>
-                <View style={styles.square}></View>
-                <Text style={styles.itemText}>{props.text}</Text>
+    render() {
+        return (
+            <View style={styles.item}>
+                <View style={styles.itemLeft}>
+                    {
+                        this.props.checked
+                        ?   
+                        <View style={styles.square}>
+                        </View>
+                        : 
+                        <View style={styles.blanksquare}>
+                        </View>
+                    }
+                    <Text style={styles.itemText}>{this.props.text}</Text>
+                </View>
+                <View style={styles.circular}></View>
             </View>
-            <View style={styles.circular}></View>
-        </View>
-    )
+        )
+    }
 }
 
 const styles = StyleSheet.create({
@@ -36,6 +49,14 @@ const styles = StyleSheet.create({
         opacity: 0.4,
         borderRadius: 5,
         marginRight: 15,
+    },
+    blanksquare: {
+        width: 24,
+        height: 24,
+        backgroundColor: '#cccccc',
+        opacity: 0.4,
+        borderRadius: 5,
+        marginRight: 15
     },
     itemText: {
         maxWidth: '80%',

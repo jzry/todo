@@ -47,7 +47,11 @@ function RegistrationScreen({ route, navigation }) {
         if (data.error) {
           setErr(data.error);
         }
+        // on success
         // switch screen
+        setErr("Successfully created a Flourish account");
+      
+        // navigation.navigate('Details');
       })
       .catch((e) => {
           setErr(e.message);
@@ -152,7 +156,6 @@ function RegistrationScreen({ route, navigation }) {
     <TouchableOpacity style={styles.loginBtn}
       onPress={() => {
         registerUser();
-        // navigation.navigate('Details');
       }}>
       <Text style={styles.loginText}>Register</Text>
     </TouchableOpacity>
