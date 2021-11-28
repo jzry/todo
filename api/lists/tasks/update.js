@@ -58,7 +58,7 @@ export default async function(req, res, next) {
                     (err, updatedData) => {
                         if (!updatedData) {
                             res.status(404).send({
-                                error: `cannot add task`
+                                error: `cannot update task`
                             });
                             return;
                         }

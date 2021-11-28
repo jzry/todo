@@ -58,8 +58,8 @@ export default async function(req, res, next) {
                 _id: id,
                 UserId: decoded.id
             }, {
-                Title: title,
-                Body: fmtBody
+                Title: title
+                // Body: fmtBody
             })
             .then(data => {
                 if (!data) {
