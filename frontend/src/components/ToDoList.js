@@ -228,8 +228,10 @@ function ToDoList(props) {
         setEditing(false);
     }
 
-    function handleDelete(choice,id){
-        if(choice){
+    function handleDelete(choice, id){
+
+        console.log(choice);
+        if(choice == true){
             props.deleteList(id);
             setDelCon(false);
         } else{
