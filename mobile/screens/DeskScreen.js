@@ -272,7 +272,7 @@ const styles = StyleSheet.create({
         alignItems: "center",
         justifyContent: "center",
         marginBottom: 10,
-        backgroundColor: "#517470",
+        backgroundColor: '#b9c7c6',
         color: "#FFFFFF"
     },
     input: {
