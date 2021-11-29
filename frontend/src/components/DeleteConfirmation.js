@@ -1,5 +1,5 @@
 import React from 'react';
-import { Card } from 'react-bootstrap';
+import { Button, Card, Form } from 'react-bootstrap';
 
 const DeleteConfirmation = (props) =>
 {
