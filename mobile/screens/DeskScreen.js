@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Keyboard, StyleSheet, Text, ScrollView, View, Image, Button, TextInput, KeyboardAvoidingView, TouchableOpacity, SafeAreaView } from 'react-native';
+import { Keyboard, StyleSheet, Text, ScrollView, View, Image, Button, TextInput, KeyboardAvoidingView, TouchableOpacity, SafeAreaView, TouchableWithoutFeedback, } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import bp from "./BuildPath";
@@ -9,12 +9,24 @@ import Dialog from "react-native-dialog";
 
 function DeskScreen({ route, navigation }) {
 
+    const [greet, setGreet] = useState('');
     const [dialogVisible, setDialogVisible] = useState(false);
     const [lists, setLists] = useState([]);
 
     const [dialogText, setDialogText] = useState("");
 	const [currId, setCurrId] = useState("");
     const [listName, setListName] = useState("");
+    
+    const findGreet = () => {
+        const hrs = new Date().getHours();
+        if (hrs === 0 || hrs < 12) return setGreet('morning.');
+        if (hrs === 1 || hrs < 17) return setGreet('afternoon.');
+        setGreet('evening.');
+      };
+    
+    useEffect(() => {
+    findGreet();
+    }, []);
 
     async function addList() {
         Keyboard.dismiss();
@@ -214,6 +226,11 @@ function DeskScreen({ route, navigation }) {
 
     return (
         <View style={styles.container}>
+            <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+                <View>
+                <Text style={styles.header}>{`Good ${greet}`}</Text>
+                </View>
+            </TouchableWithoutFeedback>
             <Dialog.Container visible={dialogVisible}>
                 <Dialog.Title>Modify List</Dialog.Title>
                 <Dialog.Input value={dialogText} onChangeText={(text) => { setDialogText(text) }} />
@@ -260,7 +277,7 @@ export default DeskScreen;
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#ffffff',
+        backgroundColor: '#E8EAED',
         alignItems: 'center',
         justifyContent: 'center',
     },
@@ -272,7 +289,7 @@ const styles = StyleSheet.create({
         alignItems: "center",
         justifyContent: "center",
         marginBottom: 10,
-        backgroundColor: '#b9c7c6',
+        backgroundColor: '#fff',
         color: "#FFFFFF"
     },
     input: {
@@ -281,7 +298,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#fff',
         borderRadius: 60,
         borderColor: '#c0c0c0',
-        borderWidth: 1,
+        borderWidth: 0,
         width: 250,
 
     }, writeTaskWrapper: {
@@ -300,8 +317,14 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         borderColor: '#c0c0c0',
-        borderWidth: 1,
-
+        borderWidth: 0,
+    },
+    header: {
+        right: 90,
+        marginVertical:40,
+        fontSize: 25,
+        fontWeight: 'bold',
+        color: '#000000',
     },
     addText: {},
 });

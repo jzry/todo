@@ -18,10 +18,10 @@ const Login = ({navigation}) => {
 		setErr("");
 
 		if (!email)
-			setErr("Please enter a valid email/username");
+			setErr("Please enter a valid email/username.");
 
 		if (!password)
-			setErr("Please enter a valid password");
+			setErr("Please enter a valid password.");
 
 		// length check password
 
@@ -137,15 +137,15 @@ const styles = StyleSheet.create({
 	},
 
 	logo: {
-		width: 100,
-		height: 100,
-		marginBottom: 20,
+		width: 150,
+		height: 150,
+		bottom: 100,
 	},
 
 	inputView: {
-		backgroundColor: "#ACBAA1",
+		backgroundColor: "#E8EAED",
 		borderRadius: 30,
-		width: "70%",
+		width: "80%",
 		height: 45,
 		marginBottom: 20,
 		alignItems: "center",
@@ -166,10 +166,10 @@ const styles = StyleSheet.create({
 	loginBtn: {
 		width: "80%",
 		borderRadius: 25,
-		height: 50,
+		height: 45,
 		alignItems: "center",
 		justifyContent: "center",
 		marginTop: 25,
-		backgroundColor: "#517470",
+		backgroundColor: "#b9c7c6",
 	},
 });
