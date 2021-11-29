@@ -7,7 +7,7 @@ import bp from "../components/Path.js";
 function verifyEmail(token) {
     return new Promise((resolve, reject) => {
         const config = {
-            method: "post",
+            method: "get",
             url: bp.buildPath(`api/users/verify?q=${token}`),
             headers: {
                 "Content-Type": "application/json"
