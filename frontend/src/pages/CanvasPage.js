@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Container} from 'react-bootstrap';
+import { Button, Container, Form } from 'react-bootstrap';
 import axios from 'axios';
 
 import ToDoList from '../components/ToDoList';
@@ -8,12 +8,12 @@ import NewListForm from '../components/NewListForm';
 
 import bp from "../components/Path.js";
 
-function readLists() {
+function readLists(props) {
     return new Promise((resolve, reject) => {
         let pulledLists = [];
 
         const obj = {
-            search: "",
+            search: props,
             token: localStorage.getItem("token_data")
         };
 
@@ -76,13 +76,26 @@ function CanvasPage() {
 
     const forceUpdate = useForceUpdate();
     const [state, setState] = useState(`${firstName} ${lastName}`);
+    const [query, setQuery] = useState('');
     const [lists, setLists] = useState([]);
     const [showForm, setShowForm] = useState(false);
 
     useEffect(() => {
-        readLists().then(setLists)
+       readLists(query).then(setLists)
     }, []);
     // readLists().then(setLists);
+
+    const handleChange = (e) =>
+    {
+        setQuery(e.target.value);
+        //readLists(query).then(setLists);
+    }
+
+    function handleSubmit(e)
+    {
+        e.preventDefault();
+        readLists(query).then(setLists);
+    }
 
     const listArr = lists.map(list => (
         <ToDoList
@@ -224,6 +237,11 @@ function CanvasPage() {
         <div id="canvas" className="app">
             <div className="canvasBlock">
                 <LoggedInName name={state} />
+                <Form id="searchQ" onSubmit={handleSubmit}>
+                    <Form.Control type="text" id="queryfield" className="inFields" name="query" 
+                        placeholder="Search" value={query} onChange={handleChange}/>
+                    <Button type="submit" id="querySubmit" className="buttonScheme"> Search </Button>`
+                </Form>
             </div>
             <Container className="cardContainer" >
                 {listArr}
