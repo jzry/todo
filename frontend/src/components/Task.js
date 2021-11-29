@@ -108,7 +108,7 @@ function Task(props)
 
                     <Button
                         type="button"
-                        className="btn taskCtrl priorityTaskView buttonScheme"
+                        className="btn taskCtrl priorityTaskView buttonScheme taskDel"
                         onClick={
                             () => props.deleteTask(props.id)
                         }

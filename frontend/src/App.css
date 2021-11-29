@@ -5,10 +5,10 @@
   --ariaSelected: #517470;
   --buttonHover: #9eac94;
   --checkSelect: #64706f;
-  --almostBlack: #000000cb;
   --layeringWhite: #ffffffc0;
   --semiWhite: rgba(255, 255, 255, 0.25);
   --descSize: 3vw;
+  --deleteRed: rgba(189, 59, 59, 0.8);
 }
 
 :focus-visible{
@@ -170,9 +170,14 @@
 .delListView
 {
   background-color: transparent;
-  color: var(--almostBlack);
+  color: var(--deleteRed);
   position: absolute;
   right: 5px;
+}
+
+.delListView:hover
+{
+  color: var(--deleteRed);
 }
 
 .desc 
@@ -379,10 +384,15 @@
 .listCtrl
 {
   background-color: transparent;
-  color: var(--almostBlack);
+  color: var(--ariaSelected);
   position: absolute;
   right: 50px;
 
+}
+
+.listCtrl:hover
+{
+  color: var(--ariaSelected);
 }
 
 .listGrid
@@ -465,7 +475,9 @@
   padding-top: 3px;
   padding-bottom: 3px;
 }
-.navBtn:hover{
+
+.navBtn:hover
+{
   background-color: var(--buttonColor);
   border-color: #435f4c;
 }
@@ -497,7 +509,6 @@
 {
   width: 7em;
 }
-
 
 #newRadios
 {
@@ -664,13 +675,18 @@
 {
   border-color: transparent;
   background-color: transparent;
-  color: black;
+  color: var(--ariaSelected);
 }
 
 .taskCtrl:hover 
 {
   background-color: var(--buttonColor);
   border-color: transparent;
+}
+
+.taskDel
+{
+  color: var(--deleteRed);
 }
 
 .taskImg
