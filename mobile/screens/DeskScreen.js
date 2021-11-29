@@ -238,20 +238,21 @@ function DeskScreen({ route, navigation }) {
                 <Dialog.Button label="Delete" onPress={deleteList} />
                 <Dialog.Button label="Cancel" onPress={() => setDialogVisible(false)} />
             </Dialog.Container>
-            <StatusBar style="auto" />
-            {
+            <ScrollView style={{ width: "90%" }}>
+                <StatusBar style="auto" />
+                {
 
-                lists.map((list) => {
-                    return (<TouchableOpacity style={styles.Card}
-                        onPress={() => {
-                            navigation.navigate("Todo", { id: list.id, title: list.title });
-                        }}
-                        onLongPress={() => updateMode(list.id, list.title)}>
-                        <Text style={styles.loginText}>{list.title}</Text>
-                    </TouchableOpacity>)
-                })
-            }
-
+                    lists.map((list) => {
+                        return (<TouchableOpacity style={styles.Card}
+                            onPress={() => {
+                                navigation.navigate("Todo", { id: list.id, title: list.title });
+                            }}
+                            onLongPress={() => updateMode(list.id, list.title)}>
+                            <Text style={styles.loginText}>{list.title}</Text>
+                        </TouchableOpacity>)
+                    })
+                }
+            </ScrollView>
             <KeyboardAvoidingView
                 behavior={Platform.OS === "ios" ? "padding" : "height"}
                 style={styles.writeTaskWrapper}
@@ -278,7 +279,7 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: '#E8EAED',
-        alignItems: 'center',
+        alignItems: 'flex-end',
         justifyContent: 'center',
     },
 
@@ -290,7 +291,7 @@ const styles = StyleSheet.create({
         justifyContent: "center",
         marginBottom: 10,
         backgroundColor: '#fff',
-        color: "#FFFFFF"
+        color: "#FFFFFF",
     },
     input: {
         paddingVertical: 15,
@@ -298,7 +299,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#fff',
         borderRadius: 60,
         borderColor: '#c0c0c0',
-        borderWidth: 0,
+        borderWidth: 1,
         width: 250,
 
     }, writeTaskWrapper: {
@@ -317,11 +318,12 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         borderColor: '#c0c0c0',
-        borderWidth: 0,
+        borderWidth: 1,
     },
     header: {
-        right: 90,
-        marginVertical: 40,
+        paddingHorizontal: 100,
+        marginVertical: 20,
+        //paddingLeft: 5,
         fontSize: 24,
         fontWeight: 'bold',
         color: '#000000',
