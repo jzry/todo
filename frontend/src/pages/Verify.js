@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, Redirect } from "react-router-dom";
+import { Card } from 'react-bootstrap';
 import axios from 'axios';
 
 import bp from "../components/Path.js";
@@ -53,6 +54,10 @@ export default function Verify() {
     }, []);
 
     return (
-        <div>{message}{redirect}</div>
+        <Card>
+            <Card.Body>
+                <div>{message}{redirect}</div>
+            </Card.Body>
+        </Card>
     );
 };
