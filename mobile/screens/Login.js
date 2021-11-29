@@ -5,11 +5,12 @@ import axios from "axios";
 import bp from "./BuildPath";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
+
 const wait = (timeout) => {
 	return new Promise(resolve => setTimeout(resolve, timeout));
-  }
+}
 
-const Login = ({navigation}) => {
+const Login = ({ navigation }) => {
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
 	const [errorMsg, setErr] = useState("");
@@ -47,9 +48,9 @@ const Login = ({navigation}) => {
 
 
 				const firstName = data.first_name;
-                const lastName = data.last_name;
-                const user = {firstName:firstName,lastName:lastName}
-				
+				const lastName = data.last_name;
+				const user = { firstName: firstName, lastName: lastName }
+
 				try {
 					await AsyncStorage.setItem("token", data.token);
 					await AsyncStorage.setItem("user_data", JSON.stringify(user));
@@ -97,7 +98,10 @@ const Login = ({navigation}) => {
 			<View style={styles}>
 				<Text style={styles.setColorRed}>{errorMsg}</Text>
 			</View>
-			<TouchableOpacity>
+			<TouchableOpacity
+				onPress={() => {
+					navigation.navigate('Forgot');
+				}}>
 				<Text
 					style={styles.forgot_button}>
 					Forgot Password?
@@ -130,9 +134,9 @@ export default Login;
 
 const styles = StyleSheet.create({
 
-	setColorRed : {
-    color: '#f44336'
-  },
+	setColorRed: {
+		color: '#f44336'
+	},
 
 	container: {
 		flex: 1,

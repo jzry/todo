@@ -14,18 +14,18 @@ function DeskScreen({ route, navigation }) {
     const [lists, setLists] = useState([]);
 
     const [dialogText, setDialogText] = useState("");
-	const [currId, setCurrId] = useState("");
+    const [currId, setCurrId] = useState("");
     const [listName, setListName] = useState("");
-    
+
     const findGreet = () => {
         const hrs = new Date().getHours();
-        if (hrs === 0 || hrs < 12) return setGreet('morning.');
-        if (hrs === 1 || hrs < 17) return setGreet('afternoon.');
-        setGreet('evening.');
-      };
-    
+        if (hrs === 0 || hrs < 12) return setGreet('morning');
+        if (hrs === 1 || hrs < 17) return setGreet('afternoon');
+        setGreet('evening');
+    };
+
     useEffect(() => {
-    findGreet();
+        findGreet();
     }, []);
 
     async function addList() {
@@ -68,7 +68,7 @@ function DeskScreen({ route, navigation }) {
                     title: listName,
                     list: []
                 };
-				
+
                 setLists([...lists, newList]);
                 setListName("");
 
@@ -157,7 +157,7 @@ function DeskScreen({ route, navigation }) {
                     return;
                 }
 
-				
+
                 setLists(lists.filter(list => list.id !== currId));
                 setDialogVisible(false);
 
@@ -228,7 +228,7 @@ function DeskScreen({ route, navigation }) {
         <View style={styles.container}>
             <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
                 <View>
-                <Text style={styles.header}>{`Good ${greet}, ${first_name}`}</Text>
+                    <Text style={styles.header}>{`Good ${greet}, ${first_name}`}</Text>
                 </View>
             </TouchableWithoutFeedback>
             <Dialog.Container visible={dialogVisible}>
@@ -236,22 +236,23 @@ function DeskScreen({ route, navigation }) {
                 <Dialog.Input value={dialogText} onChangeText={(text) => { setDialogText(text) }} />
                 <Dialog.Button label="Update" onPress={updateList} />
                 <Dialog.Button label="Delete" onPress={deleteList} />
-                <Dialog.Button label="Cancel" onPress={()=>setDialogVisible(false)} />
+                <Dialog.Button label="Cancel" onPress={() => setDialogVisible(false)} />
             </Dialog.Container>
-            <StatusBar style="auto" />
-            {
+            <ScrollView style={{ width: "90%" }}>
+                <StatusBar style="auto" />
+                {
 
-                lists.map((list) => {
-                    return (<TouchableOpacity style={styles.Card}
-                        onPress={() => {
-                            navigation.navigate("Todo", { id: list.id, title: list.title });
-                        }}
-                        onLongPress={() => updateMode(list.id, list.title)}>
-                        <Text style={styles.loginText}>{list.title}</Text>
-                    </TouchableOpacity>)
-                })
-            }
-
+                    lists.map((list) => {
+                        return (<TouchableOpacity style={styles.Card}
+                            onPress={() => {
+                                navigation.navigate("Todo", { id: list.id, title: list.title });
+                            }}
+                            onLongPress={() => updateMode(list.id, list.title)}>
+                            <Text style={styles.loginText}>{list.title}</Text>
+                        </TouchableOpacity>)
+                    })
+                }
+            </ScrollView>
             <KeyboardAvoidingView
                 behavior={Platform.OS === "ios" ? "padding" : "height"}
                 style={styles.writeTaskWrapper}
@@ -278,7 +279,7 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: '#E8EAED',
-        alignItems: 'center',
+        alignItems: 'flex-end',
         justifyContent: 'center',
     },
 
@@ -290,7 +291,7 @@ const styles = StyleSheet.create({
         justifyContent: "center",
         marginBottom: 10,
         backgroundColor: '#fff',
-        color: "#FFFFFF"
+        color: "#FFFFFF",
     },
     input: {
         paddingVertical: 15,
@@ -298,7 +299,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#fff',
         borderRadius: 60,
         borderColor: '#c0c0c0',
-        borderWidth: 0,
+        borderWidth: 1,
         width: 250,
 
     }, writeTaskWrapper: {
@@ -317,13 +318,14 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         borderColor: '#c0c0c0',
-        borderWidth: 0,
+        borderWidth: 1,
     },
     header: {
-        right: 90,
-        marginVertical:40,
+        paddingHorizontal: 100,
+        marginVertical: 20,
+        //paddingLeft: 5,
         fontSize: 24,
-		fontWeight: 'bold',
+        fontWeight: 'bold',
         color: '#000000',
     },
     addText: {},

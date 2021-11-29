@@ -7,10 +7,9 @@ import Login from '../screens/Login.js';
 import RegistrationScreen from '../screens/RegistrationScreen.js';
 import TodoScreen from '../screens/TodoScreen.js';
 import DeskScreen from '../screens/DeskScreen.js';
-import Landing from '../screens/Landing.js';
+import Forgot from '../screens/Forgot.js';
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import HomeScreen from '../screens/Login.js';
 
 
 const RegistrationStack = createNativeStackNavigator();
@@ -20,55 +19,60 @@ function RegistrationStackScreen() {
 		<RegistrationStack.Navigator
 			initialRouteName="Login"
 			screenOptions={{ headerShown: true }}>
+
 			<RegistrationStack.Screen name="Login" component={Login} />
+
 			<RegistrationStack.Screen name="Registration" component={RegistrationScreen} />
+
+			<RegistrationStack.Screen name="Forgot" component={Forgot} />
+
 		</RegistrationStack.Navigator>
 	);
 }
 
 const DeskStack = createNativeStackNavigator();
 
-	
+
 function userLogout(navigation) {
 	Alert.alert(
 		"Flourish Logout",
 		"Are you sure you want to logout?",
 		[
-		  {
-			text: "Logout",
-			onPress: () => {
-					 AsyncStorage.setItem("token", "")
-					.then(() => {
-						AsyncStorage.setItem("user_data", "")
+			{
+				text: "Logout",
+				onPress: () => {
+					AsyncStorage.setItem("token", "")
 						.then(() => {
-							navigation.navigate("Login")
-						}).catch(e=>alert(e.message));
-					}).catch(e=>alert(e.message));
+							AsyncStorage.setItem("user_data", "")
+								.then(() => {
+									navigation.navigate("Login")
+								}).catch(e => alert(e.message));
+						}).catch(e => alert(e.message));
+				},
+				style: "destructive",
 			},
-			style: "destructive",
-		  },
-		  {
-			text: "Cancel",
-			style: "Neutral",
-		  },
-		  
+			{
+				text: "Cancel",
+				style: "Neutral",
+			},
+
 		]
-	  );
+	);
 }
 
-function DeskStackScreen({navigation}) {
+function DeskStackScreen({ navigation }) {
 	return (
 		<DeskStack.Navigator
 			initialRouteName="Home"
 			screenOptions={{ headerShown: true }}>
 			<DeskStack.Screen name="Lists" component={DeskScreen} options={{
 				headerRight: () => (
-				  <Button
-					onPress={() => userLogout(navigation)}
-					title="Logout"
-				  />
+					<Button
+						onPress={() => userLogout(navigation)}
+						title="Logout"
+					/>
 				),
-			  }} />
+			}} />
 			<DeskStack.Screen name="Todo" component={TodoScreen} />
 		</DeskStack.Navigator>
 	);
@@ -89,8 +93,8 @@ function Tabs(props) {
 					},
 					null
 				]
-			}} 
-			>
+			}}
+		>
 			<Stack.Screen name="Register" component={RegistrationStackScreen} />
 			<Stack.Screen name="Desk" component={DeskStackScreen} />
 		</Stack.Navigator>

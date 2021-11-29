@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, Alert, StyleSheet, KeyboardAvoidingView, Platform, TouchableOpacity, TextInput, Keyboard } from 'react-native';
+import { View, Text, Alert, StyleSheet, KeyboardAvoidingView, Platform, TouchableOpacity, TextInput, Keyboard, ScrollView } from 'react-native';
 import Task from '../components/Task';
 import bp from "./BuildPath";
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -34,40 +34,40 @@ const TodoScreen = ({ navigation, route }) => {
 			return;
 		}
 
-        const config = {
-            method: 'post',
-            url: bp.BuildPath(`api/lists/${route.params.id}/create`),
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            data: {
-                token: token,
-                completed: false,
-                text: task
-            }
-        };
+		const config = {
+			method: 'post',
+			url: bp.BuildPath(`api/lists/${route.params.id}/create`),
+			headers: {
+				'Content-Type': 'application/json'
+			},
+			data: {
+				token: token,
+				completed: false,
+				text: task
+			}
+		};
 
-        axios(config)
-            .then(function (response) {
-                const data = response.data;
-                if (data.error) {
+		axios(config)
+			.then(function (response) {
+				const data = response.data;
+				if (data.error) {
 					alert(data.error);
-                    return;
-                }
+					return;
+				}
 
-                const newTask = {
-                    id: data.id,
-                    text: task,
-                    completed: false
-                };
+				const newTask = {
+					id: data.id,
+					text: task,
+					completed: false
+				};
 
-                setTaskItems([...taskItems, newTask]);
+				setTaskItems([...taskItems, newTask]);
 				setTask("");
-            })
-            .catch((error) => {
+			})
+			.catch((error) => {
 				alert(error.message || error);
-            });
-    }
+			});
+	}
 
 
 	async function toggleComplete(id, completed) {
@@ -108,7 +108,7 @@ const TodoScreen = ({ navigation, route }) => {
 				});
 
 				setTaskItems(editedTaskList);
-				
+
 			})
 			.catch(function (error) {
 				console.log(error)
@@ -117,43 +117,43 @@ const TodoScreen = ({ navigation, route }) => {
 	}
 
 	async function deleteTask() {
-        const remainingTasks = taskItems.filter(task => currId !== task.id);
+		const remainingTasks = taskItems.filter(task => currId !== task.id);
 
-			let token;
-			try {
-				token = await AsyncStorage.getItem("token");
-			} catch (e) {
-				alert(e.message);
-				return;
-			}
-	
-			const config = {
-				method: 'post',
-				url: bp.BuildPath(`api/lists/${route.params.id}/delete/${currId}`),
-				headers:
-				{
-					'Content-Type': 'application/json'
-				},
-				data: {
-					token: token
-				}
-			};
-	
-			axios(config)
-				.then(function (response) {
-					var res = response.data;
-					if (res.error) {
-						alert(res.error);
-						return;
-					}
-					setDialogVisible(!dialogVisible);
-					setTaskItems(remainingTasks);
-					
-				})
-				.catch(function (error) {
-					alert(error.error || error);
-				});
+		let token;
+		try {
+			token = await AsyncStorage.getItem("token");
+		} catch (e) {
+			alert(e.message);
+			return;
 		}
+
+		const config = {
+			method: 'post',
+			url: bp.BuildPath(`api/lists/${route.params.id}/delete/${currId}`),
+			headers:
+			{
+				'Content-Type': 'application/json'
+			},
+			data: {
+				token: token
+			}
+		};
+
+		axios(config)
+			.then(function (response) {
+				var res = response.data;
+				if (res.error) {
+					alert(res.error);
+					return;
+				}
+				setDialogVisible(!dialogVisible);
+				setTaskItems(remainingTasks);
+
+			})
+			.catch(function (error) {
+				alert(error.error || error);
+			});
+	}
 
 	async function updateTask() {
 		let token;
@@ -194,7 +194,7 @@ const TodoScreen = ({ navigation, route }) => {
 				setDialogVisible(!dialogVisible);
 
 				setTaskItems(editedTaskList);
-				
+
 			})
 			.catch(function (error) {
 				alert(error.error || error);
@@ -269,30 +269,31 @@ const TodoScreen = ({ navigation, route }) => {
 				<Text style={styles.sectionTitle}>{route.params.title}</Text>
 				<Dialog.Container visible={dialogVisible}>
 					<Dialog.Title>Modify Task</Dialog.Title>
-					<Dialog.Input value={dialogText} onChangeText={(text)=>{setDialogText(text)}}/>
+					<Dialog.Input value={dialogText} onChangeText={(text) => { setDialogText(text) }} />
 					<Dialog.Button label="Update" onPress={updateTask} />
 					<Dialog.Button label="Delete" onPress={deleteTask} />
 					<Dialog.Button label="Cancel" onPress={updateMode} />
 				</Dialog.Container>
 				<View style={styles.items}>
-					{
+					<ScrollView style={{ width: "90%" }}>
+						{
+							taskItems?.map((task, idx) => {
+								return (<>
+									<TouchableOpacity key={`task-${idx}`}
+										onPress={() => toggleComplete(task.id, task.completed)}
+										onLongPress={() => updateMode(task.id, task.text)}
+									>
+										<Task
+											key={task.id}
+											text={task.text}
+											checked={task.completed} />
+									</TouchableOpacity>
+								</>
+								)
 
-						taskItems?.map((task, idx) => {
-							return (<>
-								<TouchableOpacity key={`task-${idx}`}
-									onPress={() => toggleComplete(task.id, task.completed)}
-									onLongPress={() => updateMode(task.id, task.text)}
-								>
-								<Task
-									key={task.id}
-									text={task.text}
-									checked={task.completed} />
-								</TouchableOpacity>
-							</>
-							)
-
-						})
-					}
+							})
+						}
+					</ScrollView>
 				</View>
 			</View>
 			{/* Write a task */}
@@ -321,8 +322,9 @@ const styles = StyleSheet.create({
 		backgroundColor: '#E8EAED',
 	},
 	tasksWrapper: {
-		paddingTop: 30,
-		paddingHorizontal: 20,
+		marginTop: 30,
+		marginHorizontal: 5,
+		paddingLeft: 30,
 	},
 	sectionTitle: {
 		fontSize: 24,
@@ -346,7 +348,7 @@ const styles = StyleSheet.create({
 		backgroundColor: '#fff',
 		borderRadius: 60,
 		borderColor: '#c0c0c0',
-		borderWidth: 0,
+		borderWidth: 1,
 		width: 250,
 
 	},
@@ -358,7 +360,7 @@ const styles = StyleSheet.create({
 		justifyContent: 'center',
 		alignItems: 'center',
 		borderColor: '#c0c0c0',
-		borderWidth: 0,
+		borderWidth: 1,
 
 	},
 	addText: {},
