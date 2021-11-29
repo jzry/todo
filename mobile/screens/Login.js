@@ -26,7 +26,6 @@ const Login = ({ navigation }) => {
 
 		// length check password
 
-
 		const axiosConfig = {
 			method: 'post',
 			url: bp.BuildPath('api/users/login'),

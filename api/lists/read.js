@@ -8,9 +8,9 @@ function _getListById(list_id, token, res) {
                 error: "unauthorized access"
             });
         listModel.find({
-                _id: list_id,
-                UserId: decoded.id
-            })
+            _id: list_id,
+            UserId: decoded.id
+        })
             .then(list => {
 
                 let out = []
@@ -45,7 +45,7 @@ function _getListById(list_id, token, res) {
     });
 }
 
-export default async function(req, res, next) {
+export default async function (req, res, next) {
 
     const search = req.query?.search || req.body?.search || "";
     const token = req.body?.token || "";
@@ -61,11 +61,11 @@ export default async function(req, res, next) {
                 error: "unauthorized access"
             });
         listModel.find({
-                Title: {
-                    $regex: `(?i)${search}`
-                },
-                UserId: decoded.id
-            })
+            Title: {
+                $regex: `(?i)${search}`
+            },
+            UserId: decoded.id
+        })
             .then(list => {
 
                 let out = []
