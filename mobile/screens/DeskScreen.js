@@ -14,18 +14,18 @@ function DeskScreen({ route, navigation }) {
     const [lists, setLists] = useState([]);
 
     const [dialogText, setDialogText] = useState("");
-	const [currId, setCurrId] = useState("");
+    const [currId, setCurrId] = useState("");
     const [listName, setListName] = useState("");
-    
+
     const findGreet = () => {
         const hrs = new Date().getHours();
-        if (hrs === 0 || hrs < 12) return setGreet('morning.');
-        if (hrs === 1 || hrs < 17) return setGreet('afternoon.');
-        setGreet('evening.');
-      };
-    
+        if (hrs === 0 || hrs < 12) return setGreet('morning');
+        if (hrs === 1 || hrs < 17) return setGreet('afternoon');
+        setGreet('evening');
+    };
+
     useEffect(() => {
-    findGreet();
+        findGreet();
     }, []);
 
     async function addList() {
@@ -68,7 +68,7 @@ function DeskScreen({ route, navigation }) {
                     title: listName,
                     list: []
                 };
-				
+
                 setLists([...lists, newList]);
                 setListName("");
 
@@ -157,7 +157,7 @@ function DeskScreen({ route, navigation }) {
                     return;
                 }
 
-				
+
                 setLists(lists.filter(list => list.id !== currId));
                 setDialogVisible(false);
 
@@ -228,7 +228,7 @@ function DeskScreen({ route, navigation }) {
         <View style={styles.container}>
             <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
                 <View>
-                <Text style={styles.header}>{`Good ${greet}, ${first_name}`}</Text>
+                    <Text style={styles.header}>{`Good ${greet}, ${first_name}`}</Text>
                 </View>
             </TouchableWithoutFeedback>
             <Dialog.Container visible={dialogVisible}>
@@ -236,7 +236,7 @@ function DeskScreen({ route, navigation }) {
                 <Dialog.Input value={dialogText} onChangeText={(text) => { setDialogText(text) }} />
                 <Dialog.Button label="Update" onPress={updateList} />
                 <Dialog.Button label="Delete" onPress={deleteList} />
-                <Dialog.Button label="Cancel" onPress={()=>setDialogVisible(false)} />
+                <Dialog.Button label="Cancel" onPress={() => setDialogVisible(false)} />
             </Dialog.Container>
             <StatusBar style="auto" />
             {
@@ -321,9 +321,9 @@ const styles = StyleSheet.create({
     },
     header: {
         right: 90,
-        marginVertical:40,
+        marginVertical: 40,
         fontSize: 24,
-		fontWeight: 'bold',
+        fontWeight: 'bold',
         color: '#000000',
     },
     addText: {},
