@@ -6,7 +6,7 @@ export default async function (email) {
     sgMail.setApiKey(process.env.SENDGRID_API_KEY)
     const msg = {
         to: email.address, // Change to your recipient
-        from: 'joel_cruz410@protonmail.com', // Change to your verified sender
+        from: 'FlourishTodo@protonmail.com', // Change to your verified sender
         subject: email.subject,
         text: email.txt,
         html: email.html,
