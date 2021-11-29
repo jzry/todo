@@ -68,9 +68,10 @@
 .canvasBlock
 {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
+  margin-bottom: 0.75em;
 }
 
 .card
@@ -602,6 +603,10 @@ h4.productDesc
   margin-top: 1em;
   margin-left: 2em;
 }
+#querySubmit 
+{
+  background-color: var(--ariaSelected);
+}
 
 .singleContainer > .canvasCards
 {
@@ -641,6 +646,12 @@ h4.productDesc
 .schedTaskView, .listCtrl, .delListView
 {
   display: none;
+}
+
+#searchQ
+{
+  display: flex;
+  flex-direction: row;
 }
 
 .splitFields

@@ -55,6 +55,7 @@ mongoose.connect(process.env.MONGODB_URI)
 
 
 app.post(`${usersPrefix}/register`, users.register);
+app.post(`${usersPrefix}/verify`, users.verify);
 app.post(`${usersPrefix}/login`, users.login);
 app.post(`${usersPrefix}/forgotpassword`, users.forgot);
 app.post(`${usersPrefix}/resetpassword`, users.reset);
