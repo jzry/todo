@@ -254,7 +254,7 @@ function DeskScreen({ route, navigation }) {
                 <Dialog.Button label="Delete" onPress={deleteList} />
                 <Dialog.Button label="Cancel" onPress={() => setDialogVisible(false)} />
             </Dialog.Container>
-            <ScrollView style={{ width: "90%" }}>
+            <ScrollView style={{ width: "90%", marginBottom: 75 }}>
                 <StatusBar style="auto" />
                 {
                     lists.map((list) => {
@@ -269,6 +269,7 @@ function DeskScreen({ route, navigation }) {
                 }
             </ScrollView>
             <KeyboardAvoidingView
+                keyboardVerticalOffset={(Platform.select({ ios: 95 }))}
                 behavior={Platform.OS === "ios" ? "padding" : "height"}
                 style={styles.writeTaskWrapper}
             >
