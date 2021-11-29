@@ -7,6 +7,7 @@ import Task from './Task';
 import FilterButtons from './FilterButtons';
 import NewTaskForm from './NewTaskForm';
 import ButtonIcons from './ButtonIcons';
+import DeleteConfirmation from './DeleteConfirmation';
 import bp from "./Path.js";
 
 function usePrevious(value) {
@@ -28,6 +29,7 @@ function ToDoList(props) {
     const editFieldRef = useRef(null);
     const editButtonRef = useRef(null);
     const wasEditing = usePrevious(isEditing);
+    const [delCon, setDelCon] = useState(false);
 
     const addRes = useRef(null);
 
@@ -226,6 +228,15 @@ function ToDoList(props) {
         setEditing(false);
     }
 
+    function handleDelete(choice,id){
+        if(choice){
+            props.deleteList(id);
+            setDelCon(false);
+        } else{
+            setDelCon(false);
+        }
+    }
+
     const editingTemplate = (
         <Card.Body className="cardContent">
             <form className="form editTask" onSubmit={handleSubmit}>
@@ -282,7 +293,7 @@ function ToDoList(props) {
             <button 
                 type="button" 
                 className="btn delListView" 
-                onClick={() => props.deleteList(props.id)}
+                onClick={() => setDelCon(true)}
             >
                 <ButtonIcons type="Delete" />
             </button>
@@ -308,7 +319,7 @@ function ToDoList(props) {
 
     return (
         <Card className="app canvasCards">
-            {isEditing ? editingTemplate : viewTemplate}
+            {delCon ? <DeleteConfirmation id={props.id} handleDelete={handleDelete}/> : (isEditing ? editingTemplate : viewTemplate)}
         </Card>
     );
 }
