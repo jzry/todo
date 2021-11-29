@@ -27,7 +27,9 @@ function DeskScreen({ route, navigation }) {
 
     const [value, setValue] = useState()
     function updateSearch(value) {
-        console.log(value)
+        getLists(value).then(ret => {
+            setLists(ret);
+        });
     }
 
     useEffect(() => {
@@ -180,7 +182,7 @@ function DeskScreen({ route, navigation }) {
         setCurrId(id);
     }
 
-    function getLists() {
+    function getLists(searchTerm) {
         return new Promise(async (resolve, reject) => {
             let token;
             try {
@@ -196,7 +198,7 @@ function DeskScreen({ route, navigation }) {
                     'Content-Type': 'application/json'
                 },
                 data: {
-                    search: "",
+                    search: searchTerm,
                     token: token
                 }
             };
@@ -224,7 +226,7 @@ function DeskScreen({ route, navigation }) {
     }
 
     useEffect(() => {
-        getLists().then(ret => {
+        getLists("").then(ret => {
             setLists(ret);
         });
 
@@ -255,7 +257,6 @@ function DeskScreen({ route, navigation }) {
             <ScrollView style={{ width: "90%" }}>
                 <StatusBar style="auto" />
                 {
-
                     lists.map((list) => {
                         return (<TouchableOpacity style={styles.Card}
                             onPress={() => {
@@ -283,12 +284,6 @@ function DeskScreen({ route, navigation }) {
                     </View>
                 </TouchableOpacity>
             </KeyboardAvoidingView>
-
-            {/* <Searchbar
-                value={value}
-                updateSearch={updateSearch}
-                style={{ marginTop: '8%' }}
-            /> */}
         </View>
     );
 }
