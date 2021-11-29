@@ -38,7 +38,7 @@ function _createNewUser(req, res) {
     Hello ${req.body.first_name} ${req.body.last_name}, <br>
     
     This verification link expires in 24 hours:
-    <a href="https://cop4331-test123.herokuapp.com/verify?q=${jwtoken}">Verify your email</a></br>
+    <a href="https://cop4331-test123.herokuapp.com/verify/${jwtoken}">Verify your email</a></br>
     `;
 
     // send verification email

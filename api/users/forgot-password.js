@@ -74,7 +74,7 @@ export default async function(req, res) {
             To reset the password (expires in 15m), click here:
             <a href="https://cop4331-test123.herokuapp.com/resetpassword?q=${jwtoken}">Reset your password here</a><br>
             You can also the following link on your web browser:<br>
-            https://cop4331-test123.herokuapp.com/resetpw?q=${jwtoken}`;
+            https://cop4331-test123.herokuapp.com/resetpassword?q=${jwtoken}`;
 
         // Send email.
         // const checking = sendEmail.sendEmail(email, "Todo: Password Reset Request", message);

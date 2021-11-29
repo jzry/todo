@@ -13,6 +13,7 @@ import Pricing from './pages/Pricing';
 import ForgotPage from './pages/ForgotPage';
 import Navigation from './components/Navigation';
 import ResetPassPage from './pages/ResetPassPage';
+import Verify from './pages/Verify';
 
 function App() 
 {
@@ -68,6 +69,9 @@ function App()
                     </Route>
                     <Route path="/list/:list_id" exact>
                         {state ? <ListPage /> : <Redirect to="/" />}
+                    </Route>
+                    <Route path="/verify/:verify_tok" exact>
+                       <Verify />
                     </Route>
                     <Redirect to="/" />
                 </Switch>

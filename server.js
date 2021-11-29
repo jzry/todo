@@ -53,7 +53,6 @@ mongoose.connect(process.env.MONGODB_URI)
     .then(() => console.log("Mongo DB connected"))
     .catch((e) => console.error(e));
 
-app.get(`/verify`, users.verify);
 
 app.post(`${usersPrefix}/register`, users.register);
 app.post(`${usersPrefix}/login`, users.login);
