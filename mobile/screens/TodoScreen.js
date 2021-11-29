@@ -13,13 +13,6 @@ const TodoScreen = ({ navigation, route }) => {
 	const [dialogText, setDialogText] = useState("");
 	const [currId, setCurrId] = useState("");
 
-
-	// const completeTask = (index) => {
-	// 	let itemsCopy = [...taskItems];
-	// 	itemsCopy.splice(index, 1);
-	// 	setTaskItems(itemsCopy);
-	// }
-
 	async function handleAddTask() {
 		Keyboard.dismiss();
 
@@ -298,7 +291,8 @@ const TodoScreen = ({ navigation, route }) => {
 			</View>
 			{/* Write a task */}
 			<KeyboardAvoidingView
-				behavior={Platform.OS === "ios" ? "padding" : "height"}
+				keyboardVerticalOffset={(Platform.select({ ios: 95 }))}
+				behavior={Platform.OS === "ios" ? "padding" : null}
 				style={styles.writeTaskWrapper}
 			>
 				<TextInput style={styles.input} placeholder={'Write a task'} value={task} onChangeText={text => setTask(text)} />
