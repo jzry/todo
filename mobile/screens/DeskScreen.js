@@ -6,9 +6,9 @@ import bp from "./BuildPath";
 import axios from 'axios';
 import Dialog from "react-native-dialog";
 
-
 function DeskScreen({ route, navigation }) {
 
+    const [first_name, setFirst] = useState("");
     const [greet, setGreet] = useState('');
     const [dialogVisible, setDialogVisible] = useState(false);
     const [lists, setLists] = useState([]);
@@ -228,7 +228,7 @@ function DeskScreen({ route, navigation }) {
         <View style={styles.container}>
             <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
                 <View>
-                <Text style={styles.header}>{`Good ${greet}`}</Text>
+                <Text style={styles.header}>{`Good ${greet}, ${first_name}`}</Text>
                 </View>
             </TouchableWithoutFeedback>
             <Dialog.Container visible={dialogVisible}>
@@ -322,8 +322,8 @@ const styles = StyleSheet.create({
     header: {
         right: 90,
         marginVertical:40,
-        fontSize: 25,
-        fontWeight: 'bold',
+        fontSize: 24,
+		fontWeight: 'bold',
         color: '#000000',
     },
     addText: {},

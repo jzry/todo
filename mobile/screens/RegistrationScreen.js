@@ -180,7 +180,7 @@ const styles = StyleSheet.create({
 	  },
 	
 	  inputView: {
-		backgroundColor: "#ACBAA1",
+		backgroundColor: "#E8EAED",
 		borderRadius: 30,
 		width: "70%",
 		height: 45,
@@ -198,15 +198,16 @@ const styles = StyleSheet.create({
 	  forgot_button: {
 		height: 20,
 		marginBottom: 0,
+    textDecorationLine: 'underline',
 	  },
 	
 	  loginBtn: {
-		width: "80%",
-		borderRadius: 25,
-		height: 50,
+		width: "70%",
+		borderRadius: 30,
+		height: 45,
 		alignItems: "center",
 		justifyContent: "center",
-		marginTop: 25,
-		backgroundColor: "#517470",
+		marginTop: 30,
+		backgroundColor: "#b9c7c6",
 	  },
 });

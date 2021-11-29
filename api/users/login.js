@@ -7,7 +7,7 @@ import jwt from "jsonwebtoken";
 export default async function(req, res) {
 
     if (!process.env.LOGIN_KEY)
-        return console.error("LOGIN_KEY not defined in the ENV");
+        return console.error("LOGIN_KEY not defined in the ENV.");
 
     const {
         login,
@@ -16,7 +16,7 @@ export default async function(req, res) {
 
     if (!login || !password)
         return res.status(400).json({
-            error: "missing required fields"
+            error: "Missing required fields."
         });
 
     const results = await userModel.findOne({
@@ -37,14 +37,14 @@ export default async function(req, res) {
 
     if (!results)
         return res.status(400).json({
-            error: "login/password incorrect"
+            error: "Login/password incorrect."
         });
 
     const verStatus = results.AuthStatus;
 
     if (verStatus == 0) {
         return res.status(400).json({
-            error: "account not verified"
+            error: "Account not verified."
         });
     }
 

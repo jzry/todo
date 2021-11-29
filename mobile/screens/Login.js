@@ -94,8 +94,8 @@ const Login = ({navigation}) => {
 					autoCorrect={false}
 				/>
 			</View>
-			<View>
-				<Text>{errorMsg}</Text>
+			<View style={styles}>
+				<Text style={styles.setColorRed}>{errorMsg}</Text>
 			</View>
 			<TouchableOpacity>
 				<Text
@@ -129,6 +129,11 @@ const Login = ({navigation}) => {
 export default Login;
 
 const styles = StyleSheet.create({
+
+	setColorRed : {
+    color: '#f44336'
+  },
+
 	container: {
 		flex: 1,
 		backgroundColor: '#ffffff',
@@ -139,7 +144,7 @@ const styles = StyleSheet.create({
 	logo: {
 		width: 150,
 		height: 150,
-		bottom: 100,
+		bottom: 80,
 	},
 
 	inputView: {
@@ -160,7 +165,8 @@ const styles = StyleSheet.create({
 
 	forgot_button: {
 		height: 20,
-		marginBottom: 0,
+		marginBottom: 10,
+		textDecorationLine: 'underline',
 	},
 
 	loginBtn: {
