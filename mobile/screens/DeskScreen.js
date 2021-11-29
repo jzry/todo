@@ -5,6 +5,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import bp from "./BuildPath";
 import axios from 'axios';
 import Dialog from "react-native-dialog";
+import Searchbar from '../components/SearchBar'
 
 function DeskScreen({ route, navigation }) {
 
@@ -23,6 +24,11 @@ function DeskScreen({ route, navigation }) {
         if (hrs === 1 || hrs < 17) return setGreet('afternoon');
         setGreet('evening');
     };
+
+    const [value, setValue] = useState()
+    function updateSearch(value) {
+        console.log(value)
+    }
 
     useEffect(() => {
         findGreet();
@@ -226,9 +232,17 @@ function DeskScreen({ route, navigation }) {
 
     return (
         <View style={styles.container}>
+
+            <View style={styles.search}>
+                <Searchbar
+                    value={value}
+                    updateSearch={updateSearch}
+                />
+            </View>
+
             <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
                 <View>
-                    <Text style={styles.header}>{`Good ${greet}, ${first_name}`}</Text>
+                    <Text style={styles.header}>{`Good ${greet}.${first_name}`}</Text>
                 </View>
             </TouchableWithoutFeedback>
             <Dialog.Container visible={dialogVisible}>
@@ -269,6 +283,12 @@ function DeskScreen({ route, navigation }) {
                     </View>
                 </TouchableOpacity>
             </KeyboardAvoidingView>
+
+            {/* <Searchbar
+                value={value}
+                updateSearch={updateSearch}
+                style={{ marginTop: '8%' }}
+            /> */}
         </View>
     );
 }
@@ -301,8 +321,24 @@ const styles = StyleSheet.create({
         borderColor: '#c0c0c0',
         borderWidth: 1,
         width: 250,
+        height: 50,
 
-    }, writeTaskWrapper: {
+    },
+
+    search: {
+        paddingVertical: 3,
+        paddingHorizontal: 15,
+        marginTop: 15,
+        backgroundColor: '#fff',
+        borderRadius: 60,
+        borderColor: '#c0c0c0',
+        borderWidth: 1,
+        width: 310,
+        height: 50,
+        right: 40,
+    },
+
+    writeTaskWrapper: {
         position: 'absolute',
         bottom: 20,
         width: '100%',
