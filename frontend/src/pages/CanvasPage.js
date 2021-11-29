@@ -240,7 +240,7 @@ function CanvasPage() {
                 <Form id="searchQ" onSubmit={handleSubmit}>
                     <Form.Control type="text" id="queryfield" className="inFields" name="query" 
                         placeholder="Search" value={query} onChange={handleChange}/>
-                    <Button type="submit" id="querySubmit" className="buttonScheme"> Search </Button>`
+                    <Button type="submit" id="querySubmit" className="buttonScheme"> Search </Button>
                 </Form>
             </div>
             <Container className="cardContainer" >
