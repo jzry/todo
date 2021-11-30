@@ -1,16 +1,15 @@
 # Todo
-Todo is a full stack application that allows people to organize themselves better by allowing users to create to-do lists, custom reminders, and a customizable schedule.
+Todo is a full stack application that allows people to organize themselves better by allowing users to create to-do lists.
 
 ## Team Members & Roles
-* Jessica   -   Front end
-* Nicolas   -   Front end
-* Manahil   -   Front end
-* Paul  -   Back end
-* Joel  -   Back end
-* Jaeden    -   Back end
-* Jerzy -   Project Manager (Front / Back)
+* Jessica   -   Front end (Design / Desktop with React)
+* Nicolas   -   Front end (Design / Mobile app with React Native)
+* Manahil   -   Front end (Design / Mobile app with React Native)
+* Paul  -   Back end / Front End (Mobile app React Native, API, Debugging, CTO)
+* Joel  -   Back end (API, Database, Debugging)
+* Jerzy -   Project Manager (Product design / Version Control Administration / Small Changes)
 
-## Project Timeline
+## Initial Project Timeline
 
 * <ins>Week 1 (10-4-21):</ins>     Idea generation, organization, planning.
 
@@ -21,6 +20,27 @@ Todo is a full stack application that allows people to organize themselves bette
 * <ins>Week 4 (10-25-21):</ins>        Finish mobile version + debug.
 
 * <ins>Week 5 (11-1-21):</ins>     Debug in general + team meeting before presentation.
+
+## Important Takeaways For Project Sprints
+- Finish all features and use case plans immediately during the planning period.
+- Finish an MVP in entirety as fast as possible immediately following the planning period.
+- Flesh out the MVP to the essential features during development period -- user experience, which includes functionality.
+- If extra time permits, work on neglected product areas.
+- Version control for small project:
+    * maintain a 4 branch heirarchy - each individual commits onto their own branch -> testA (sloppy merges of individuals) -> testB (tester backup, which may not work) -> main holds latest working version (and last reliable backup)
+    * add branch protection to prohibit issues from arising
+    * add a reliable linter bot for code standardization (ontop of coding guidelines / expectations)
+    * add dependency bot for automatic security updates.
+- Debug and break stuff early.
+
+## Desktop and Mobile Application Design
+Desktop:
+![alt text](https://github.com/jzry/todo/tree/main/frontend/images/desktop.png?raw=true)
+Mobile:
+![alt text](https://github.com/jzry/todo/tree/main/frontend/images/mobile.png?raw=true)
+Logo by Manahil:
+![alt text](https://github.com/jzry/todo/tree/main/frontend/images/logo.png?raw=true)
+
 
 ## Version Control Guidelines
 
