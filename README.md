@@ -35,11 +35,11 @@ Todo is a full stack application that allows people to organize themselves bette
 
 ## Desktop and Mobile Application Design
 Desktop:
-![alt text](https://github.com/jzry/todo/tree/main/frontend/images/desktop.png?raw=true)
+![image](https://raw.githubusercontent.com/jzry/todo/main/frontend/images/desktop.png)
 Mobile:
-![alt text](https://github.com/jzry/todo/tree/main/frontend/images/mobile.png?raw=true)
+![image](https://raw.githubusercontent.com/jzry/todo/main/frontend/images/mobile.png)
 Logo by Manahil:
-![alt text](https://github.com/jzry/todo/tree/main/frontend/images/logo.png?raw=true)
+![image](https://raw.githubusercontent.com/jzry/todo/main/frontend/images/logo.png)
 
 
 ## Version Control Guidelines
